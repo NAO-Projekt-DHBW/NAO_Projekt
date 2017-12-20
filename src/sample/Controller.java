@@ -22,6 +22,6 @@ public class Controller implements Initializable {
     }
 
     public void Message(ActionEvent actionEvent) {
-        System.out.println("Test");
+        System.out.println("Test Test");
     }
 }
