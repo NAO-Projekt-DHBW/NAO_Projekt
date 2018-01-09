@@ -10,8 +10,6 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.shape.Circle?>
-<?import javafx.scene.shape.Ellipse?>
 
 <GridPane alignment="center" hgap="10" prefHeight="119.0" prefWidth="484.0" vgap="10" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <columnConstraints>
@@ -62,7 +60,6 @@
                   </ContextMenu>
                </contextMenu>
             </MenuBar>
-            <Ellipse fx:id="ellipse" fill="DODGERBLUE" layoutX="227.0" layoutY="178.0" radiusX="100.0" radiusY="80.0" stroke="BLACK" strokeType="INSIDE" />
          </children>
       </Pane>
    </children>
