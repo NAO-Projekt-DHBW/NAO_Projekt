@@ -63,8 +63,6 @@
                </contextMenu>
             </MenuBar>
             <Ellipse fx:id="ellipse" fill="DODGERBLUE" layoutX="227.0" layoutY="178.0" radiusX="100.0" radiusY="80.0" stroke="BLACK" strokeType="INSIDE" />
-            <Circle fill="DODGERBLUE" layoutX="132.0" layoutY="169.0" radius="100.0" stroke="BLACK" strokeType="INSIDE" ></Circle>
-            <Circle fill="DODGERBLUE" layoutX="348.0" layoutY="113.0" radius="100.0" stroke="BLACK" strokeType="INSIDE" ></Circle>
          </children>
       </Pane>
    </children>
