@@ -12,6 +12,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
+
 <Pane fx:id="dropdownnao" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="862.0" prefWidth="1094.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label layoutX="14.0" layoutY="79.0" prefHeight="30.0" prefWidth="99.0" text="NAO auswählen:" />
@@ -39,12 +40,23 @@
         </menus>
       </MenuBar>
       <ComboBox layoutX="143.0" layoutY="82.0" prefHeight="25.0" prefWidth="177.0" promptText="keine Auswahl getroffen" />
-      <Label layoutX="14.0" layoutY="39.0" prefHeight="17.0" prefWidth="278.0" text="NAO verbinden">
+      <Label layoutX="14.0" layoutY="27.0" prefHeight="17.0" prefWidth="278.0" text="NAO verbinden">
          <font>
             <Font size="29.0" />
          </font>
       </Label>
       <Button layoutX="250.0" layoutY="185.0" mnemonicParsing="false" text="verbinden" />
+      <ComboBox layoutX="510.0" layoutY="91.0" prefHeight="25.0" prefWidth="194.0" promptText="Augen LED Farbe auswählen" />
+      <ComboBox layoutX="510.0" layoutY="155.0" prefHeight="25.0" prefWidth="194.0" promptText="Ohren LED Farbe auswählen" />
+      <Button layoutX="741.0" layoutY="82.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="127.0" text="Blinken" />
+      <Button layoutX="894.0" layoutY="82.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="127.0" text="Zwinkern" />
+      <Button layoutX="894.0" layoutY="146.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="127.0" text="Button" />
+      <Button layoutX="741.0" layoutY="146.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="127.0" text="Rücken" />
+      <Label layoutX="510.0" layoutY="27.0" prefHeight="17.0" prefWidth="278.0" text="NAO LED Funktionen">
+         <font>
+            <Font size="29.0" />
+         </font>
+      </Label>
       <ImageView fitHeight="390.0" fitWidth="251.0" layoutX="86.0" layoutY="322.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../Downloads/nao_specs.png" />
