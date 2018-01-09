@@ -7,9 +7,10 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
-
 
 <Pane fx:id="dropdownnao" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="862.0" prefWidth="1094.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
    <children>
@@ -44,5 +45,28 @@
          </font>
       </Label>
       <Button layoutX="250.0" layoutY="185.0" mnemonicParsing="false" text="verbinden" />
+      <ImageView fitHeight="390.0" fitWidth="251.0" layoutX="86.0" layoutY="322.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../Downloads/nao_specs.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="199.0" layoutY="656.0" mnemonicParsing="false" text="W" />
+      <Button layoutX="202.0" layoutY="685.0" mnemonicParsing="false" text="S" />
+      <Button layoutX="171.0" layoutY="685.0" mnemonicParsing="false" text="A" />
+      <Button layoutX="232.0" layoutY="685.0" mnemonicParsing="false" text="D" />
+      <Button layoutX="158.0" layoutY="656.0" mnemonicParsing="false" text="Q" />
+      <Button layoutX="242.0" layoutY="656.0" mnemonicParsing="false" text="E" />
+      <Button layoutX="187.0" layoutY="259.0" mnemonicParsing="false" text="oben" />
+      <Button layoutX="240.0" layoutY="284.0" mnemonicParsing="false" text="rechts" />
+      <Button layoutX="139.0" layoutY="284.0" mnemonicParsing="false" text="links" />
+      <Button layoutX="185.0" layoutY="297.0" mnemonicParsing="false" text="unten" />
+      <Button layoutX="14.0" layoutY="725.0" mnemonicParsing="false" text="Aufstehen" />
+      <Button layoutX="89.0" layoutY="725.0" mnemonicParsing="false" text="Hinsetzen" />
+      <Button layoutX="163.0" layoutY="725.0" mnemonicParsing="false" text="Bauch" />
+      <Button layoutX="218.0" layoutY="725.0" mnemonicParsing="false" text="Rücken" />
+      <Button layoutX="276.0" layoutY="725.0" mnemonicParsing="false" text="Tai Chi" />
+      <Button layoutX="334.0" layoutY="725.0" mnemonicParsing="false" text="Winken" />
+      <Label layoutX="77.0" layoutY="673.0" text="Laufen" />
+      <Label layoutX="73.0" layoutY="289.0" text="Schauen" />
    </children>
 </Pane>
