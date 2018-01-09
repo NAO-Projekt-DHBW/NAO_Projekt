@@ -100,5 +100,17 @@
             <Image url="@../forward-arrow.png" />
          </image>
       </ImageView>
+      <Label layoutX="716.0" layoutY="227.0" prefHeight="17.0" prefWidth="278.0" text="Sound">
+         <font>
+            <Font size="29.0" />
+         </font>
+      </Label>
+      <Label layoutX="713.0" layoutY="274.0" prefHeight="17.0" prefWidth="196.0" text="Text für Sprachausgabe eingeben" />
+      <ImageView fitHeight="272.0" fitWidth="447.0" layoutX="728.0" layoutY="312.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../chat-bubble-29688_960_720.png" />
+         </image>
+      </ImageView>
+      <TextField layoutX="769.0" layoutY="327.0" prefHeight="126.0" prefWidth="278.0" />
    </children>
 </Pane>
