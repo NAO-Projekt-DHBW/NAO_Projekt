@@ -11,27 +11,27 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane alignment="center" hgap="10" prefHeight="119.0" prefWidth="484.0" vgap="10" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<GridPane alignment="center" hgap="10" prefHeight="1076.0" prefWidth="1650.0" vgap="10" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <columnConstraints>
       <ColumnConstraints />
-      <ColumnConstraints />
-      <ColumnConstraints />
-      <ColumnConstraints />
+      <ColumnConstraints maxWidth="0.0" minWidth="0.0" prefWidth="0.0" />
+      <ColumnConstraints maxWidth="454.0" minWidth="454.0" prefWidth="454.0" />
+      <ColumnConstraints maxWidth="0.0" minWidth="0.0" prefWidth="0.0" />
    </columnConstraints>
    <rowConstraints>
       <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
       <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
-      <RowConstraints />
-      <RowConstraints />
+      <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
+      <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
       <RowConstraints />
       <RowConstraints maxHeight="408.0" minHeight="337.0" prefHeight="337.0" />
-      <RowConstraints />
+      <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
       <RowConstraints />
    </rowConstraints>
    <children>
-      <Pane prefHeight="431.0" prefWidth="532.0" GridPane.columnIndex="2" GridPane.rowIndex="5">
+      <Pane GridPane.columnIndex="2" GridPane.rowIndex="5">
          <children>
-            <Button fx:id="buttonname" layoutX="338.0" layoutY="36.0" mnemonicParsing="false" onAction="#Message" text="Button" />
+            <Button fx:id="buttonname" layoutX="338.0" layoutY="36.0" mnemonicParsing="false" onAction="#Message" text="jon" />
             <Label fx:id="labelname" layoutX="22.0" layoutY="40.0" text="NAO IP-Adresse eintragen:" />
             <MenuBar>
               <menus>
