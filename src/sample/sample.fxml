@@ -57,36 +57,36 @@
             <Font size="29.0" />
          </font>
       </Label>
-      <ImageView fitHeight="517.0" fitWidth="381.0" layoutX="320.0" layoutY="239.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="imgNao" fitHeight="517.0" fitWidth="381.0" layoutX="320.0" layoutY="239.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../nao_specs.png" />
          </image>
       </ImageView>
-      <Button layoutX="150.0" layoutY="431.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="W" />
-      <Button layoutX="149.0" layoutY="467.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="S" />
-      <Button layoutX="109.0" layoutY="467.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="A" />
-      <Button layoutX="190.0" layoutY="467.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="D" />
-      <Button layoutX="108.0" layoutY="431.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="Q" />
-      <Button layoutX="190.0" layoutY="431.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="E" />
-      <Button layoutX="173.0" layoutY="279.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="60.0" text="oben" />
-      <Button layoutX="238.0" layoutY="311.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="60.0" text="rechts" />
-      <Button layoutX="104.0" layoutY="311.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="60.0" text="links" />
-      <Button layoutX="173.0" layoutY="339.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="60.0" text="unten" />
-      <Button layoutX="14.0" layoutY="538.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" text="Aufstehen" />
-      <Button layoutX="14.0" layoutY="596.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" text="Hinsetzen" />
-      <Button layoutX="123.0" layoutY="538.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" text="Bauch" />
-      <Button layoutX="123.0" layoutY="596.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" text="Rücken" />
-      <Button layoutX="232.0" layoutY="596.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" text="Tai Chi" />
-      <Button layoutX="232.0" layoutY="538.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" text="Winken" />
-      <Label layoutX="14.0" layoutY="454.0" text="Laufen">
+      <Button fx:id="btnW" layoutX="150.0" layoutY="431.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="W" />
+      <Button fx:id="btnS" layoutX="149.0" layoutY="467.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="S" />
+      <Button fx:id="btnA" layoutX="109.0" layoutY="467.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="A" />
+      <Button fx:id="btnD" layoutX="190.0" layoutY="467.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="D" />
+      <Button fx:id="btnQ" layoutX="108.0" layoutY="431.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="Q" />
+      <Button fx:id="btnE" layoutX="190.0" layoutY="431.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="E" />
+      <Button fx:id="btnOben" layoutX="173.0" layoutY="279.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="60.0" text="oben" />
+      <Button fx:id="btnRechts" layoutX="238.0" layoutY="311.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="60.0" text="rechts" />
+      <Button fx:id="btnLinks" layoutX="104.0" layoutY="311.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="60.0" text="links" />
+      <Button fx:id="btnUnten" layoutX="173.0" layoutY="339.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="60.0" text="unten" />
+      <Button fx:id="btnAufstehen" layoutX="14.0" layoutY="538.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" text="Aufstehen" />
+      <Button fx:id="btnHinsetzen" layoutX="14.0" layoutY="596.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" text="Hinsetzen" />
+      <Button fx:id="btnBauch" layoutX="123.0" layoutY="538.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" text="Bauch" />
+      <Button fx:id="btnRuecken" layoutX="123.0" layoutY="596.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" text="Rücken" />
+      <Button fx:id="btnTaichi" layoutX="232.0" layoutY="596.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" text="Tai Chi" />
+      <Button fx:id="btnWinken" layoutX="232.0" layoutY="538.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" text="Winken" />
+      <Label fx:id="labelLaufen" layoutX="14.0" layoutY="454.0" text="Laufen">
          <font>
             <Font size="18.0" />
          </font></Label>
-      <Label layoutX="14.0" layoutY="318.0" text="Schauen">
+      <Label fx:id="labelSchauen" layoutX="14.0" layoutY="318.0" text="Schauen">
          <font>
             <Font size="18.0" />
          </font></Label>
-      <Label layoutX="14.0" layoutY="228.0" prefHeight="17.0" prefWidth="278.0" text="Bewegen">
+      <Label fx:id="labelBewegung" layoutX="14.0" layoutY="228.0" prefHeight="17.0" prefWidth="278.0" text="Bewegen">
          <font>
             <Font size="29.0" />
          </font>
@@ -114,12 +114,12 @@
             <Font size="15.0" />
          </font>
       </Button>
-      <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="67.0" layoutY="426.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="imgDrehunglinks" fitHeight="40.0" fitWidth="40.0" layoutX="67.0" layoutY="426.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../reply-arrow.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="218.0" layoutY="426.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="imgDrehungRechts" fitHeight="40.0" fitWidth="40.0" layoutX="218.0" layoutY="426.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../forward-arrow.png" />
          </image>

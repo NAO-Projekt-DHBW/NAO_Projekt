@@ -13,6 +13,22 @@ import java.util.ResourceBundle;
 public class Controller implements Initializable {
 
     public Button buttonwiedergabe;
+    public Button btnW;
+    public Button btnS;
+    public Button btnA;
+    public Button btnD;
+    public Button btnQ;
+    public Button btnE;
+    public Button btnOben;
+    public Button btnRechts;
+    public Button btnLinks;
+    public Button btnUnten;
+    public Button btnAufstehen;
+    public Button btnHinsetzen;
+    public Button btnBauch;
+    public Button btnRuecken;
+    public Button btnTaichi;
+    public Button btnWinken;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
