@@ -57,7 +57,7 @@
             <Font size="29.0" />
          </font>
       </Label>
-      <ImageView fitHeight="517.0" fitWidth="381.0" layoutX="320.0" layoutY="239.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="bildnao" fitHeight="517.0" fitWidth="381.0" layoutX="320.0" layoutY="239.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../nao_specs.png" />
          </image>
@@ -91,22 +91,22 @@
             <Font size="29.0" />
          </font>
       </Label>
-      <Label layoutX="660.0" layoutY="203.0" prefHeight="17.0" prefWidth="278.0" text="Sound">
+      <Label fx:id="labelsound" layoutX="660.0" layoutY="203.0" prefHeight="17.0" prefWidth="278.0" text="Sound">
          <font>
             <Font size="29.0" />
          </font>
       </Label>
-      <Label layoutX="660.0" layoutY="246.0" prefHeight="17.0" prefWidth="196.0" text="Text für Sprachausgabe eingeben" />
-      <ImageView fitHeight="412.0" fitWidth="428.0" layoutX="629.0" layoutY="267.0" pickOnBounds="true" preserveRatio="true">
+      <Label fx:id="labelsoundinfo" layoutX="660.0" layoutY="246.0" prefHeight="17.0" prefWidth="196.0" text="Text für Sprachausgabe eingeben" />
+      <ImageView fx:id="bildsound" fitHeight="412.0" fitWidth="428.0" layoutX="629.0" layoutY="267.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../chat-bubble-29688_960_720.png" />
          </image>
       </ImageView>
-      <TextField layoutX="680.0" layoutY="283.0" prefHeight="148.0" prefWidth="315.0" />
-      <ComboBox layoutX="680.0" layoutY="597.0" prefHeight="25.0" prefWidth="299.0" promptText="Sprache auswählen (Standard &quot;Deutsch&quot;)" />
-      <ComboBox layoutX="680.0" layoutY="648.0" prefHeight="25.0" prefWidth="299.0" promptText="Sprachgeschwindigkeit auswählen" />
-      <Slider layoutX="671.0" layoutY="695.0" prefHeight="14.0" prefWidth="299.0" />
-      <Label layoutX="680.0" layoutY="722.0" prefHeight="17.0" prefWidth="196.0" text="Tonhöhe festlegen" />
+      <TextField fx:id="fieldsound" layoutX="680.0" layoutY="283.0" prefHeight="148.0" prefWidth="315.0" />
+      <ComboBox fx:id="comboboxsprache" layoutX="680.0" layoutY="597.0" prefHeight="25.0" prefWidth="299.0" promptText="Sprache auswählen (Standard &quot;Deutsch&quot;)" />
+      <ComboBox fx:id="comboboxsprachgeschwindigkeit" layoutX="680.0" layoutY="648.0" prefHeight="25.0" prefWidth="299.0" promptText="Sprachgeschwindigkeit auswählen" />
+      <Slider fx:id="reglertonhoehe" layoutX="671.0" layoutY="695.0" prefHeight="14.0" prefWidth="299.0" />
+      <Label fx:id="labeltonhoehe" layoutX="680.0" layoutY="722.0" prefHeight="17.0" prefWidth="196.0" text="Tonhöhe festlegen" />
       <Slider layoutX="671.0" layoutY="754.0" prefHeight="14.0" prefWidth="299.0" />
       <Label layoutX="680.0" layoutY="781.0" prefHeight="17.0" prefWidth="196.0" text="Lautstärke festlegen" />
       <Button fx:id="buttonwiedergabe" layoutX="674.0" layoutY="806.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="169.0" text="Wiedergabe starten">
