@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -53,15 +54,16 @@ public class Controller implements Initializable {
     public Button btnWinken;
     public Button btnLEDRuecken;
 
+    //Alles was unter dieser Methode steht, wird direkt beim Starten des Programms ausfrüht.
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        
+        ComboBoxNAOWaehlen.setItems(FXCollections.observableArrayList(
+                "192.168.178.1 (rot)", "192.168.178.2 (blau)", "192.168.178.3 (grün)")
+        );
     }
-
 
 
     public void testAusgabe(ActionEvent actionEvent) {
         fieldsound.appendText("Das ist ein Test");
-
     }
 }
