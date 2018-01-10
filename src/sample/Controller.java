@@ -11,10 +11,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
-    public Label labelname;
-    public TextField textname;
-    public Button buttonname;
-    public Ellipse ellipse;
+
+    public Button buttonwiedergabe;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
