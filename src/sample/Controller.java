@@ -47,5 +47,6 @@ public class Controller implements Initializable {
 
     public void testAusgabe(ActionEvent actionEvent) {
         fieldsound.appendText("Das ist ein Test");
+
     }
 }
