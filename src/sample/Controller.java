@@ -44,7 +44,8 @@ public class Controller implements Initializable {
     }
 
 
-    public void btnwiedergabe(ActionEvent actionEvent) {
-        System.out.println("Test Test");
+
+    public void testAusgabe(ActionEvent actionEvent) {
+        fieldsound.appendText("Das ist ein Test");
     }
 }
