@@ -21,7 +21,6 @@ public class Controller implements Initializable {
     public Label labeltonhoehe;
     public ImageView bildnao;
     public ImageView bildsound;
-    public Button buttonwiedergabe;
     public Button btnW;
     public Button btnS;
     public Button btnA;
