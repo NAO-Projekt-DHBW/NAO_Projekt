@@ -15,8 +15,7 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("NAO Dashboard");
         primaryStage.setScene(new Scene(root, 300, 275));
-        primaryStage.setWidth(900);
-        primaryStage.setHeight(900);
+        
         primaryStage.show();
 
     }
