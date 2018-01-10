@@ -58,8 +58,13 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         ComboBoxNAOWaehlen.setItems(FXCollections.observableArrayList(
-                "192.168.178.1 (rot)", "192.168.178.2 (blau)", "192.168.178.3 (grün)")
+                "192.168.178.1 (rot)", "192.168.178.2 (blau)", "192.168.178.3 (grün)", "127.0.0.1 (localhost)")
         );
+    }
+
+    public void setFieldIPAdresse(ActionEvent actionEvent){
+
+        FieldIPAdresse.appendText("");
     }
 
 
