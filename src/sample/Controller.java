@@ -2,9 +2,8 @@ package sample;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.shape.Ellipse;
 
 import java.net.URL;
@@ -12,6 +11,16 @@ import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
 
+    public Button btnwiedergabe;
+    public Label labelsound;
+    public Label labelsoundinfo;
+    public TextField fieldsound;
+    public ComboBox comboboxsprache;
+    public ComboBox comboboxsprachgeschwindigkeit;
+    public Slider reglertonhoehe;
+    public Label labeltonhoehe;
+    public ImageView bildnao;
+    public ImageView bildsound;
     public Button buttonwiedergabe;
     public Button btnW;
     public Button btnS;
