@@ -63,12 +63,18 @@ public class Controller implements Initializable {
     }
 
     public void setFieldIPAdresse(ActionEvent actionEvent){
-
-        FieldIPAdresse.appendText("");
+        FieldIPAdresse.clear();
+        String ipAdress = extractStringBefore(ComboBoxNAOWaehlen.getValue().toString()," ");
+        FieldIPAdresse.appendText(ipAdress);
     }
 
 
-    public void testAusgabe(ActionEvent actionEvent) {
-        fieldsound.appendText("Das ist ein Test");
+    public String extractStringBefore(String value, String a) {
+        // Return substring containing all characters before a string.
+        int posA = value.indexOf(a);
+        if (posA == -1) {
+            return "";
+        }
+        return value.substring(0, posA);
     }
 }
