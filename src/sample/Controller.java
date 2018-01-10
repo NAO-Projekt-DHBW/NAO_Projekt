@@ -63,8 +63,10 @@ public class Controller implements Initializable {
     }
 
     public void setFieldIPAdresse(ActionEvent actionEvent){
+        FieldIPAdresse.clear();
+        String ipAdress = ComboBoxNAOWaehlen.getValue().toString();
 
-        FieldIPAdresse.appendText("");
+        FieldIPAdresse.appendText(ipAdress);
     }
 
 
