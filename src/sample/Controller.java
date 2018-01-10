@@ -2,6 +2,10 @@ package sample;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Ellipse;
@@ -21,6 +25,16 @@ public class Controller implements Initializable {
     public Label labeltonhoehe;
     public ImageView bildnao;
     public ImageView bildsound;
+    public Button buttonwiedergabe;
+    public ComboBox ComboBoxAugenLEDFarbe;
+    public ComboBox ComboBoxOhrenLEDFarbe;
+    public Button btnBlinken;
+    public Button btnZwinkern;
+    public Button btnRuecken;
+    public ComboBox ComboBoxNAOWaehlen;
+    public Button btnVerbinden;
+    public TextField FieldIPAdresse;
+    public TextField FieldPortAnpassen;
     public Button btnW;
     public Button btnS;
     public Button btnA;
@@ -34,9 +48,10 @@ public class Controller implements Initializable {
     public Button btnAufstehen;
     public Button btnHinsetzen;
     public Button btnBauch;
-    public Button btnRuecken;
+
     public Button btnTaichi;
     public Button btnWinken;
+    public Button btnLEDRuecken;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
