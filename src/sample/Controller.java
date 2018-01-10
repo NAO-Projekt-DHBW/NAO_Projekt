@@ -11,7 +11,7 @@ import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
 
-    public Button buttonwiedergabe;
+    public Button btnwiedergabe;
     public Label labelsound;
     public Label labelsoundinfo;
     public TextField fieldsound;

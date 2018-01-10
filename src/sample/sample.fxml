@@ -109,7 +109,7 @@
       <Label fx:id="labeltonhoehe" layoutX="680.0" layoutY="722.0" prefHeight="17.0" prefWidth="196.0" text="Tonhöhe festlegen" />
       <Slider layoutX="671.0" layoutY="754.0" prefHeight="14.0" prefWidth="299.0" />
       <Label layoutX="680.0" layoutY="781.0" prefHeight="17.0" prefWidth="196.0" text="Lautstärke festlegen" />
-      <Button fx:id="buttonwiedergabe" layoutX="674.0" layoutY="806.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="169.0" text="Wiedergabe starten">
+      <Button fx:id="btnwiedergabe" layoutX="674.0" layoutY="806.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="169.0" text="Wiedergabe starten">
          <font>
             <Font size="15.0" />
          </font>
