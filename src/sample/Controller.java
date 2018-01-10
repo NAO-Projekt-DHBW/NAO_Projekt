@@ -43,7 +43,8 @@ public class Controller implements Initializable {
         
     }
 
-    public void Message(ActionEvent actionEvent) {
+
+    public void btnwiedergabe(ActionEvent actionEvent) {
         System.out.println("Test Test");
     }
 }
