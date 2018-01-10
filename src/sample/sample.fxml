@@ -13,14 +13,14 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="dropdownnao" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="862.0" prefWidth="1094.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<Pane fx:id="dropdownnao" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="862.0" prefWidth="2045.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
-      <Label fx:id="LabelNAOAusahl" layoutX="14.0" layoutY="79.0" prefHeight="30.0" prefWidth="99.0" text="NAO auswählen:" />
-      <Label fx:id="LabelIPAdresse" layoutX="14.0" layoutY="109.0" prefHeight="30.0" prefWidth="162.0" text="IP-Adresse anpassen:" />
-      <Label fx:id="LabelPortanpassen" layoutX="14.0" layoutY="139.0" prefHeight="30.0" prefWidth="162.0" text="Port anpassen:" />
-      <TextField fx:id="FieldIPAdresse" layoutX="144.0" layoutY="112.0" prefHeight="25.0" prefWidth="177.0" />
-      <TextField fx:id="FieldPortAnpassen" layoutX="144.0" layoutY="142.0" prefHeight="25.0" prefWidth="177.0" />
-      <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="1094.0">
+      <Label fx:id="LabelNAOAusahl" layoutX="87.0" layoutY="110.0" prefHeight="30.0" prefWidth="99.0" text="NAO auswählen:" />
+      <Label fx:id="LabelIPAdresse" layoutX="87.0" layoutY="140.0" prefHeight="30.0" prefWidth="162.0" text="IP-Adresse anpassen:" />
+      <Label fx:id="LabelPortanpassen" layoutX="87.0" layoutY="170.0" prefHeight="30.0" prefWidth="162.0" text="Port anpassen:" />
+      <TextField fx:id="FieldIPAdresse" layoutX="217.0" layoutY="143.0" prefHeight="25.0" prefWidth="177.0" />
+      <TextField fx:id="FieldPortAnpassen" layoutX="217.0" layoutY="173.0" prefHeight="25.0" prefWidth="177.0" />
+      <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="2045.0">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
@@ -39,87 +39,87 @@
           </Menu>
         </menus>
       </MenuBar>
-      <ComboBox fx:id="ComboBoxNAOWaehlen" layoutX="143.0" layoutY="82.0" onAction="#setFieldIPAdresse" prefHeight="25.0" prefWidth="177.0" promptText="keine Auswahl getroffen" />
-      <Label layoutX="14.0" layoutY="27.0" prefHeight="17.0" prefWidth="278.0" text="NAO verbinden">
+      <ComboBox fx:id="ComboBoxNAOWaehlen" layoutX="216.0" layoutY="113.0" onAction="#setFieldIPAdresse" prefHeight="25.0" prefWidth="177.0" promptText="keine Auswahl getroffen" />
+      <Label layoutX="87.0" layoutY="58.0" prefHeight="17.0" prefWidth="278.0" text="NAO verbinden">
          <font>
             <Font size="29.0" />
          </font>
       </Label>
-      <Button fx:id="btnVerbinden" layoutX="250.0" layoutY="185.0" mnemonicParsing="false" text="verbinden" />
-      <ComboBox fx:id="ComboBoxAugenLEDFarbe" layoutX="510.0" layoutY="91.0" prefHeight="25.0" prefWidth="194.0" promptText="Augen LED Farbe auswählen" />
-      <ComboBox fx:id="ComboBoxOhrenLEDFarbe" layoutX="510.0" layoutY="155.0" prefHeight="25.0" prefWidth="194.0" promptText="Ohren LED Farbe auswählen" />
-      <Button fx:id="btnBlinken" layoutX="741.0" layoutY="82.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="127.0" text="Blinken" />
-      <Button fx:id="btnZwinkern" layoutX="894.0" layoutY="82.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="127.0" text="Zwinkern" />
-      <Button layoutX="894.0" layoutY="146.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="127.0" text="Button" />
-      <Button fx:id="btnLEDRuecken" layoutX="741.0" layoutY="146.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="127.0" text="Rücken" />
-      <Label layoutX="510.0" layoutY="27.0" prefHeight="17.0" prefWidth="278.0" text="LED">
+      <Button fx:id="btnVerbinden" layoutX="323.0" layoutY="216.0" mnemonicParsing="false" text="verbinden" />
+      <ComboBox fx:id="ComboBoxAugenLEDFarbe" layoutX="897.0" layoutY="94.0" prefHeight="25.0" prefWidth="194.0" promptText="Augen LED Farbe auswählen" />
+      <ComboBox fx:id="ComboBoxOhrenLEDFarbe" layoutX="897.0" layoutY="158.0" prefHeight="25.0" prefWidth="194.0" promptText="Ohren LED Farbe auswählen" />
+      <Button fx:id="btnBlinken" layoutX="1128.0" layoutY="85.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="127.0" text="Blinken" />
+      <Button fx:id="btnZwinkern" layoutX="1281.0" layoutY="85.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="127.0" text="Zwinkern" />
+      <Button layoutX="1281.0" layoutY="149.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="127.0" text="Button" />
+      <Button fx:id="btnLEDRuecken" layoutX="1128.0" layoutY="149.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="127.0" text="Rücken" />
+      <Label layoutX="897.0" layoutY="39.0" prefHeight="17.0" prefWidth="278.0" text="LED">
          <font>
             <Font size="29.0" />
          </font>
       </Label>
-      <ImageView fx:id="bildnao" fitHeight="517.0" fitWidth="381.0" layoutX="320.0" layoutY="239.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="bildnao" fitHeight="517.0" fitWidth="381.0" layoutX="470.0" layoutY="168.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../nao_specs.png" />
          </image>
       </ImageView>
-      <Button fx:id="btnW" layoutX="150.0" layoutY="431.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="W" />
-      <Button fx:id="btnS" layoutX="149.0" layoutY="467.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="S" />
-      <Button fx:id="btnA" layoutX="109.0" layoutY="467.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="A" />
-      <Button fx:id="btnD" layoutX="190.0" layoutY="467.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="D" />
-      <Button fx:id="btnQ" layoutX="108.0" layoutY="431.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="Q" />
-      <Button fx:id="btnE" layoutX="190.0" layoutY="431.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="E" />
-      <Button fx:id="btnOben" layoutX="173.0" layoutY="279.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="60.0" text="oben" />
-      <Button fx:id="btnRechts" layoutX="238.0" layoutY="311.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="60.0" text="rechts" />
-      <Button fx:id="btnLinks" layoutX="104.0" layoutY="311.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="60.0" text="links" />
-      <Button fx:id="btnUnten" layoutX="173.0" layoutY="339.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="60.0" text="unten" />
-      <Button fx:id="btnAufstehen" layoutX="14.0" layoutY="538.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" text="Aufstehen" />
-      <Button fx:id="btnHinsetzen" layoutX="14.0" layoutY="596.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" text="Hinsetzen" />
-      <Button fx:id="btnBauch" layoutX="123.0" layoutY="538.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" text="Bauch" />
-      <Button fx:id="btnRuecken" layoutX="123.0" layoutY="596.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" text="Rücken" />
-      <Button fx:id="btnTaichi" layoutX="232.0" layoutY="596.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" text="Tai Chi" />
-      <Button fx:id="btnWinken" layoutX="232.0" layoutY="538.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" text="Winken" />
-      <Label fx:id="labelLaufen" layoutX="14.0" layoutY="454.0" text="Laufen">
+      <Button fx:id="btnW" layoutX="261.0" layoutY="417.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="W" />
+      <Button fx:id="btnS" layoutX="259.0" layoutY="453.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="S" />
+      <Button fx:id="btnA" layoutX="219.0" layoutY="453.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="A" />
+      <Button fx:id="btnD" layoutX="300.0" layoutY="453.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="D" />
+      <Button fx:id="btnQ" layoutX="218.0" layoutY="417.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="Q" />
+      <Button fx:id="btnE" layoutX="300.0" layoutY="417.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="E" />
+      <Button fx:id="btnOben" layoutX="248.0" layoutY="292.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="60.0" text="oben" />
+      <Button fx:id="btnRechts" layoutX="313.0" layoutY="324.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="60.0" text="rechts" />
+      <Button fx:id="btnLinks" layoutX="179.0" layoutY="324.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="60.0" text="links" />
+      <Button fx:id="btnUnten" layoutX="248.0" layoutY="352.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="60.0" text="unten" />
+      <Button fx:id="btnAufstehen" layoutX="110.0" layoutY="538.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" text="Aufstehen" />
+      <Button fx:id="btnHinsetzen" layoutX="110.0" layoutY="596.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" text="Hinsetzen" />
+      <Button fx:id="btnBauch" layoutX="219.0" layoutY="538.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" text="Bauch" />
+      <Button fx:id="btnRuecken" layoutX="219.0" layoutY="596.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" text="Rücken" />
+      <Button fx:id="btnTaichi" layoutX="328.0" layoutY="596.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" text="Tai Chi" />
+      <Button fx:id="btnWinken" layoutX="328.0" layoutY="538.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" text="Winken" />
+      <Label fx:id="labelLaufen" layoutX="89.0" layoutY="421.0" text="Laufen">
          <font>
             <Font size="18.0" />
          </font></Label>
-      <Label fx:id="labelSchauen" layoutX="14.0" layoutY="318.0" text="Schauen">
+      <Label fx:id="labelSchauen" layoutX="89.0" layoutY="331.0" text="Schauen">
          <font>
             <Font size="18.0" />
          </font></Label>
-      <Label fx:id="labelBewegung" layoutX="14.0" layoutY="228.0" prefHeight="17.0" prefWidth="278.0" text="Bewegen">
+      <Label fx:id="labelBewegung" layoutX="89.0" layoutY="241.0" prefHeight="17.0" prefWidth="278.0" text="Bewegen">
          <font>
             <Font size="29.0" />
          </font>
       </Label>
-      <Label fx:id="labelsound" layoutX="660.0" layoutY="203.0" prefHeight="17.0" prefWidth="278.0" text="Sound">
+      <Label fx:id="labelsound" layoutX="897.0" layoutY="203.0" prefHeight="17.0" prefWidth="278.0" text="Sound">
          <font>
             <Font size="29.0" />
          </font>
       </Label>
-      <Label fx:id="labelsoundinfo" layoutX="660.0" layoutY="246.0" prefHeight="17.0" prefWidth="196.0" text="Text für Sprachausgabe eingeben" />
-      <ImageView fx:id="bildsound" fitHeight="412.0" fitWidth="428.0" layoutX="629.0" layoutY="267.0" pickOnBounds="true" preserveRatio="true">
+      <Label fx:id="labelsoundinfo" layoutX="897.0" layoutY="246.0" prefHeight="17.0" prefWidth="196.0" text="Text für Sprachausgabe eingeben" />
+      <ImageView fx:id="bildsound" fitHeight="412.0" fitWidth="428.0" layoutX="866.0" layoutY="267.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../chat-bubble-29688_960_720.png" />
          </image>
       </ImageView>
-      <TextField fx:id="fieldsound" layoutX="680.0" layoutY="283.0" prefHeight="148.0" prefWidth="315.0" />
-      <ComboBox fx:id="comboboxsprache" layoutX="680.0" layoutY="597.0" prefHeight="25.0" prefWidth="299.0" promptText="Sprache auswählen (Standard &quot;Deutsch&quot;)" />
-      <ComboBox fx:id="comboboxsprachgeschwindigkeit" layoutX="680.0" layoutY="648.0" prefHeight="25.0" prefWidth="299.0" promptText="Sprachgeschwindigkeit auswählen" />
-      <Slider fx:id="reglertonhoehe" layoutX="671.0" layoutY="695.0" prefHeight="14.0" prefWidth="299.0" />
-      <Label fx:id="labeltonhoehe" layoutX="680.0" layoutY="722.0" prefHeight="17.0" prefWidth="196.0" text="Tonhöhe festlegen" />
-      <Slider layoutX="671.0" layoutY="754.0" prefHeight="14.0" prefWidth="299.0" />
-      <Label layoutX="680.0" layoutY="781.0" prefHeight="17.0" prefWidth="196.0" text="Lautstärke festlegen" />
-      <Button fx:id="btnwiedergabe" layoutX="674.0" layoutY="806.0" mnemonicParsing="false" onAction="#testAusgabe" prefHeight="47.0" prefWidth="169.0" text="Wiedergabe starten">
+      <TextField fx:id="fieldsound" layoutX="917.0" layoutY="283.0" prefHeight="148.0" prefWidth="315.0" />
+      <ComboBox fx:id="comboboxsprache" layoutX="1047.0" layoutY="597.0" prefHeight="25.0" prefWidth="299.0" promptText="Sprache auswählen (Standard &quot;Deutsch&quot;)" />
+      <ComboBox fx:id="comboboxsprachgeschwindigkeit" layoutX="1047.0" layoutY="648.0" prefHeight="25.0" prefWidth="299.0" promptText="Sprachgeschwindigkeit auswählen" />
+      <Slider fx:id="reglertonhoehe" layoutX="1038.0" layoutY="695.0" prefHeight="14.0" prefWidth="299.0" />
+      <Label fx:id="labeltonhoehe" layoutX="1047.0" layoutY="722.0" prefHeight="17.0" prefWidth="196.0" text="Tonhöhe festlegen" />
+      <Slider layoutX="1038.0" layoutY="754.0" prefHeight="14.0" prefWidth="299.0" />
+      <Label layoutX="1047.0" layoutY="780.0" prefHeight="17.0" prefWidth="196.0" text="Lautstärke festlegen" />
+      <Button fx:id="btnwiedergabe" layoutX="842.0" layoutY="586.0" mnemonicParsing="false" onAction="#testAusgabe" prefHeight="47.0" prefWidth="169.0" text="Wiedergabe starten">
          <font>
             <Font size="15.0" />
          </font>
       </Button>
-      <ImageView fx:id="imgDrehunglinks" fitHeight="40.0" fitWidth="40.0" layoutX="67.0" layoutY="426.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="imgDrehunglinks" fitHeight="40.0" fitWidth="40.0" layoutX="177.0" layoutY="412.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../reply-arrow.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="imgDrehungRechts" fitHeight="40.0" fitWidth="40.0" layoutX="218.0" layoutY="426.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="imgDrehungRechts" fitHeight="40.0" fitWidth="40.0" layoutX="328.0" layoutY="412.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../forward-arrow.png" />
          </image>
