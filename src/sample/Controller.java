@@ -69,10 +69,6 @@ public class Controller implements Initializable {
     }
 
 
-    public void testAusgabe(ActionEvent actionEvent) {
-        fieldsound.appendText("Das ist ein Test");
-    }
-
     public String extractStringBefore(String value, String a) {
         // Return substring containing all characters before a string.
         int posA = value.indexOf(a);
