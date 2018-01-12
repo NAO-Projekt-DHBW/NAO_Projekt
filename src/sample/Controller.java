@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
@@ -49,7 +50,6 @@ public class Controller implements Initializable {
     public Button btnAufstehen;
     public Button btnHinsetzen;
     public Button btnBauch;
-
     public Button btnTaichi;
     public Button btnWinken;
     public Button btnLEDRuecken;
@@ -68,6 +68,12 @@ public class Controller implements Initializable {
         FieldIPAdresse.appendText(ipAdress);
     }
 
+    public void startConnection(ActionEvent actionEvent){
+        Application app = new Application(new String[] {}, robotUrl);
+        app.start();
+        ALTextToSpeech tts = new ALTextToSpeech(app.session());
+        tts.say("Hello Nao!");
+    }
 
     public String extractStringBefore(String value, String a) {
         // Return substring containing all characters before a string.
