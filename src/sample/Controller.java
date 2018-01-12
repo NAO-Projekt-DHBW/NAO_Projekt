@@ -1,15 +1,11 @@
 package sample;
 
+import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.shape.Ellipse;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -54,6 +50,8 @@ public class Controller implements Initializable {
     public Button btnWinken;
     public Button btnLEDRuecken;
 
+    public static String ipAdress;
+
     //Alles was unter dieser Methode steht, wird direkt beim Starten des Programms ausfrüht.
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -64,10 +62,18 @@ public class Controller implements Initializable {
 
     public void setFieldIPAdresse(ActionEvent actionEvent){
         FieldIPAdresse.clear();
-        String ipAdress = extractStringBefore(ComboBoxNAOWaehlen.getValue().toString()," ");
+        ipAdress = extractStringBefore(ComboBoxNAOWaehlen.getValue().toString()," ");
         FieldIPAdresse.appendText(ipAdress);
     }
 
+    public void startConnection(ActionEvent actionEvent){
+        String robotUrl = "tcp://127.0.0.1:9559";
+        Application app = new Application(new String[] {}, robotUrl);
+        app.start();
+        ALTextToSpeech tts = new ALTextToSpeech(app.session());
+        tts.say("Hello Nao!");
+
+    }
 
     public String extractStringBefore(String value, String a) {
         // Return substring containing all characters before a string.
