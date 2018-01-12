@@ -45,7 +45,7 @@
             <Font size="29.0" />
          </font>
       </Label>
-      <Button fx:id="btnVerbinden" layoutX="323.0" layoutY="216.0" mnemonicParsing="false" text="verbinden" />
+      <Button fx:id="btnVerbinden" layoutX="323.0" layoutY="216.0" mnemonicParsing="false" onAction="#startConnection" text="verbinden" />
       <ComboBox fx:id="ComboBoxAugenLEDFarbe" layoutX="897.0" layoutY="94.0" prefHeight="25.0" prefWidth="194.0" promptText="Augen LED Farbe auswählen" />
       <ComboBox fx:id="ComboBoxOhrenLEDFarbe" layoutX="897.0" layoutY="158.0" prefHeight="25.0" prefWidth="194.0" promptText="Ohren LED Farbe auswählen" />
       <Button fx:id="btnBlinken" layoutX="1128.0" layoutY="85.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="127.0" text="Blinken" />

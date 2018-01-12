@@ -1,6 +1,8 @@
 package sample;
 
-import javafx.application.Application;
+import com.aldebaran.qi.helper.proxies.ALTextToSpeech;
+import com.aldebaran.qi.Application;
+import com.aldebaran.qi.helper.proxies.ALRobotPosture;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
@@ -11,6 +13,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.shape.Ellipse;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -67,23 +70,16 @@ public class Controller implements Initializable {
 
     public void setFieldIPAdresse(ActionEvent actionEvent){
         FieldIPAdresse.clear();
-        String ipAdress = extractStringBefore(ComboBoxNAOWaehlen.getValue().toString()," ");
+        ipAdress = extractStringBefore(ComboBoxNAOWaehlen.getValue().toString()," ");
         FieldIPAdresse.appendText(ipAdress);
     }
 
     public void startConnection(ActionEvent actionEvent){
         String robotUrl = "tcp://127.0.0.1:9559";
-        Application app = new Application(new String[] {}, robotUrl);
+        Application app = new Application(new String[]{}, robotUrl);
         app.start();
-        ALTextToSpeech tts = new ALTextToSpeech(app.session());
-        tts.say("Hello Nao!");
-
-    }
-    public void startConnection(ActionEvent actionEvent){
-        Application app = new Application(new String[] {}, robotUrl);
-        app.start();
-        ALTextToSpeech tts = new ALTextToSpeech(app.session());
-        tts.say("Hello Nao!");
+        //ALTextToSpeech tts = new ALTextToSpeech(app.session());
+        //tts.say("Hello Nao!");
     }
 
     public String extractStringBefore(String value, String a) {

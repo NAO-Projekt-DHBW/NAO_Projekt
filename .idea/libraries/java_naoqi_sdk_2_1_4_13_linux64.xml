@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="java-naoqi-sdk-2.1.4.13-linux64">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/java-naoqi-sdk-2.1.4.13-linux64.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
