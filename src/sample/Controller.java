@@ -4,12 +4,12 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
+import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
 import javafx.scene.shape.Ellipse;
 
 import java.net.URL;
@@ -50,9 +50,12 @@ public class Controller implements Initializable {
     public Button btnAufstehen;
     public Button btnHinsetzen;
     public Button btnBauch;
+
     public Button btnTaichi;
     public Button btnWinken;
     public Button btnLEDRuecken;
+
+    public static String ipAdress;
 
     //Alles was unter dieser Methode steht, wird direkt beim Starten des Programms ausfrüht.
     @Override
@@ -68,6 +71,14 @@ public class Controller implements Initializable {
         FieldIPAdresse.appendText(ipAdress);
     }
 
+    public void startConnection(ActionEvent actionEvent){
+        String robotUrl = "tcp://127.0.0.1:9559";
+        Application app = new Application(new String[] {}, robotUrl);
+        app.start();
+        ALTextToSpeech tts = new ALTextToSpeech(app.session());
+        tts.say("Hello Nao!");
+
+    }
     public void startConnection(ActionEvent actionEvent){
         Application app = new Application(new String[] {}, robotUrl);
         app.start();
