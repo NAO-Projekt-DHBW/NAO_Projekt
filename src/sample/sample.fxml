@@ -18,7 +18,7 @@
       <Label fx:id="LabelNAOAusahl" layoutX="87.0" layoutY="110.0" prefHeight="30.0" prefWidth="99.0" text="NAO auswählen:" />
       <Label fx:id="LabelIPAdresse" layoutX="87.0" layoutY="140.0" prefHeight="30.0" prefWidth="162.0" text="IP-Adresse anpassen:" />
       <Label fx:id="LabelPortanpassen" layoutX="87.0" layoutY="170.0" prefHeight="30.0" prefWidth="162.0" text="Port anpassen:" />
-      <TextField fx:id="FieldIPAdresse" layoutX="217.0" layoutY="143.0" prefHeight="25.0" prefWidth="177.0" />
+      <TextField fx:id="FieldIPAdresse" layoutX="216.0" layoutY="143.0" prefHeight="25.0" prefWidth="177.0" />
       <TextField fx:id="FieldPortAnpassen" layoutX="217.0" layoutY="173.0" prefHeight="25.0" prefWidth="177.0" />
       <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="2045.0">
         <menus>
@@ -124,5 +124,8 @@
             <Image url="@../forward-arrow.png" />
          </image>
       </ImageView>
+      <TextField layoutX="470.0" layoutY="82.0" />
+      <TextField layoutX="700.0" layoutY="82.0" />
+      <ImageView fitHeight="40.0" fitWidth="60.0" layoutX="457.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </Pane>
