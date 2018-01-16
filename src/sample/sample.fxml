@@ -72,12 +72,12 @@
       <Button fx:id="btnRechts" layoutX="313.0" layoutY="324.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="60.0" text="rechts" />
       <Button fx:id="btnLinks" layoutX="179.0" layoutY="324.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="60.0" text="links" />
       <Button fx:id="btnUnten" layoutX="248.0" layoutY="352.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="60.0" text="unten" />
-      <Button fx:id="btnAufstehen" layoutX="110.0" layoutY="538.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" text="Aufstehen" />
-      <Button fx:id="btnHinsetzen" layoutX="110.0" layoutY="596.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" text="Hinsetzen" />
-      <Button fx:id="btnBauch" layoutX="219.0" layoutY="538.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" text="Bauch" />
-      <Button fx:id="btnRuecken" layoutX="219.0" layoutY="596.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" text="Rücken" />
-      <Button fx:id="btnTaichi" layoutX="328.0" layoutY="596.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" text="Tai Chi" />
-      <Button fx:id="btnWinken" layoutX="328.0" layoutY="538.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" text="Winken" />
+      <Button fx:id="btnAufstehen" layoutX="110.0" layoutY="538.0" mnemonicParsing="false" onAction="#stand" prefHeight="47.0" prefWidth="100.0" text="Aufstehen" />
+      <Button fx:id="btnHinsetzen" layoutX="110.0" layoutY="596.0" mnemonicParsing="false" onAction="#sit" prefHeight="47.0" prefWidth="100.0" text="Hinsetzen" />
+      <Button fx:id="btnBauch" layoutX="219.0" layoutY="538.0" mnemonicParsing="false" onAction="#lyingBelly" prefHeight="47.0" prefWidth="100.0" text="Bauch" />
+      <Button fx:id="btnRuecken" layoutX="219.0" layoutY="596.0" mnemonicParsing="false" onAction="#lyingBack" prefHeight="47.0" prefWidth="100.0" text="Rücken" />
+      <Button fx:id="btnTaichi" layoutX="328.0" layoutY="596.0" mnemonicParsing="false" onAction="#sitOnChair" prefHeight="47.0" prefWidth="100.0" text="Tai Chi" />
+      <Button fx:id="btnWinken" layoutX="328.0" layoutY="538.0" mnemonicParsing="false" onAction="#crouch" prefHeight="47.0" prefWidth="100.0" text="Winken" />
       <Label fx:id="labelLaufen" layoutX="89.0" layoutY="421.0" text="Laufen">
          <font>
             <Font size="18.0" />
@@ -109,7 +109,7 @@
       <Label fx:id="labeltonhoehe" layoutX="1047.0" layoutY="722.0" prefHeight="17.0" prefWidth="196.0" text="Tonhöhe festlegen" />
       <Slider layoutX="1038.0" layoutY="754.0" prefHeight="14.0" prefWidth="299.0" />
       <Label layoutX="1047.0" layoutY="780.0" prefHeight="17.0" prefWidth="196.0" text="Lautstärke festlegen" />
-      <Button fx:id="btnwiedergabe" layoutX="842.0" layoutY="586.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="169.0" text="Wiedergabe starten">
+      <Button fx:id="btnwiedergabe" layoutX="842.0" layoutY="586.0" mnemonicParsing="false" onAction="#sayBubble" prefHeight="47.0" prefWidth="169.0" text="Wiedergabe starten">
          <font>
             <Font size="15.0" />
          </font>
