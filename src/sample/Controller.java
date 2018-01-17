@@ -16,6 +16,8 @@ import javafx.scene.shape.Ellipse;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
@@ -50,16 +52,14 @@ public class Controller implements Initializable {
     public Button btnRechts;
     public Button btnLinks;
     public Button btnUnten;
-    
- 
+
+
     public Button btnBauch;
 
-    
+
     public Button btnWinken;
     public Button btnLEDRuecken;
 
-    public static String ipAdress;
-    public static Application app;
     public Button btnHocken;
     public Button btnStuhlsitzen;
     public Button btnRelaxen;
@@ -72,25 +72,43 @@ public class Controller implements Initializable {
     public TextField fieldBattery;
     public TextField fieldTemperature;
 
+    private static String ipAdress;
+    private static String defaultPort = "9559";
+    private static Application app;
+
     //Alles was unter dieser Methode steht, wird direkt beim Starten des Programms ausfrüht.
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        ComboBoxNAOWaehlen.setItems(FXCollections.observableArrayList(
-                "192.168.178.1 (rot)", "192.168.178.2 (blau)", "192.168.178.3 (grün)", "127.0.0.1 (localhost)")
-        );
+        List<String> supplierNames1 = new ArrayList<String>();
+        supplierNames1.add(0, "192.168.178.1 (blau)");
+        supplierNames1.add(1, "192.168.178.2 (rot)");
+        supplierNames1.add(2, "192.168.178.3 (grün)");
+        ComboBoxNAOWaehlen.setItems(FXCollections.observableArrayList(supplierNames1));
     }
 
     public void setFieldIPAdresse(ActionEvent actionEvent){
         FieldIPAdresse.clear();
+        FieldPortAnpassen.clear();
         ipAdress = extractStringBefore(ComboBoxNAOWaehlen.getValue().toString()," ");
         FieldIPAdresse.appendText(ipAdress);
+        FieldPortAnpassen.appendText(defaultPort);
     }
 
     //Verbindung zum NAO aufbauen
     public void startConnection(ActionEvent actionEvent) throws Exception {
-        String robotUrl = "tcp://127.0.0.1:39513";
-        app = new Application(new String[]{}, robotUrl);
-        app.start();
+        //String robotUrl = "tcp://127.0.0.1:39513";
+        String robotUrl = "tcp://" + ipAdress + ":" + defaultPort;
+        try {
+            app = new Application(new String[]{}, robotUrl);
+            app.start();
+            if (app.session().isConnected()) {
+                fieldsound.appendText("Verbunden");
+            } else {
+                fieldsound.appendText("Verbindungsaufbau fehlgeschlagen.");
+            }
+        } catch(Exception ex){
+            fieldsound.appendText("Verbindungsaufbau fehlgeschlagen./n" + ex);
+        }
     }
 
     //Sprechen
@@ -143,11 +161,11 @@ public class Controller implements Initializable {
     }
 
     //Methode um einen String aus einem String zu extrahieren
-    public String extractStringBefore(String value, String a) {
-        int posA = value.indexOf(a);
+    public String extractStringBefore(String originalString, String stringToExtractBefore) {
+        int posA = originalString.indexOf(stringToExtractBefore);
         if (posA == -1) {
             return "";
         }
-        return value.substring(0, posA);
+        return originalString.substring(0, posA);
     }
 }
