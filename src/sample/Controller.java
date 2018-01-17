@@ -50,16 +50,22 @@ public class Controller implements Initializable {
     public Button btnRechts;
     public Button btnLinks;
     public Button btnUnten;
-    public Button btnAufstehen;
-    public Button btnHinsetzen;
+    
+ 
     public Button btnBauch;
 
-    public Button btnTaichi;
+    
     public Button btnWinken;
     public Button btnLEDRuecken;
 
     public static String ipAdress;
     public static Application app;
+    public Button btnHocken;
+    public Button btnStuhlsitzen;
+    public Button btnRelaxen;
+    public Label labelLaufen;
+    public ToggleButton toggleAufstehen;
+    public ToggleButton ToggleSitzen;
 
     //Alles was unter dieser Methode steht, wird direkt beim Starten des Programms ausfrüht.
     @Override
