@@ -97,7 +97,7 @@ public class Controller implements Initializable {
     //Verbindung zum NAO aufbauen
     public void startConnection(ActionEvent actionEvent) throws Exception {
         //String robotUrl = "tcp://127.0.0.1:39513";
-        String robotUrl = "tcp://" + ipAdress + ":" + defaultPort;
+        String robotUrl = "tcp://" + FieldIPAdresse.getText().toString() + ":" + FieldPortAnpassen.getText().toString();
         try {
             app = new Application(new String[]{}, robotUrl);
             app.start();
@@ -107,7 +107,7 @@ public class Controller implements Initializable {
                 fieldsound.appendText("Verbindungsaufbau fehlgeschlagen.");
             }
         } catch(Exception ex){
-            fieldsound.appendText("Verbindungsaufbau fehlgeschlagen./n" + ex);
+            fieldsound.appendText("Verbindungsaufbau fehlgeschlagen./n" + robotUrl + ex);
         }
     }
 
@@ -146,6 +146,11 @@ public class Controller implements Initializable {
     public void lyingBack(ActionEvent actionEvent) throws Exception {
         ALRobotPosture rp = new ALRobotPosture(app.session());
         Boolean success = rp.goToPosture("LyingBack", 1f);
+    }
+
+    public void test(ActionEvent actionEvent) throws Exception {
+        ALRobotPosture rp = new ALRobotPosture(app.session());
+        Boolean success = rp.goToPosture("StandInit", 1f);
     }
 
     //Auf den Bauch legen
