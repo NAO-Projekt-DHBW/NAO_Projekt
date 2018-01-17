@@ -18,7 +18,7 @@
       <Label fx:id="LabelNAOAusahl" layoutX="87.0" layoutY="110.0" prefHeight="30.0" prefWidth="99.0" text="NAO auswählen:" />
       <Label fx:id="LabelIPAdresse" layoutX="87.0" layoutY="140.0" prefHeight="30.0" prefWidth="162.0" text="IP-Adresse anpassen:" />
       <Label fx:id="LabelPortanpassen" layoutX="87.0" layoutY="170.0" prefHeight="30.0" prefWidth="162.0" text="Port anpassen:" />
-      <TextField fx:id="FieldIPAdresse" layoutX="217.0" layoutY="143.0" prefHeight="25.0" prefWidth="177.0" />
+      <TextField fx:id="FieldIPAdresse" layoutX="216.0" layoutY="143.0" prefHeight="25.0" prefWidth="177.0" />
       <TextField fx:id="FieldPortAnpassen" layoutX="217.0" layoutY="173.0" prefHeight="25.0" prefWidth="177.0" />
       <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="2045.0">
         <menus>
@@ -72,12 +72,12 @@
       <Button fx:id="btnRechts" layoutX="313.0" layoutY="324.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="60.0" text="rechts" />
       <Button fx:id="btnLinks" layoutX="179.0" layoutY="324.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="60.0" text="links" />
       <Button fx:id="btnUnten" layoutX="248.0" layoutY="352.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="60.0" text="unten" />
-      <Button fx:id="btnAufstehen" layoutX="110.0" layoutY="538.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" text="Aufstehen" />
-      <Button fx:id="btnHinsetzen" layoutX="110.0" layoutY="596.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" text="Hinsetzen" />
-      <Button fx:id="btnBauch" layoutX="219.0" layoutY="538.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" text="Bauch" />
-      <Button fx:id="btnRuecken" layoutX="219.0" layoutY="596.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" text="Rücken" />
-      <Button fx:id="btnTaichi" layoutX="328.0" layoutY="596.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" text="Tai Chi" />
-      <Button fx:id="btnWinken" layoutX="328.0" layoutY="538.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" text="Winken" />
+      <Button fx:id="btnAufstehen" layoutX="110.0" layoutY="538.0" mnemonicParsing="false" onAction="#stand" prefHeight="47.0" prefWidth="100.0" text="Aufstehen" />
+      <Button fx:id="btnHinsetzen" layoutX="110.0" layoutY="596.0" mnemonicParsing="false" onAction="#sit" prefHeight="47.0" prefWidth="100.0" text="Hinsetzen" />
+      <Button fx:id="btnBauch" layoutX="219.0" layoutY="538.0" mnemonicParsing="false" onAction="#lyingBelly" prefHeight="47.0" prefWidth="100.0" text="Bauch" />
+      <Button fx:id="btnRuecken" layoutX="219.0" layoutY="596.0" mnemonicParsing="false" onAction="#lyingBack" prefHeight="47.0" prefWidth="100.0" text="Rücken" />
+      <Button fx:id="btnTaichi" layoutX="328.0" layoutY="596.0" mnemonicParsing="false" onAction="#sitOnChair" prefHeight="47.0" prefWidth="100.0" text="Tai Chi" />
+      <Button fx:id="btnWinken" layoutX="328.0" layoutY="538.0" mnemonicParsing="false" onAction="#crouch" prefHeight="47.0" prefWidth="100.0" text="Winken" />
       <Label fx:id="labelLaufen" layoutX="89.0" layoutY="421.0" text="Laufen">
          <font>
             <Font size="18.0" />
@@ -109,7 +109,7 @@
       <Label fx:id="labeltonhoehe" layoutX="1047.0" layoutY="722.0" prefHeight="17.0" prefWidth="196.0" text="Tonhöhe festlegen" />
       <Slider layoutX="1038.0" layoutY="754.0" prefHeight="14.0" prefWidth="299.0" />
       <Label layoutX="1047.0" layoutY="780.0" prefHeight="17.0" prefWidth="196.0" text="Lautstärke festlegen" />
-      <Button fx:id="btnwiedergabe" layoutX="842.0" layoutY="586.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="169.0" text="Wiedergabe starten">
+      <Button fx:id="btnwiedergabe" layoutX="842.0" layoutY="586.0" mnemonicParsing="false" onAction="#sayBubble" prefHeight="47.0" prefWidth="169.0" text="Wiedergabe starten">
          <font>
             <Font size="15.0" />
          </font>
@@ -124,5 +124,17 @@
             <Image url="@../forward-arrow.png" />
          </image>
       </ImageView>
+      <TextField fx:id="fieldBattery" layoutX="660.0" layoutY="86.0" prefHeight="30.0" prefWidth="40.0">
+         <font>
+            <Font size="14.0" />
+         </font></TextField>
+      <TextField fx:id="fieldTemperature" layoutX="660.0" layoutY="132.0" prefHeight="30.0" prefWidth="40.0">
+         <font>
+            <Font size="14.0" />
+         </font></TextField>
+      <ImageView fitHeight="40.0" fitWidth="60.0" layoutX="620.0" layoutY="79.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Smartphone-Akku-Dos.jpg" />
+         </image></ImageView>
    </children>
 </Pane>
