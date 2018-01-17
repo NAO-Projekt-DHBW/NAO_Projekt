@@ -66,6 +66,11 @@ public class Controller implements Initializable {
     public Label labelLaufen;
     public ToggleButton toggleAufstehen;
     public ToggleButton ToggleSitzen;
+    public Button btnTaiChi;
+    public Button btnStandInit;
+    public Button btnStandZero;
+    public TextField fieldBattery;
+    public TextField fieldTemperature;
 
     //Alles was unter dieser Methode steht, wird direkt beim Starten des Programms ausfrüht.
     @Override
