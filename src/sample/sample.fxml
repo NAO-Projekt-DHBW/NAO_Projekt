@@ -8,6 +8,7 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
@@ -40,7 +41,7 @@
         </menus>
       </MenuBar>
       <ComboBox fx:id="ComboBoxNAOWaehlen" layoutX="216.0" layoutY="113.0" onAction="#setFieldIPAdresse" prefHeight="25.0" prefWidth="177.0" promptText="keine Auswahl getroffen" />
-      <Label layoutX="87.0" layoutY="58.0" prefHeight="17.0" prefWidth="278.0" text="NAO verbinden">
+      <Label layoutX="38.0" layoutY="60.0" prefHeight="17.0" prefWidth="278.0" text="NAO verbinden">
          <font>
             <Font size="29.0" />
          </font>
@@ -64,7 +65,6 @@
       </ImageView>
       <Button fx:id="btnW" layoutX="261.0" layoutY="417.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="W" />
       <Button fx:id="btnS" layoutX="259.0" layoutY="453.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="S" />
-      <Button fx:id="btnA" layoutX="219.0" layoutY="453.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="A" />
       <Button fx:id="btnD" layoutX="300.0" layoutY="453.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="D" />
       <Button fx:id="btnQ" layoutX="218.0" layoutY="417.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="Q" />
       <Button fx:id="btnE" layoutX="300.0" layoutY="417.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" text="E" />
@@ -72,21 +72,21 @@
       <Button fx:id="btnRechts" layoutX="313.0" layoutY="324.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="60.0" text="rechts" />
       <Button fx:id="btnLinks" layoutX="179.0" layoutY="324.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="60.0" text="links" />
       <Button fx:id="btnUnten" layoutX="248.0" layoutY="352.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="60.0" text="unten" />
-      <Button fx:id="btnAufstehen" layoutX="110.0" layoutY="538.0" mnemonicParsing="false" onAction="#stand" prefHeight="47.0" prefWidth="100.0" text="Aufstehen" />
-      <Button fx:id="btnHinsetzen" layoutX="110.0" layoutY="596.0" mnemonicParsing="false" onAction="#sit" prefHeight="47.0" prefWidth="100.0" text="Hinsetzen" />
-      <Button fx:id="btnBauch" layoutX="219.0" layoutY="538.0" mnemonicParsing="false" onAction="#lyingBelly" prefHeight="47.0" prefWidth="100.0" text="Bauch" />
-      <Button fx:id="btnRuecken" layoutX="219.0" layoutY="596.0" mnemonicParsing="false" onAction="#lyingBack" prefHeight="47.0" prefWidth="100.0" text="Rücken" />
-      <Button fx:id="btnTaichi" layoutX="328.0" layoutY="596.0" mnemonicParsing="false" onAction="#sitOnChair" prefHeight="47.0" prefWidth="100.0" text="Tai Chi" />
-      <Button fx:id="btnWinken" layoutX="328.0" layoutY="538.0" mnemonicParsing="false" onAction="#crouch" prefHeight="47.0" prefWidth="100.0" text="Winken" />
-      <Label fx:id="labelLaufen" layoutX="89.0" layoutY="421.0" text="Laufen">
+      <Button fx:id="btnHocken" layoutX="115.0" layoutY="570.0" mnemonicParsing="false" onAction="#stand" prefHeight="47.0" prefWidth="100.0" text="Hocken" />
+      <Button fx:id="btnStuhlsitzen" layoutX="115.0" layoutY="628.0" mnemonicParsing="false" onAction="#sit" prefHeight="47.0" prefWidth="100.0" text="Stuhlsitzen" />
+      <Button fx:id="btnBauch" layoutX="224.0" layoutY="570.0" mnemonicParsing="false" onAction="#lyingBelly" prefHeight="47.0" prefWidth="100.0" text="Bauch" />
+      <Button fx:id="btnRuecken" layoutX="224.0" layoutY="628.0" mnemonicParsing="false" onAction="#lyingBack" prefHeight="47.0" prefWidth="100.0" text="Rücken" />
+      <Button fx:id="btnRelaxen" layoutX="333.0" layoutY="628.0" mnemonicParsing="false" onAction="#sitOnChair" prefHeight="47.0" prefWidth="100.0" text="Relaxen" />
+      <Button fx:id="btnWinken" layoutX="333.0" layoutY="570.0" mnemonicParsing="false" onAction="#crouch" prefHeight="47.0" prefWidth="100.0" text="Winken" />
+      <Label fx:id="labelLaufen" layoutX="37.0" layoutY="413.0" text="Laufen">
          <font>
             <Font size="18.0" />
          </font></Label>
-      <Label fx:id="labelSchauen" layoutX="89.0" layoutY="331.0" text="Schauen">
+      <Label fx:id="labelSchauen" layoutX="40.0" layoutY="311.0" text="Schauen">
          <font>
             <Font size="18.0" />
          </font></Label>
-      <Label fx:id="labelBewegung" layoutX="89.0" layoutY="241.0" prefHeight="17.0" prefWidth="278.0" text="Bewegen">
+      <Label fx:id="labelBewegung" layoutX="40.0" layoutY="246.0" prefHeight="17.0" prefWidth="278.0" text="Bewegen">
          <font>
             <Font size="29.0" />
          </font>
@@ -124,8 +124,30 @@
             <Image url="@../forward-arrow.png" />
          </image>
       </ImageView>
-      <TextField layoutX="470.0" layoutY="82.0" />
-      <TextField layoutX="700.0" layoutY="82.0" />
-      <ImageView fitHeight="40.0" fitWidth="60.0" layoutX="457.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" />
+      <TextField fx:id="fieldBattery" layoutX="518.0" layoutY="205.0" prefHeight="40.0" prefWidth="40.0">
+         <font>
+            <Font size="14.0" />
+         </font></TextField>
+      <TextField fx:id="fieldTemperature" layoutX="802.0" layoutY="209.0" prefHeight="40.0" prefWidth="40.0">
+         <font>
+            <Font size="14.0" />
+         </font></TextField>
+      <ImageView fitHeight="40.0" fitWidth="60.0" layoutX="470.0" layoutY="205.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Smartphone-Akku-Dos.jpg" />
+         </image></ImageView>
+      <Slider layoutX="179.0" layoutY="516.0" prefHeight="14.0" prefWidth="257.0" />
+      <Label layoutX="37.0" layoutY="508.0" prefHeight="30.0" prefWidth="136.0" text="Geschwindigkeit">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <ToggleButton fx:id="toggleAufstehen" layoutX="114.0" layoutY="700.0" mnemonicParsing="false" prefHeight="62.0" prefWidth="127.0" text="Aufstehen" />
+      <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="751.0" layoutY="209.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../grad-celsius-symbol-der-temperatur_318-33336.jpg" />
+         </image>
+      </ImageView>
+      <ToggleButton fx:id="ToggleSitzen" layoutX="305.0" layoutY="700.0" mnemonicParsing="false" prefHeight="62.0" prefWidth="127.0" text="Sitzen" />
    </children>
 </Pane>

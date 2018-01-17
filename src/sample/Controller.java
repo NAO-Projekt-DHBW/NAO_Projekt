@@ -52,18 +52,24 @@ public class Controller implements Initializable {
     public Button btnRechts;
     public Button btnLinks;
     public Button btnUnten;
-    public Button btnAufstehen;
-    public Button btnHinsetzen;
+
+
     public Button btnBauch;
 
-    public Button btnTaichi;
+
     public Button btnWinken;
     public Button btnLEDRuecken;
+
+    public Button btnHocken;
+    public Button btnStuhlsitzen;
+    public Button btnRelaxen;
+    public Label labelLaufen;
+    public ToggleButton toggleAufstehen;
+    public ToggleButton ToggleSitzen;
 
     private static String ipAdress;
     private static String defaultPort = "9559";
     private static Application app;
-
 
     //Alles was unter dieser Methode steht, wird direkt beim Starten des Programms ausfrüht.
     @Override
