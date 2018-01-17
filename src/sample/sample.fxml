@@ -124,8 +124,17 @@
             <Image url="@../forward-arrow.png" />
          </image>
       </ImageView>
-      <TextField layoutX="470.0" layoutY="82.0" />
-      <TextField layoutX="700.0" layoutY="82.0" />
-      <ImageView fitHeight="40.0" fitWidth="60.0" layoutX="457.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" />
+      <TextField fx:id="fieldBattery" layoutX="660.0" layoutY="86.0" prefHeight="30.0" prefWidth="40.0">
+         <font>
+            <Font size="14.0" />
+         </font></TextField>
+      <TextField fx:id="fieldTemperature" layoutX="660.0" layoutY="132.0" prefHeight="30.0" prefWidth="40.0">
+         <font>
+            <Font size="14.0" />
+         </font></TextField>
+      <ImageView fitHeight="40.0" fitWidth="60.0" layoutX="620.0" layoutY="79.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Smartphone-Akku-Dos.jpg" />
+         </image></ImageView>
    </children>
 </Pane>
