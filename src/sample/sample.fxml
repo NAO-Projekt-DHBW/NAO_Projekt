@@ -7,6 +7,7 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.image.Image?>
@@ -153,10 +154,10 @@
       <Button fx:id="btnStandInit" layoutX="37.0" layoutY="623.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" text="Stand Init" />
       <Button fx:id="btnTaiChi" layoutX="37.0" layoutY="684.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" text="Tai Chi" />
       <Button fx:id="btnA" layoutX="218.0" layoutY="453.0" mnemonicParsing="false" onAction="#moveLeft" prefHeight="30.0" prefWidth="30.0" text="A" />
-      <TextField fx:id="fieldConnectionState" alignment="TOP_CENTER" editable="false" layoutX="558.0" layoutY="660.0" prefHeight="101.0" prefWidth="203.0" text="Nicht verbunden">
+      <TextArea fx:id="fieldConnectionState" editable="false" layoutX="560.0" layoutY="653.0" prefHeight="142.0" prefWidth="200.0" styleClass="transparent" stylesheets="@style.css" text="Nicht verbunden" wrapText="true">
          <font>
-            <Font name="System Bold" size="14.0" />
+            <Font size="14.0" />
          </font>
-      </TextField>
+      </TextArea>
    </children>
 </Pane>

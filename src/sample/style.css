@@ -1,0 +1,11 @@
+.transparent{
+    -fx-background-color: black;
+    }
+
+.error{
+    color: red;
+}
+
+.success{
+    color: green;
+}

@@ -1,6 +1,7 @@
 package sample;
 
 import com.aldebaran.qi.Application;
+import com.aldebaran.qi.Session;
 import com.aldebaran.qi.helper.proxies.*;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -63,11 +64,11 @@ public class Controller implements Initializable {
     public TextField fieldBattery;
     public TextField fieldTemperature;
     public Slider sliderPace;
-    public TextField fieldConnectionState;
+    public TextArea fieldConnectionState;
 
     private static String ipAdress;
     private static String defaultPort = "9559";
-    private static Application app;
+    private static Session session;
 
 
 
@@ -94,10 +95,10 @@ public class Controller implements Initializable {
         //String robotUrl = "tcp://127.0.0.1:39513";
         String robotUrl = "tcp://" + FieldIPAdresse.getText().toString() + ":" + FieldPortAnpassen.getText().toString();
         try {
-            app = new Application(new String[]{}, robotUrl);
-            app.start();
-            if (app.session().isConnected()) {
+            session.connect(robotUrl).get();
+            if (session.isConnected()) {
                 fieldConnectionState.clear();
+                fieldConnectionState.getStyleClass().add("success");
                 fieldConnectionState.appendText("Verbunden");
                 fieldBattery.appendText(getBatteryState(actionEvent));
                 getBatteryState(actionEvent);
@@ -105,6 +106,8 @@ public class Controller implements Initializable {
                 fieldConnectionState.appendText("Verbindungsaufbau fehlgeschlagen.");
             }
         } catch(Exception ex){
+            fieldConnectionState.clear();
+            fieldConnectionState.getStyleClass().add("error");
             fieldConnectionState.appendText("Verbindungsaufbau fehlgeschlagen./n" + robotUrl + ex);
         }
     }
@@ -126,24 +129,24 @@ public class Controller implements Initializable {
     }
 
     public String getBatteryState(ActionEvent actionEvent) throws Exception{
-        ALBattery battery = new ALBattery(app.session());
+        ALBattery battery = new ALBattery(session);
         int state = battery.getBatteryCharge();
         return String.valueOf(state);
     }
 
     public void getTemperature(ActionEvent actionEvent) throws Exception{
-        ALBodyTemperature temperature = new ALBodyTemperature(app.session());
+        ALBodyTemperature temperature = new ALBodyTemperature(session);
         fieldsound.appendText(temperature.getMethodList().toString());
 
     }
 
     public void wakeUp(ActionEvent actionEvent) throws Exception {
-        ALMotion motion = new ALMotion(app.session());
+        ALMotion motion = new ALMotion(session);
         motion.wakeUp();
     }
 
     public void rest (ActionEvent actionEvent) throws Exception {
-        ALMotion motion = new ALMotion(app.session());
+        ALMotion motion = new ALMotion(session);
         motion.rest();
     }
 
@@ -195,55 +198,55 @@ public class Controller implements Initializable {
 
     //Sprechen
     public void sayBubble(ActionEvent actionEvent) throws Exception {
-        ALTextToSpeech tts = new ALTextToSpeech(app.session());
+        ALTextToSpeech tts = new ALTextToSpeech(session);
         tts.say(fieldsound.getText().toString());
     }
 
 
     //Sitzen (normal)
     public void sit(ActionEvent actionEvent) throws Exception {
-        ALRobotPosture rp = new ALRobotPosture(app.session());
+        ALRobotPosture rp = new ALRobotPosture(session);
         Boolean success = rp.goToPosture("Sit", 1f);
     }
 
     //Sitzen (relaxed)
     public void sitRelax(ActionEvent actionEvent) throws Exception {
-        ALRobotPosture rp = new ALRobotPosture(app.session());
+        ALRobotPosture rp = new ALRobotPosture(session);
         Boolean success = rp.goToPosture("SitRelax", 1f);
     }
 
     //Sitzen (Stuhl)
     public void sitOnChair(ActionEvent actionEvent) throws Exception {
-        ALRobotPosture rp = new ALRobotPosture(app.session());
+        ALRobotPosture rp = new ALRobotPosture(session);
         Boolean success = rp.goToPosture("SitOnChair", 1f);
     }
 
     //Stehen
     public void stand(ActionEvent actionEvent) throws Exception {
-        ALRobotPosture rp = new ALRobotPosture(app.session());
+        ALRobotPosture rp = new ALRobotPosture(session);
         Boolean success = rp.goToPosture("Stand", 1f);
     }
 
     //Auf den Rücken legen
     public void lyingBack(ActionEvent actionEvent) throws Exception {
-        ALRobotPosture rp = new ALRobotPosture(app.session());
+        ALRobotPosture rp = new ALRobotPosture(session);
         Boolean success = rp.goToPosture("LyingBack", 1f);
     }
 
     public void test(ActionEvent actionEvent) throws Exception {
-        ALRobotPosture rp = new ALRobotPosture(app.session());
+        ALRobotPosture rp = new ALRobotPosture(session);
         Boolean success = rp.goToPosture("StandInit", 1f);
     }
 
     //Auf den Bauch legen
     public void lyingBelly(ActionEvent actionEvent) throws Exception {
-        ALRobotPosture rp = new ALRobotPosture(app.session());
+        ALRobotPosture rp = new ALRobotPosture(session);
         Boolean success = rp.goToPosture("LyingBelly", 1f);
     }
 
     //Rouch
     public void crouch(ActionEvent actionEvent) throws Exception {
-        ALRobotPosture rp = new ALRobotPosture(app.session());
+        ALRobotPosture rp = new ALRobotPosture(session);
         Boolean success = rp.goToPosture("Crouch", 1f);
     }
 
