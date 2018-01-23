@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="btn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="862.0" prefWidth="2045.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<Pane fx:id="btn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="862.0" prefWidth="2045.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
       <Label fx:id="LabelNAOAusahl" layoutX="39.0" layoutY="111.0" prefHeight="30.0" prefWidth="160.0" text="NAO auswählen:" />
       <Label fx:id="LabelIPAdresse" layoutX="39.0" layoutY="141.0" prefHeight="30.0" prefWidth="160.0" text="IP-Adresse:" />
@@ -158,5 +158,7 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </TextField>
+      <Button fx:id="btnAufstehen" layoutX="123.0" layoutY="751.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" text="Aufstehen" />
+      <Button fx:id="btnSitzen" layoutX="287.0" layoutY="751.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" text="Sitzen" />
    </children>
 </Pane>

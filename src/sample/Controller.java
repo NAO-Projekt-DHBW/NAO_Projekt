@@ -68,7 +68,8 @@ public class Controller implements Initializable {
     private static String ipAdress;
     private static String defaultPort = "9559";
     private static Application app;
-
+    public Button btnAufstehen;
+    public Button btnSitzen;
 
 
     //Alles was unter dieser Methode steht, wird direkt beim Starten des Programms ausfrüht.
