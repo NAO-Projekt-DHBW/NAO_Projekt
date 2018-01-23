@@ -64,12 +64,13 @@ public class Controller implements Initializable {
     public TextField fieldBattery;
     public TextField fieldTemperature;
     public Slider sliderPace;
-    public TextArea fieldConnectionState;
+    public TextField fieldConnectionState;
+    public Button btnAufstehen;
+    public Button btnSitzen;
 
     private static String ipAdress;
     private static String defaultPort = "9559";
     private static Session session;
-
 
 
     //Alles was unter dieser Methode steht, wird direkt beim Starten des Programms ausfrüht.
