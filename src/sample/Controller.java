@@ -64,18 +64,19 @@ public class Controller implements Initializable {
     public TextField fieldBattery;
     public TextField fieldTemperature;
     public Slider sliderPace;
-    public TextField fieldConnectionState;
+    public TextArea fieldConnectionState;
     public Button btnAufstehen;
     public Button btnSitzen;
 
     private static String ipAdress;
     private static String defaultPort = "9559";
-    private static Session session;
+    private static Session session = new Session();
 
 
     //Alles was unter dieser Methode steht, wird direkt beim Starten des Programms ausfrüht.
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         List<String> supplierNames1 = new ArrayList<String>();
         supplierNames1.add(0, "192.168.178.1 (blau)");
         supplierNames1.add(1, "192.168.178.2 (rot)");
@@ -102,31 +103,14 @@ public class Controller implements Initializable {
                 fieldConnectionState.getStyleClass().add("success");
                 fieldConnectionState.appendText("Verbunden");
                 fieldBattery.appendText(getBatteryState(actionEvent));
-                getBatteryState(actionEvent);
             } else {
                 fieldConnectionState.appendText("Verbindungsaufbau fehlgeschlagen.");
             }
         } catch(Exception ex){
             fieldConnectionState.clear();
             fieldConnectionState.getStyleClass().add("error");
-            fieldConnectionState.appendText("Verbindungsaufbau fehlgeschlagen./n" + robotUrl + ex);
+            fieldConnectionState.appendText("Verbindungsaufbau fehlgeschlage. Url: " + robotUrl + ex);
         }
-    }
-
-    public void callMethodAfterNSeconds(int seconds) {
-        Timer t = new Timer();
-        //Set the schedule function and rate
-        t.scheduleAtFixedRate(new TimerTask() {
-                                  @Override
-                                  public void run() {
-                                      //Called each time when 1000 milliseconds (1 second) (the period parameter)
-
-                                  }
-                              },
-        //Set how long before to start calling the TimerTask (in milliseconds)
-        0,
-        //Set the amount of time between each execution (in milliseconds)
-        30);
     }
 
     public String getBatteryState(ActionEvent actionEvent) throws Exception{
@@ -150,7 +134,6 @@ public class Controller implements Initializable {
         ALMotion motion = new ALMotion(session);
         motion.rest();
     }
-
 
 
     public void movePace (ActionEvent actionEvent) throws Exception {
@@ -182,7 +165,9 @@ public class Controller implements Initializable {
     }
 
     public void moveForward (ActionEvent actionEvent) throws Exception {
-        fieldsound.appendText("1_");
+        ALMotion motion = new ALMotion(session);
+        motion.move(0f, 1f, 0f);
+        //motion.stopMove();
     }
 
     public void moveBackwards (ActionEvent actionEvent) throws Exception {

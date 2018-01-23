@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="btn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="862.0" prefWidth="2045.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<Pane fx:id="btn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="862.0" prefWidth="2045.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
       <Label fx:id="LabelNAOAusahl" layoutX="39.0" layoutY="111.0" prefHeight="30.0" prefWidth="160.0" text="NAO auswählen:" />
       <Label fx:id="LabelIPAdresse" layoutX="39.0" layoutY="141.0" prefHeight="30.0" prefWidth="160.0" text="IP-Adresse:" />
@@ -64,7 +64,7 @@
             <Image url="@../nao_specs.png" />
          </image>
       </ImageView>
-      <Button fx:id="btnW" layoutX="261.0" layoutY="417.0" mnemonicParsing="false" onMouseDragEntered="#lyingBack" prefHeight="30.0" prefWidth="30.0" text="W" />
+      <Button fx:id="btnW" layoutX="261.0" layoutY="417.0" mnemonicParsing="false" onAction="#moveForward" prefHeight="30.0" prefWidth="30.0" text="W" />
       <Button fx:id="btnS" layoutX="259.0" layoutY="453.0" mnemonicParsing="false" onAction="#moveBackwards" prefHeight="30.0" prefWidth="30.0" text="S" />
       <Button fx:id="btnD" layoutX="300.0" layoutY="453.0" mnemonicParsing="false" onAction="#moveRight" prefHeight="30.0" prefWidth="30.0" text="D" />
       <Button fx:id="btnQ" layoutX="218.0" layoutY="417.0" mnemonicParsing="false" onAction="#turnLeft" prefHeight="30.0" prefWidth="30.0" text="Q" />
