@@ -82,6 +82,7 @@ public class Controller implements Initializable {
         supplierNames1.add(1, "192.168.178.2 (rot)");
         supplierNames1.add(2, "192.168.178.3 (grün)");
         ComboBoxNAOWaehlen.setItems(FXCollections.observableArrayList(supplierNames1));
+        comboboxsprache.setItems(FXCollections.observableArrayList("German", "English"));
     }
 
     public void setFieldIPAdresse(ActionEvent actionEvent){
@@ -104,6 +105,7 @@ public class Controller implements Initializable {
                 fieldConnectionState.appendText("Verbunden");
                 fieldBattery.appendText(getBatteryState(actionEvent));
                 fieldTemperature.appendText(getTemperature(actionEvent));
+                getLanguages(actionEvent);
             } else {
                 fieldConnectionState.appendText("Verbindungsaufbau fehlgeschlagen.");
             }
@@ -199,8 +201,10 @@ public class Controller implements Initializable {
     //Sprechen
     public void getLanguages(ActionEvent actionEvent) throws Exception {
         ALTextToSpeech tts = new ALTextToSpeech(session);
-        tts.getAvailableLanguages();
-        tts.getAvailableVoices();
+        String result;
+        result = tts.getAvailableLanguages().toString();
+        result += tts.getAvailableVoices().toString();
+        fieldsound.appendText(result);
     }
 
     public void sayBubble(ActionEvent actionEvent) throws Exception {
