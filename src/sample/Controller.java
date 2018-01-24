@@ -103,6 +103,7 @@ public class Controller implements Initializable {
                 fieldConnectionState.getStyleClass().add("success");
                 fieldConnectionState.appendText("Verbunden");
                 fieldBattery.appendText(getBatteryState(actionEvent));
+                fieldTemperature.appendText(getTemperature(actionEvent));
             } else {
                 fieldConnectionState.appendText("Verbindungsaufbau fehlgeschlagen.");
             }
@@ -119,10 +120,18 @@ public class Controller implements Initializable {
         return String.valueOf(state);
     }
 
-    public void getTemperature(ActionEvent actionEvent) throws Exception{
+    public String getTemperature(ActionEvent actionEvent) throws Exception{
+        String result;
         ALBodyTemperature temperature = new ALBodyTemperature(session);
-        fieldsound.appendText(temperature.getMethodList().toString());
-
+        Object temp = temperature.getTemperatureDiagnosis();
+        if(temp instanceof ArrayList){
+            ArrayList tempList = (ArrayList)temp;
+            result = tempList.get(0).toString();
+        }
+        else{
+            result = "N/A";
+        }
+        return result;
     }
 
     public void wakeUp(ActionEvent actionEvent) throws Exception {
@@ -166,12 +175,12 @@ public class Controller implements Initializable {
 
     public void moveForward (ActionEvent actionEvent) throws Exception {
         ALMotion motion = new ALMotion(session);
-        motion.move(0f, 1f, 0f);
-        //motion.stopMove();
+        motion.moveTo(0.1f, 0f, 0f);
+
     }
 
     public void moveBackwards (ActionEvent actionEvent) throws Exception {
-
+        //ALMotion motion =
     }
 
     public void moveLeft (ActionEvent actionEvent) throws Exception {
@@ -183,8 +192,15 @@ public class Controller implements Initializable {
     }
 
     //Sprechen
+    public void getLanguages(ActionEvent actionEvent) throws Exception {
+        ALTextToSpeech tts = new ALTextToSpeech(session);
+        tts.getAvailableLanguages();
+        tts.getAvailableVoices();
+    }
+
     public void sayBubble(ActionEvent actionEvent) throws Exception {
         ALTextToSpeech tts = new ALTextToSpeech(session);
+
         tts.say(fieldsound.getText().toString());
     }
 
