@@ -71,6 +71,7 @@ public class Controller implements Initializable {
     private static String ipAdress;
     private static String defaultPort = "9559";
     private static Session session = new Session();
+    private static Float speachPitch = 0f;
 
 
     //Alles was unter dieser Methode steht, wird direkt beim Starten des Programms ausfrüht.
@@ -82,7 +83,8 @@ public class Controller implements Initializable {
         supplierNames1.add(1, "192.168.178.2 (rot)");
         supplierNames1.add(2, "192.168.178.3 (grün)");
         ComboBoxNAOWaehlen.setItems(FXCollections.observableArrayList(supplierNames1));
-        comboboxsprache.setItems(FXCollections.observableArrayList("German", "English"));
+        comboboxsprache.setItems(FXCollections.observableArrayList("Deutsch", "Englisch"));
+        comboboxsprache.getSelectionModel().selectFirst();
     }
 
     public void setFieldIPAdresse(ActionEvent actionEvent){
@@ -152,7 +154,8 @@ public class Controller implements Initializable {
     }
 
     public void lookRight (ActionEvent actionEvent) throws Exception {
-
+        ALMotion motion = new ALMotion(session);
+        motion.angleInterpolationWithSpeed("HeadYaw", -1.0f, 0.45f);
     }
 
     public void lookLeft (ActionEvent actionEvent) throws Exception {
@@ -169,12 +172,12 @@ public class Controller implements Initializable {
 
     public void turnRight (ActionEvent actionEvent) throws Exception {
         ALMotion motion = new ALMotion(session);
-        motion.moveTo(0f, 0f, -1f);
+        motion.moveTo(0f, 0f, 1f);
     }
 
     public void turnLeft (ActionEvent actionEvent) throws Exception {
         ALMotion motion = new ALMotion(session);
-        motion.moveTo(0f, 0f, 1f);
+        motion.moveTo(0f, 0f, -1f);
     }
 
     public void moveForward (ActionEvent actionEvent) throws Exception {
@@ -209,8 +212,18 @@ public class Controller implements Initializable {
 
     public void sayBubble(ActionEvent actionEvent) throws Exception {
         ALTextToSpeech tts = new ALTextToSpeech(session);
-
-        tts.say(fieldsound.getText().toString());
+        if(comboboxsprache.getValue().toString() == "Deutsch") {
+            tts.setLanguage("German");
+        } else {
+            tts.setLanguage("English");
+        }
+        tts.setVolume(1f);
+        if(reglertonhoehe.getValue() >= 1f)
+        {
+            speachPitch = (float) reglertonhoehe.getValue();
+        }
+        tts.setParameter(" pitchShift", speachPitch);
+        tts.say(fieldsound.getText());
     }
 
 

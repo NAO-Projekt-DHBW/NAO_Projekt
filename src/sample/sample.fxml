@@ -106,7 +106,7 @@
       <TextField fx:id="fieldsound" alignment="TOP_LEFT" layoutX="917.0" layoutY="283.0" prefHeight="148.0" prefWidth="315.0" />
       <ComboBox fx:id="comboboxsprache" layoutX="1047.0" layoutY="597.0" prefHeight="25.0" prefWidth="299.0" promptText="Sprache auswählen (Standard &quot;Deutsch&quot;)" />
       <ComboBox fx:id="comboboxsprachgeschwindigkeit" layoutX="1047.0" layoutY="648.0" prefHeight="25.0" prefWidth="299.0" promptText="Sprachgeschwindigkeit auswählen" />
-      <Slider fx:id="reglertonhoehe" layoutX="1038.0" layoutY="695.0" prefHeight="14.0" prefWidth="299.0" />
+      <Slider fx:id="reglertonhoehe" layoutX="1038.0" layoutY="695.0" max="4.0" prefHeight="14.0" prefWidth="299.0" showTickLabels="true" showTickMarks="true" />
       <Label fx:id="labeltonhoehe" layoutX="1047.0" layoutY="722.0" prefHeight="17.0" prefWidth="196.0" text="Tonhöhe festlegen" />
       <Slider layoutX="1038.0" layoutY="754.0" prefHeight="14.0" prefWidth="299.0" />
       <Label layoutX="1047.0" layoutY="780.0" prefHeight="17.0" prefWidth="196.0" text="Lautstärke festlegen" />
