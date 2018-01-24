@@ -154,24 +154,23 @@ public class Controller implements Initializable {
 
     public void lookRight (ActionEvent actionEvent) throws Exception {
         ALMotion motion = new ALMotion(session);
-        motion.angleInterpolationWithSpeed("HeadYaw", -1.0f, 0.45f);
+        motion.angleInterpolationWithSpeed("HeadYaw", -0.5f, 0.45f);
     }
 
     public void lookLeft (ActionEvent actionEvent) throws Exception {
         ALMotion motion = new ALMotion(session);
-        motion.angleInterpolationWithSpeed("HeadYaw", 1.0f, 0.45f);
+        motion.angleInterpolationWithSpeed("HeadYaw", 0.5f, 0.45f);
     }
 
     public void lookUp (ActionEvent actionEvent) throws Exception {
         ALMotion motion = new ALMotion(session);
-        motion.angleInterpolationWithSpeed("HeadPitch", 1.0f, 0.45f);
+        motion.angleInterpolationWithSpeed("HeadPitch", -0.5f, 0.45f);
     }
 
     public void lookDown (ActionEvent actionEvent) throws Exception {
         ALMotion motion = new ALMotion(session);
-        motion.angleInterpolationWithSpeed("HeadPitch", -1.0f, 0.45f);
+        motion.angleInterpolationWithSpeed("HeadPitch", 0.5f, 0.45f);
     }
-
 
     public void turnRight (ActionEvent actionEvent) throws Exception {
         ALMotion motion = new ALMotion(session);

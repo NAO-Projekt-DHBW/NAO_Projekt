@@ -66,7 +66,7 @@
          </image>
       </ImageView>
       <Button fx:id="btnW" layoutX="261.0" layoutY="417.0" mnemonicParsing="false" onAction="#moveForward" prefHeight="30.0" prefWidth="30.0" text="W" />
-      <Button fx:id="btnS" layoutX="259.0" layoutY="453.0" mnemonicParsing="false" onAction="#moveBackwards" prefHeight="30.0" prefWidth="30.0" text="S" />
+      <Button fx:id="btnS" layoutX="261.0" layoutY="453.0" mnemonicParsing="false" onAction="#moveBackwards" prefHeight="30.0" prefWidth="30.0" text="S" />
       <Button fx:id="btnD" layoutX="300.0" layoutY="453.0" mnemonicParsing="false" onAction="#moveRight" prefHeight="30.0" prefWidth="30.0" text="D" />
       <Button fx:id="btnQ" layoutX="218.0" layoutY="417.0" mnemonicParsing="false" onAction="#turnLeft" prefHeight="30.0" prefWidth="30.0" text="Q" />
       <Button fx:id="btnE" layoutX="300.0" layoutY="417.0" mnemonicParsing="false" onAction="#turnRight" prefHeight="30.0" prefWidth="30.0" text="E" />
