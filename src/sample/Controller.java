@@ -173,17 +173,6 @@ public class Controller implements Initializable {
         motion.angleInterpolationWithSpeed("HeadPitch", -1.0f, 0.45f);
     }
 
-    public void lookLeft (ActionEvent actionEvent) throws Exception {
-
-    }
-
-    public void lookUp (ActionEvent actionEvent) throws Exception {
-
-    }
-
-    public void lookDown (ActionEvent actionEvent) throws Exception {
-
-    }
 
     public void turnRight (ActionEvent actionEvent) throws Exception {
         ALMotion motion = new ALMotion(session);
