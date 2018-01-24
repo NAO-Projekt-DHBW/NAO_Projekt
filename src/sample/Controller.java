@@ -257,9 +257,20 @@ public class Controller implements Initializable {
         Boolean success = rp.goToPosture("LyingBack", 1f);
     }
 
-    public void test(ActionEvent actionEvent) throws Exception {
+    // Stand Init
+    public void StandInit(ActionEvent actionEvent) throws Exception {
         ALRobotPosture rp = new ALRobotPosture(session);
         Boolean success = rp.goToPosture("StandInit", 1f);
+    }
+
+    public void StandZero(ActionEvent actionEvent) throws Exception {
+        ALRobotPosture rp = new ALRobotPosture(session);
+        Boolean success = rp.goToPosture("StandZero", 1f);
+    }
+
+    public void TaiChi(ActionEvent actionEvent) throws Exception {
+        ALRobotPosture rp = new ALRobotPosture(session);
+        Boolean success = rp.goToPosture("TaiChi", 1f);
     }
 
     //Auf den Bauch legen
@@ -268,7 +279,7 @@ public class Controller implements Initializable {
         Boolean success = rp.goToPosture("LyingBelly", 1f);
     }
 
-    //Rouch
+    //Crouch
     public void crouch(ActionEvent actionEvent) throws Exception {
         ALRobotPosture rp = new ALRobotPosture(session);
         Boolean success = rp.goToPosture("Crouch", 1f);
