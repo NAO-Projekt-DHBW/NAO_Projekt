@@ -64,7 +64,7 @@ public class Controller implements Initializable {
     public TextField fieldBattery;
     public TextField fieldTemperature;
     public Slider sliderPace;
-    public TextField fieldConnectionState;
+    public TextArea fieldConnectionState;
     public Button btnAufstehen;
     public Button btnSitzen;
 
