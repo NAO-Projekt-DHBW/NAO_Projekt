@@ -70,12 +70,13 @@ public class Controller implements Initializable {
 
     private static String ipAdress;
     private static String defaultPort = "9559";
-    private static Session session;
+    private static Session session = new Session();
 
 
     //Alles was unter dieser Methode steht, wird direkt beim Starten des Programms ausfrüht.
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         List<String> supplierNames1 = new ArrayList<String>();
         supplierNames1.add(0, "192.168.178.1 (blau)");
         supplierNames1.add(1, "192.168.178.2 (rot)");
@@ -102,31 +103,15 @@ public class Controller implements Initializable {
                 fieldConnectionState.getStyleClass().add("success");
                 fieldConnectionState.appendText("Verbunden");
                 fieldBattery.appendText(getBatteryState(actionEvent));
-                getBatteryState(actionEvent);
+                fieldTemperature.appendText(getTemperature(actionEvent));
             } else {
                 fieldConnectionState.appendText("Verbindungsaufbau fehlgeschlagen.");
             }
         } catch(Exception ex){
             fieldConnectionState.clear();
             fieldConnectionState.getStyleClass().add("error");
-            fieldConnectionState.appendText("Verbindungsaufbau fehlgeschlagen./n" + robotUrl + ex);
+            fieldConnectionState.appendText("Verbindungsaufbau fehlgeschlage. Url: " + robotUrl + ex);
         }
-    }
-
-    public void callMethodAfterNSeconds(int seconds) {
-        Timer t = new Timer();
-        //Set the schedule function and rate
-        t.scheduleAtFixedRate(new TimerTask() {
-                                  @Override
-                                  public void run() {
-                                      //Called each time when 1000 milliseconds (1 second) (the period parameter)
-
-                                  }
-                              },
-        //Set how long before to start calling the TimerTask (in milliseconds)
-        0,
-        //Set the amount of time between each execution (in milliseconds)
-        30);
     }
 
     public String getBatteryState(ActionEvent actionEvent) throws Exception{
@@ -135,10 +120,18 @@ public class Controller implements Initializable {
         return String.valueOf(state);
     }
 
-    public void getTemperature(ActionEvent actionEvent) throws Exception{
+    public String getTemperature(ActionEvent actionEvent) throws Exception{
+        String result;
         ALBodyTemperature temperature = new ALBodyTemperature(session);
-        fieldsound.appendText(temperature.getMethodList().toString());
-
+        Object temp = temperature.getTemperatureDiagnosis();
+        if(temp instanceof ArrayList){
+            ArrayList tempList = (ArrayList)temp;
+            result = tempList.get(0).toString();
+        }
+        else{
+            result = "N/A";
+        }
+        return result;
     }
 
     public void wakeUp(ActionEvent actionEvent) throws Exception {
@@ -150,7 +143,6 @@ public class Controller implements Initializable {
         ALMotion motion = new ALMotion(session);
         motion.rest();
     }
-
 
 
     public void movePace (ActionEvent actionEvent) throws Exception {
@@ -182,11 +174,13 @@ public class Controller implements Initializable {
     }
 
     public void moveForward (ActionEvent actionEvent) throws Exception {
-        fieldsound.appendText("1_");
+        ALMotion motion = new ALMotion(session);
+        motion.moveTo(0.1f, 0f, 0f);
+
     }
 
     public void moveBackwards (ActionEvent actionEvent) throws Exception {
-
+        //ALMotion motion =
     }
 
     public void moveLeft (ActionEvent actionEvent) throws Exception {
@@ -198,8 +192,15 @@ public class Controller implements Initializable {
     }
 
     //Sprechen
+    public void getLanguages(ActionEvent actionEvent) throws Exception {
+        ALTextToSpeech tts = new ALTextToSpeech(session);
+        tts.getAvailableLanguages();
+        tts.getAvailableVoices();
+    }
+
     public void sayBubble(ActionEvent actionEvent) throws Exception {
         ALTextToSpeech tts = new ALTextToSpeech(session);
+
         tts.say(fieldsound.getText().toString());
     }
 
