@@ -107,7 +107,7 @@ public class Controller implements Initializable {
                 fieldConnectionState.appendText("Verbunden");
                 fieldBattery.appendText(getBatteryState(actionEvent));
                 fieldTemperature.appendText(getTemperature(actionEvent));
-                getLanguages(actionEvent);
+                //getLanguages(actionEvent);
             } else {
                 fieldConnectionState.appendText("Verbindungsaufbau fehlgeschlagen.");
             }
@@ -148,7 +148,6 @@ public class Controller implements Initializable {
         motion.rest();
     }
 
-
     public void movePace (ActionEvent actionEvent) throws Exception {
 
     }
@@ -183,7 +182,6 @@ public class Controller implements Initializable {
     public void moveForward (ActionEvent actionEvent) throws Exception {
         ALMotion motion = new ALMotion(session);
         motion.moveTo(0.1f, 0f, 0f);
-
     }
 
     public void moveBackwards (ActionEvent actionEvent) throws Exception {
