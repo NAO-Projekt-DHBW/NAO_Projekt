@@ -166,11 +166,13 @@ public class Controller implements Initializable {
     }
 
     public void turnRight (ActionEvent actionEvent) throws Exception {
-
+        ALMotion motion = new ALMotion(session);
+        motion.moveTo(0f, 0f, -1f);
     }
 
     public void turnLeft (ActionEvent actionEvent) throws Exception {
-
+        ALMotion motion = new ALMotion(session);
+        motion.moveTo(0f, 0f, 1f);
     }
 
     public void moveForward (ActionEvent actionEvent) throws Exception {
@@ -180,15 +182,18 @@ public class Controller implements Initializable {
     }
 
     public void moveBackwards (ActionEvent actionEvent) throws Exception {
-        //ALMotion motion =
+        ALMotion motion = new ALMotion(session);
+        motion.moveTo(-0.1f, 0f, 0f);
     }
 
     public void moveLeft (ActionEvent actionEvent) throws Exception {
-
+        ALMotion motion = new ALMotion(session);
+        motion.moveTo(0f, 0.1f, 0f);
     }
 
     public void moveRight (ActionEvent actionEvent) throws Exception {
-
+        ALMotion motion = new ALMotion(session);
+        motion.moveTo(0f, -0.1f, 0f);
     }
 
     //Sprechen
