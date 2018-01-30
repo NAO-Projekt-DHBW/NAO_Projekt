@@ -65,32 +65,34 @@ public class Controller implements Initializable {
     public TextField fieldBattery;
     public TextField fieldTemperature;
     public Slider sliderPace;
-    public TextArea fieldConnectionState;
     public Button btnStand;
     public Button btnSit;
     public Button btnCloseConnection;
+    public Slider sliderVolume;
+    public Circle circleConnectionState;
 
     private static String[][] arrayNAO = new String[4][3];
     private static String defaultPort = "9559";
     private static String fileLastConnection = "connection.txt";
     private static Session session = new Session();
-    private static Float defaultSpeechPitch = 0f;
-    public Circle circleConnectionState;
+    private static Float speechPitch = 0f;
     public static float walkingDistance = 0.3f;
     public static float lookSpeed = 0.3f;
+
+
     //Alles was unter dieser Methode steht, wird direkt beim Starten des Programms ausfrüht.
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        arrayNAO[0][0] = "192.168.178.1";
+        arrayNAO[0][0] = "192.168.1.138";
         arrayNAO[0][1] = "blau";
         arrayNAO[0][2] = defaultPort;
 
-        arrayNAO[1][0] = "192.168.178.2";
+        arrayNAO[1][0] = "192.168.1.148";
         arrayNAO[1][1] = "rot";
         arrayNAO[1][2] = defaultPort;
 
-        arrayNAO[2][0] = "192.168.178.3";
+        arrayNAO[2][0] = "192.168.1.3";
         arrayNAO[2][1] = "grün";
         arrayNAO[2][2] = defaultPort;
 
@@ -239,6 +241,8 @@ public class Controller implements Initializable {
         motion.angleInterpolationWithSpeed("HeadPitch", 0.5f, lookSpeed);
     }
 
+
+    //Er
     public void turnRight(ActionEvent actionEvent) throws Exception {
         ALMotion motion = new ALMotion(session);
         motion.moveTo(0f, 0f, -1f);
@@ -248,6 +252,7 @@ public class Controller implements Initializable {
         ALMotion motion = new ALMotion(session);
         motion.moveTo(0f, 0f, 1f);
     }
+
 
     public void moveForward(ActionEvent actionEvent) throws Exception {
         ALMotion motion = new ALMotion(session);
@@ -270,20 +275,44 @@ public class Controller implements Initializable {
     }
 
     public void sayBubble(ActionEvent actionEvent) throws Exception {
-        ALTextToSpeech tts = new ALTextToSpeech(session);
-        if (comboBoxLanguage.getValue().toString() == "Deutsch") {
-            tts.setLanguage("German");
-        } else {
-            tts.setLanguage("English");
+        if(fieldSound.getText() != null) {
+            ALTextToSpeech tts = new ALTextToSpeech(session);
+            if (comboBoxLanguage.getValue().toString() == "Deutsch") {
+                tts.setLanguage("German");
+            } else {
+                tts.setLanguage("English");
+            }
+            tts.setVolume((float) sliderVolume.getValue());
+
+            if (sliderPitch.getValue() >= 1f) {
+                speechPitch = (float) sliderPitch.getValue();
+            }
+            tts.setParameter("pitchShift", speechPitch);
+            tts.say(fieldSound.getText());
         }
-        tts.setVolume(1f);
-        if (sliderPitch.getValue() >= 1f) {
-            defaultSpeechPitch = (float) sliderPitch.getValue();
-        }
-        tts.setParameter(" pitchShift", defaultSpeechPitch);
-        tts.say(fieldSound.getText());
     }
 
+    public void leds(ActionEvent actionEvent) throws Exception {
+        ALLeds leds = new ALLeds(session);
+        System.out.println(leds.listGroups());
+        List<String> ledsLeft = new ArrayList<String>();
+        ledsLeft.add("EarLeds");
+        //ledsLeft.add("FaceLedLeft0", "FaceLedLeft1", "FaceLedLeft2", "FaceLedLeft3", "FaceLedLeft4", "FaceLedLeft5", "FaceLedLeft6", "FaceLedLeft7");
+        leds.createGroup("Links", ledsLeft);
+        leds.listLEDs();
+        leds.on("Links");
+    }
+
+    public void ledsOff(ActionEvent actionEvent) throws Exception {
+        ALLeds leds = new ALLeds(session);
+        System.out.println(leds.listGroups());
+        List<String> ledsLeft = new ArrayList<String>();
+        ledsLeft.add("EarLeds");
+        //ledsLeft.add("FaceLedLeft0", "FaceLedLeft1", "FaceLedLeft2", "FaceLedLeft3", "FaceLedLeft4", "FaceLedLeft5", "FaceLedLeft6", "FaceLedLeft7");
+        leds.createGroup("Links", ledsLeft);
+        leds.listLEDs();
+        leds.off("Links");
+    }
 
     //Sitzen (normal)
     public void sit(ActionEvent actionEvent) throws Exception {
