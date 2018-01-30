@@ -76,7 +76,8 @@ public class Controller implements Initializable {
     private static Session session = new Session();
     private static Float defaultSpeechPitch = 0f;
     public Circle circleConnectionState;
-
+    public static float walkingDistance = 0.3f;
+    public static float lookSpeed = 0.3f;
     //Alles was unter dieser Methode steht, wird direkt beim Starten des Programms ausfrüht.
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -214,52 +215,58 @@ public class Controller implements Initializable {
 
     public void lookRight(ActionEvent actionEvent) throws Exception {
         ALMotion motion = new ALMotion(session);
-        motion.angleInterpolationWithSpeed("HeadYaw", -0.5f, 0.45f);
+        motion.angleInterpolationWithSpeed("HeadYaw", -0.5f, lookSpeed);
     }
 
     public void lookLeft(ActionEvent actionEvent) throws Exception {
         ALMotion motion = new ALMotion(session);
-        motion.angleInterpolationWithSpeed("HeadYaw", 0.5f, 0.45f);
+        motion.angleInterpolationWithSpeed("HeadYaw", 0.5f, lookSpeed);
     }
 
     public void lookUp(ActionEvent actionEvent) throws Exception {
         ALMotion motion = new ALMotion(session);
-        motion.angleInterpolationWithSpeed("HeadPitch", -0.5f, 0.45f);
+        motion.angleInterpolationWithSpeed("HeadPitch", -0.5f, lookSpeed);
+    }
+
+    public void lookreset(ActionEvent actionEvent) throws Exception {
+        ALMotion motion = new ALMotion(session);
+        motion.angleInterpolationWithSpeed("HeadPitch", 0f, lookSpeed);
+        motion.angleInterpolationWithSpeed("HeadYaw", 0f, lookSpeed);
     }
 
     public void lookDown(ActionEvent actionEvent) throws Exception {
         ALMotion motion = new ALMotion(session);
-        motion.angleInterpolationWithSpeed("HeadPitch", 0.5f, 0.45f);
+        motion.angleInterpolationWithSpeed("HeadPitch", 0.5f, lookSpeed);
     }
 
     public void turnRight(ActionEvent actionEvent) throws Exception {
         ALMotion motion = new ALMotion(session);
-        motion.moveTo(0f, 0f, 1f);
+        motion.moveTo(0f, 0f, -1f);
     }
 
     public void turnLeft(ActionEvent actionEvent) throws Exception {
         ALMotion motion = new ALMotion(session);
-        motion.moveTo(0f, 0f, -1f);
+        motion.moveTo(0f, 0f, 1f);
     }
 
     public void moveForward(ActionEvent actionEvent) throws Exception {
         ALMotion motion = new ALMotion(session);
-        motion.moveTo(0.1f, 0f, 0f);
+        motion.moveTo(walkingDistance, 0f, 0f);
     }
 
     public void moveBackwards(ActionEvent actionEvent) throws Exception {
         ALMotion motion = new ALMotion(session);
-        motion.moveTo(-0.1f, 0f, 0f);
+        motion.moveTo(-walkingDistance, 0f, 0f);
     }
 
     public void moveLeft(ActionEvent actionEvent) throws Exception {
         ALMotion motion = new ALMotion(session);
-        motion.moveTo(0f, 0.1f, 0f);
+        motion.moveTo(0f, walkingDistance, 0f);
     }
 
     public void moveRight(ActionEvent actionEvent) throws Exception {
         ALMotion motion = new ALMotion(session);
-        motion.moveTo(0f, -0.1f, 0f);
+        motion.moveTo(0f, -walkingDistance, 0f);
     }
 
     public void sayBubble(ActionEvent actionEvent) throws Exception {
