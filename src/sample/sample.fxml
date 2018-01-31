@@ -16,14 +16,14 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="btn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="862.0" prefWidth="1441.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<Pane fx:id="btn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#getKeyPressed" onKeyReleased="#getKeyReleased" prefHeight="862.0" prefWidth="1441.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
       <Label fx:id="labelNAOSelection" layoutX="39.0" layoutY="111.0" prefHeight="30.0" prefWidth="160.0" text="NAO auswählen:" />
       <Label fx:id="labelIPAdress" layoutX="39.0" layoutY="141.0" prefHeight="30.0" prefWidth="160.0" text="IP-Adresse:" />
       <Label fx:id="labelPort" layoutX="39.0" layoutY="171.0" prefHeight="30.0" prefWidth="160.0" text="Port:" />
       <TextField fx:id="fieldIPAdress" layoutX="160.0" layoutY="143.0" prefHeight="25.0" prefWidth="177.0" />
       <TextField fx:id="fieldPort" layoutX="160.0" layoutY="173.0" prefHeight="25.0" prefWidth="177.0" />
-      <MenuBar layoutY="2.0" prefHeight="29.0" prefWidth="1441.0">
+      <MenuBar layoutY="2.0" onKeyPressed="#getKeyPressed" onKeyReleased="#getKeyReleased" prefHeight="29.0" prefWidth="1441.0">
         <menus>
           <Menu mnemonicParsing="false" text="Datei">
             <items>
@@ -62,7 +62,7 @@
             <Image url="@../nao_specs.png" />
          </image>
       </ImageView>
-      <Button fx:id="btnW" layoutX="240.0" layoutY="444.0" mnemonicParsing="false" onKeyPressed="#getKey" onMousePressed="#moveForward" onMouseReleased="#stopMove" prefHeight="30.0" prefWidth="30.0" text="W" />
+      <Button fx:id="btnW" layoutX="240.0" layoutY="444.0" mnemonicParsing="false" onMousePressed="#moveForward" onMouseReleased="#stopMove" prefHeight="30.0" prefWidth="30.0" text="W" />
       <Button fx:id="btnS" layoutX="240.0" layoutY="480.0" mnemonicParsing="false" onAction="#moveBackwards" prefHeight="30.0" prefWidth="30.0" text="S" />
       <Button fx:id="btnD" layoutX="278.0" layoutY="480.0" mnemonicParsing="false" onAction="#moveRight" prefHeight="30.0" prefWidth="30.0" text="D" />
       <Button fx:id="btnQ" layoutX="201.0" layoutY="444.0" mnemonicParsing="false" onAction="#turnLeft" prefHeight="30.0" prefWidth="30.0" text="Q" />

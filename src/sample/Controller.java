@@ -73,7 +73,7 @@ public class Controller implements Initializable {
     public Slider sliderVolume;
     public Circle circleConnectionState;
 
-    private static String[][] arrayNAO = new String[4][3];
+    private static String[][] arrayNAO = new String[5][3];
     private static String defaultPort = "9559";
     private static String fileLastConnection = "connection.txt";
     private static Session session = new Session();
@@ -91,17 +91,21 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        arrayNAO[0][0] = "192.168.1.138";
-        arrayNAO[0][1] = "blau";
+        arrayNAO[0][0] = "192.168.1.136";
+        arrayNAO[0][1] = "Blau";
         arrayNAO[0][2] = defaultPort;
 
-        arrayNAO[1][0] = "192.168.1.148";
-        arrayNAO[1][1] = "rot";
+        arrayNAO[1][0] = "192.168.1.138";
+        arrayNAO[1][1] = "Blau Zwei";
         arrayNAO[1][2] = defaultPort;
 
-        arrayNAO[2][0] = "192.168.1.3";
-        arrayNAO[2][1] = "grün";
+        arrayNAO[2][0] = "192.168.1.148";
+        arrayNAO[2][1] = "Rot";
         arrayNAO[2][2] = defaultPort;
+
+        arrayNAO[3][0] = "192.168.1.3";
+        arrayNAO[3][1] = "Grün";
+        arrayNAO[3][2] = defaultPort;
 
         try {
             String temp = getLastConnectionFromFile();
@@ -218,9 +222,6 @@ public class Controller implements Initializable {
         motion.rest();
     }
 
-    public void movePace(ActionEvent actionEvent) throws Exception {
-
-    }
 
     public void lookRight(ActionEvent actionEvent) throws Exception {
         ALMotion motion = new ALMotion(session);
@@ -272,21 +273,46 @@ public class Controller implements Initializable {
     }
 
 
-    public void getKey(javafx.scene.input.KeyEvent keyEvent) throws Exception {
+    public void getKeyPressed(javafx.scene.input.KeyEvent keyEvent) throws Exception {
         ALMotion motion = new ALMotion(session);
         switch(keyEvent.getCode())
         {
             case W:
                 motion.move(1.0f, 0f, 0f);
                 break;
-
+            case A:
+                motion.move(-1.0f, 0f, 0f);
+                break;
         }
     }
 
-    public void moveWithKey(KeyCode keyCode)
-    {
 
+    public void getKeyReleased(javafx.scene.input.KeyEvent keyEvent) throws Exception {
+        ALMotion motion = new ALMotion(session);
+        switch(keyEvent.getCode())
+        {
+            case W:
+                motion.stopMove();
+                break;
+            case A:
+                motion.stopMove();
+                break;
+            case S:
+                motion.stopMove();
+                break;
+            case D:
+                motion.stopMove();
+                break;
+            case Q:
+                motion.stopMove();
+                break;
+            case E:
+                motion.stopMove();
+                break;
+        }
     }
+
+
 
     public void moveBackwards(ActionEvent actionEvent) throws Exception {
         ALMotion motion = new ALMotion(session);
