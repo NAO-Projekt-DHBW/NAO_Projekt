@@ -65,7 +65,7 @@
             <Image url="@../nao_specs.png" />
          </image>
       </ImageView>
-      <Button fx:id="btnW" layoutX="240.0" layoutY="444.0" mnemonicParsing="false" onAction="#moveForward" prefHeight="30.0" prefWidth="30.0" text="W" />
+      <Button fx:id="btnW" layoutX="240.0" layoutY="444.0" mnemonicParsing="false" onKeyPressed="#getKey" onMousePressed="#moveForward" onMouseReleased="#stopMove" prefHeight="30.0" prefWidth="30.0" text="W" />
       <Button fx:id="btnS" layoutX="240.0" layoutY="480.0" mnemonicParsing="false" onAction="#moveBackwards" prefHeight="30.0" prefWidth="30.0" text="S" />
       <Button fx:id="btnD" layoutX="278.0" layoutY="480.0" mnemonicParsing="false" onAction="#moveRight" prefHeight="30.0" prefWidth="30.0" text="D" />
       <Button fx:id="btnQ" layoutX="201.0" layoutY="444.0" mnemonicParsing="false" onAction="#turnLeft" prefHeight="30.0" prefWidth="30.0" text="Q" />
