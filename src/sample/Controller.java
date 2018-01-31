@@ -78,6 +78,9 @@ public class Controller implements Initializable {
     private static Float speechPitch = 0f;
     public static float walkingDistance = 0.3f;
     public static float lookSpeed = 0.3f;
+    public ComboBox comboBoxSelectEyes;
+    public Button btnLEDOn;
+    public Button btnLEDOff;
 
 
     //Alles was unter dieser Methode steht, wird direkt beim Starten des Programms ausfrüht.
