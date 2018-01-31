@@ -82,6 +82,9 @@ public class Controller implements Initializable {
     public static float lookSpeed = 0.3f;
     private ActionEvent actionEvent;
     private KeyEvent keyEvent;
+    public ComboBox comboBoxSelectEyes;
+    public Button btnLEDOn;
+    public Button btnLEDOff;
 
 
     //Alles was unter dieser Methode steht, wird direkt beim Starten des Programms ausfrüht.
@@ -276,7 +279,7 @@ public class Controller implements Initializable {
             case W:
                 motion.move(1.0f, 0f, 0f);
                 break;
-                
+
         }
     }
 
@@ -408,5 +411,4 @@ public class Controller implements Initializable {
         ALRobotPosture rp = new ALRobotPosture(session);
         Boolean success = rp.goToPosture("Crouch", 1f);
     }
-
 }
