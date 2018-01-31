@@ -87,7 +87,7 @@ public class Controller implements Initializable {
     public Button btnLEDOff;
 
 
-    //Alles was unter dieser Methode steht, wird direkt beim Starten des Programms ausfrüht.
+    //Alles was unter dieser Methode steht, wird direkt beim Starten des Programms ausgeführt.
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -125,6 +125,18 @@ public class Controller implements Initializable {
         comboBoxSelectNAO.setItems(FXCollections.observableArrayList(listNAO));
         comboBoxLanguage.setItems(FXCollections.observableArrayList("Deutsch", "Englisch"));
         comboBoxLanguage.getSelectionModel().selectFirst();
+
+        List<String> listLED = new ArrayList<String>();
+        listLED.add("Rechts");
+        listLED.add("Links");
+        listLED.add("Links und Rechts");
+        comboBoxSelectEyes.setItems(FXCollections.observableArrayList(listLED));
+
+        List<String> listLEDColour = new ArrayList<String>();
+        listLED.add("Blau");
+        listLED.add("Grün");
+        listLED.add("Rot");
+        comboBoxEyesLEDColour.setItems(FXCollections.observableArrayList(listLEDColour));
     }
 
     public void setConnectionData(ActionEvent actionEvent) {
