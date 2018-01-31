@@ -11,10 +11,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 import javax.swing.*;
+import java.awt.event.KeyEvent;
 import java.io.*;
 import java.net.URL;
 import java.util.*;
@@ -78,6 +80,8 @@ public class Controller implements Initializable {
     private static Float speechPitch = 0f;
     public static float walkingDistance = 0.3f;
     public static float lookSpeed = 0.3f;
+    private ActionEvent actionEvent;
+    private KeyEvent keyEvent;
     public ComboBox comboBoxSelectEyes;
     public Button btnLEDOn;
     public Button btnLEDOff;
@@ -270,8 +274,30 @@ public class Controller implements Initializable {
 
 
     public void moveForward(ActionEvent actionEvent) throws Exception {
+        /*
         ALMotion motion = new ALMotion(session);
-        motion.moveTo(walkingDistance, 0f, 0f);
+
+        //motion.moveTo(walkingDistance, 0f, 0f);
+        motion.move(1.0f, 0f ,0f);
+        */
+        System.out.println("start");
+    }
+
+
+    public void getKey(javafx.scene.input.KeyEvent keyEvent) throws Exception {
+        ALMotion motion = new ALMotion(session);
+        switch(keyEvent.getCode())
+        {
+            case W:
+                motion.move(1.0f, 0f, 0f);
+                break;
+
+        }
+    }
+
+    public void moveWithKey(KeyCode keyCode)
+    {
+
     }
 
     public void moveBackwards(ActionEvent actionEvent) throws Exception {
@@ -287,6 +313,17 @@ public class Controller implements Initializable {
     public void moveRight(ActionEvent actionEvent) throws Exception {
         ALMotion motion = new ALMotion(session);
         motion.moveTo(0f, -walkingDistance, 0f);
+    }
+
+    public void stopMove(ActionEvent actionEvent) throws Exception {
+        /*
+        ALMotion motion = new ALMotion(session);
+        if(motion.moveIsActive())
+        {
+            motion.stopMove();
+        }
+        */
+        System.out.println("stop");
     }
 
     public void sayBubble(ActionEvent actionEvent) throws Exception {
