@@ -12,6 +12,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
@@ -25,18 +26,13 @@ public class Controller implements Initializable {
 
     public Button btnPlay;
     public Label labelSound;
-    public Label labelsoundinfo;
     public TextField fieldSound;
     public ComboBox comboBoxLanguage;
-    public ComboBox comboboxsprachgeschwindigkeit;
     public Slider sliderPitch;
     public Label labelPitch;
     public ImageView imgNAO;
     public ImageView imgBubble;
     public ComboBox comboBoxEyesLEDColour;
-    public ComboBox comboBoxEarsLEDColour;
-    public Button btnBlink;
-    public Button btnZwinkern;
     public Button btnLyingBack;
     public ComboBox comboBoxSelectNAO;
     public Button btnConnect;
@@ -54,7 +50,6 @@ public class Controller implements Initializable {
     public Button btnDown;
     public Button btnLyingBelly;
     public Button btnWinken;
-    public Button btnBackLED;
     public Button btnCrouch;
     public Button btnSitChair;
     public Button btnSitRelax;
@@ -72,20 +67,26 @@ public class Controller implements Initializable {
     public Button btnCloseConnection;
     public Slider sliderVolume;
     public Circle circleConnectionState;
+    public ComboBox comboBoxSelectEyes;
+    public Button btnLEDOn;
+    public Button btnLEDOff;
+
+    private ActionEvent actionEvent;
+    private KeyEvent keyEvent;
 
     private static String[][] arrayNAO = new String[5][3];
     private static String defaultPort = "9559";
     private static String fileLastConnection = "connection.txt";
     private static Session session = new Session();
+    private static ALMotion motion;
+    private static ALTextToSpeech tts;
+    private static ALLeds alLeds;
+    private static ALBattery battery;
+    private static ALBodyTemperature temperature;
+    private static ALRobotPosture posture;
     private static Float speechPitch = 0f;
     public static float walkingDistance = 0.3f;
     public static float lookSpeed = 0.3f;
-    private ActionEvent actionEvent;
-    private KeyEvent keyEvent;
-    public ComboBox comboBoxSelectEyes;
-    public Button btnLEDOn;
-    public Button btnLEDOff;
-
 
     //Alles was unter dieser Methode steht, wird direkt beim Starten des Programms ausgeführt.
     @Override
@@ -133,9 +134,9 @@ public class Controller implements Initializable {
         comboBoxSelectEyes.setItems(FXCollections.observableArrayList(listLED));
 
         List<String> listLEDColour = new ArrayList<String>();
-        listLED.add("Blau");
-        listLED.add("Grün");
-        listLED.add("Rot");
+        listLEDColour.add("Blau");
+        listLEDColour.add("Grün");
+        listLEDColour.add("Rot");
         comboBoxEyesLEDColour.setItems(FXCollections.observableArrayList(listLEDColour));
     }
 
@@ -154,18 +155,33 @@ public class Controller implements Initializable {
         try {
             session.connect(robotUrl).get();
             if (session.isConnected()) {
+                //Zuweisen der NAO-Klassen
+                motion = new ALMotion(session);
+                tts = new ALTextToSpeech(session);
+                alLeds = new ALLeds(session);
+                battery = new ALBattery(session);
+                temperature = new ALBodyTemperature(session);
+                posture = new ALRobotPosture(session);
+
+                //Setzen des Verbindungsstatus-Kreises auf Grün
                 circleConnectionState.setFill(Color.GREEN);
+
+                //Schreiben der momentan genutzen Verbindung in eine Datei "connection.txt"
                 writeConnectionToFile(fieldIPAdress.getText().toString(), fieldPort.getText().toString());
+
+                //Deaktivieren des "Verbinden"-Buttons und Aktivieren des "Trennen"-Buttons
                 btnConnect.setDisable(true);
                 btnCloseConnection.setDisable(false);
+
+                //Mit "clearFieldsAfterConnecting" werden alle dort eingetragenen Textfelder geleert.
                 clearFieldsAfterConnecting();
-                //fieldConnectionState.appendText("Verbunden");
                 fieldBattery.appendText(getBatteryState(actionEvent));
                 fieldTemperature.appendText(getTemperature(actionEvent));
-                //getLanguages(actionEvent);
             }
         } catch (Exception ex) {
+            //Leeren der Textfelder mit Hilfsmethode
             clearFieldsAfterConnecting();
+            //Anzeigen der Fehlermeldung in einem kleinen Popup-Fenster
             JOptionPane.showMessageDialog(null, ex.toString(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -206,14 +222,12 @@ public class Controller implements Initializable {
     }
 
     public String getBatteryState(ActionEvent actionEvent) throws Exception {
-        ALBattery battery = new ALBattery(session);
         int state = battery.getBatteryCharge();
         return String.valueOf(state);
     }
 
     public String getTemperature(ActionEvent actionEvent) throws Exception {
         String result;
-        ALBodyTemperature temperature = new ALBodyTemperature(session);
         Object temp = temperature.getTemperatureDiagnosis();
         if (temp instanceof ArrayList) {
             ArrayList tempList = (ArrayList) temp;
@@ -225,82 +239,71 @@ public class Controller implements Initializable {
     }
 
     public void wakeUp(ActionEvent actionEvent) throws Exception {
-        ALMotion motion = new ALMotion(session);
         motion.wakeUp();
     }
 
     public void rest(ActionEvent actionEvent) throws Exception {
-        ALMotion motion = new ALMotion(session);
         motion.rest();
     }
 
 
     public void lookRight(ActionEvent actionEvent) throws Exception {
-        ALMotion motion = new ALMotion(session);
         motion.angleInterpolationWithSpeed("HeadYaw", -0.5f, lookSpeed);
     }
 
     public void lookLeft(ActionEvent actionEvent) throws Exception {
-        ALMotion motion = new ALMotion(session);
         motion.angleInterpolationWithSpeed("HeadYaw", 0.5f, lookSpeed);
     }
 
     public void lookUp(ActionEvent actionEvent) throws Exception {
-        ALMotion motion = new ALMotion(session);
         motion.angleInterpolationWithSpeed("HeadPitch", -0.5f, lookSpeed);
     }
 
-    public void lookreset(ActionEvent actionEvent) throws Exception {
-        ALMotion motion = new ALMotion(session);
+    public void lookDown(ActionEvent actionEvent) throws Exception {
+        motion.angleInterpolationWithSpeed("HeadPitch", 0.5f, lookSpeed);
+    }
+
+    public void lookReset(ActionEvent actionEvent) throws Exception {
         motion.angleInterpolationWithSpeed("HeadPitch", 0f, lookSpeed);
         motion.angleInterpolationWithSpeed("HeadYaw", 0f, lookSpeed);
     }
 
-    public void lookDown(ActionEvent actionEvent) throws Exception {
-        ALMotion motion = new ALMotion(session);
-        motion.angleInterpolationWithSpeed("HeadPitch", 0.5f, lookSpeed);
-    }
-
-
-    //Er
-    public void turnRight(ActionEvent actionEvent) throws Exception {
-        ALMotion motion = new ALMotion(session);
-        motion.moveTo(0f, 0f, -1f);
-    }
-
-    public void turnLeft(ActionEvent actionEvent) throws Exception {
-        ALMotion motion = new ALMotion(session);
-        motion.moveTo(0f, 0f, 1f);
-    }
-
-
-    public void moveForward(ActionEvent actionEvent) throws Exception {
-        /*
-        ALMotion motion = new ALMotion(session);
-
-        //motion.moveTo(walkingDistance, 0f, 0f);
-        motion.move(1.0f, 0f ,0f);
-        */
-        System.out.println("start");
-    }
-
-
     public void getKeyPressed(javafx.scene.input.KeyEvent keyEvent) throws Exception {
-        ALMotion motion = new ALMotion(session);
         switch(keyEvent.getCode())
         {
+            /*
+            case UP:
+                motion.angleInterpolationWithSpeed("HeadPitch", -0.5f, lookSpeed);
+            case DOWN:
+                motion.angleInterpolationWithSpeed("HeadPitch", -0.5f, lookSpeed);
+            case LEFT:
+                motion.angleInterpolationWithSpeed("HeadPitch", -0.5f, lookSpeed);
+            case RIGHT:
+                motion.angleInterpolationWithSpeed("HeadPitch", -0.5f, lookSpeed);
+                */
             case W:
-                motion.move(1.0f, 0f, 0f);
+                motion.move(3.0f, 0f, 0f);
                 break;
             case A:
+                motion.move(0f, 1.0f, 0f);
+                break;
+            case S:
                 motion.move(-1.0f, 0f, 0f);
+                break;
+            case D:
+                motion.move(0f, -1.0f, 0f);
+                break;
+            case Q:
+                motion.move(0f, 0f, 1.0f);
+                break;
+            case E:
+                motion.move(0f, 0f, 1.0f);
                 break;
         }
     }
 
 
     public void getKeyReleased(javafx.scene.input.KeyEvent keyEvent) throws Exception {
-        ALMotion motion = new ALMotion(session);
         switch(keyEvent.getCode())
         {
             case W:
@@ -324,37 +327,45 @@ public class Controller implements Initializable {
         }
     }
 
-
-
-    public void moveBackwards(ActionEvent actionEvent) throws Exception {
-        ALMotion motion = new ALMotion(session);
-        motion.moveTo(-walkingDistance, 0f, 0f);
+    //NAO solange bewegen lassen, bis die Maus losgelassen wird:
+    //Jede Bewegung ist an den entsprechenden Button im Scene Builder verknüpft (unter "Mouse" > "On Mouse Pressed".
+    //Alle Buttons haben zusätzlich die Methode "stopMove" (unter "Mouse" > "On Mouse Released" verknüpft.
+    //Den Methoden muss das MouseEvent (und nicht ActionEvent) übergeben werden, sonst wird sie in der Laufzeit mit einem Fehler abgebrochen.
+    public void moveForward(MouseEvent mouseEvent) throws Exception {
+        motion.move(1.0f, 0f ,0f);
     }
 
-    public void moveLeft(ActionEvent actionEvent) throws Exception {
-        ALMotion motion = new ALMotion(session);
-        motion.moveTo(0f, walkingDistance, 0f);
+    public void moveBackwards(MouseEvent mouseEvent) throws Exception {
+        motion.move(-1.0f, 0f ,0f);
     }
 
-    public void moveRight(ActionEvent actionEvent) throws Exception {
-        ALMotion motion = new ALMotion(session);
-        motion.moveTo(0f, -walkingDistance, 0f);
+    public void moveLeft(MouseEvent mouseEvent) throws Exception {
+        motion.move(0f, 1.0f, 0f);
     }
 
-    public void stopMove(ActionEvent actionEvent) throws Exception {
-        /*
-        ALMotion motion = new ALMotion(session);
+    public void moveRight(MouseEvent mouseEvent) throws Exception {
+        motion.move(0f, -1.0f, 0f);
+    }
+
+    public void turnRight(MouseEvent mouseEvent) throws Exception {
+        motion.move(0f, 0f, -1.0f);
+    }
+
+    public void turnLeft(MouseEvent mouseEvent) throws Exception {
+        motion.move(0f, 0f, 1.0f);
+    }
+
+    public void stopMove(MouseEvent mouseEvent) throws Exception {
         if(motion.moveIsActive())
         {
             motion.stopMove();
         }
-        */
-        System.out.println("stop");
     }
 
-    public void sayBubble(ActionEvent actionEvent) throws Exception {
+
+    //Sagen, was in die Sprechblase geschrieben wurde.
+    public void sayText(ActionEvent actionEvent) throws Exception {
         if(fieldSound.getText() != null) {
-            ALTextToSpeech tts = new ALTextToSpeech(session);
             if (comboBoxLanguage.getValue().toString() == "Deutsch") {
                 tts.setLanguage("German");
             } else {
@@ -370,83 +381,85 @@ public class Controller implements Initializable {
         }
     }
 
-    public void leds(ActionEvent actionEvent) throws Exception {
-        ALLeds leds = new ALLeds(session);
-        System.out.println(leds.listGroups());
-        List<String> ledsLeft = new ArrayList<String>();
-        ledsLeft.add("EarLeds");
-        //ledsLeft.add("FaceLedLeft0", "FaceLedLeft1", "FaceLedLeft2", "FaceLedLeft3", "FaceLedLeft4", "FaceLedLeft5", "FaceLedLeft6", "FaceLedLeft7");
-        leds.createGroup("Links", ledsLeft);
-        leds.listLEDs();
-        leds.on("Links");
+    public void selectLED(ActionEvent actionEvent) throws Exception {
+        String selectedLED = comboBoxSelectEyes.getValue().toString();
+        List<String> temp = new ArrayList<String>();
+        if(selectedLED == "Links"){
+            temp.add("FaceLedsLeftBottom");
+            temp.add("FaceLedsLeftExternal");
+            temp.add("FaceLedsLeftInternal");
+            temp.add("FaceLedsLeftTop");
+        }
+        else if (selectedLED == "Rechts"){
+            temp.add("FaceLedsRightBottom");
+            temp.add("FaceLedsRightExternal");
+            temp.add("FaceLedsRightInternal");
+            temp.add("FaceLedsRightTop");
+        }
+        else if (selectedLED == "Links und Rechts"){
+            temp.add("FaceLeds");
+        }
+        if(!temp.isEmpty()) {
+            alLeds.createGroup("leds", temp);
+            alLeds.on("leds");
+        }
+    }
+
+    public void ledsOn(ActionEvent actionEvent) throws Exception {
+
     }
 
     public void ledsOff(ActionEvent actionEvent) throws Exception {
-        ALLeds leds = new ALLeds(session);
-        System.out.println(leds.listGroups());
-        List<String> ledsLeft = new ArrayList<String>();
-        ledsLeft.add("EarLeds");
-        //ledsLeft.add("FaceLedLeft0", "FaceLedLeft1", "FaceLedLeft2", "FaceLedLeft3", "FaceLedLeft4", "FaceLedLeft5", "FaceLedLeft6", "FaceLedLeft7");
-        leds.createGroup("Links", ledsLeft);
-        leds.listLEDs();
-        leds.off("Links");
+
     }
 
     //Sitzen (normal)
     public void sit(ActionEvent actionEvent) throws Exception {
-        ALRobotPosture rp = new ALRobotPosture(session);
-        Boolean success = rp.goToPosture("Sit", 1f);
+        Boolean success = posture.goToPosture("Sit", 1f);
     }
 
     //Sitzen (relaxed)
     public void sitRelax(ActionEvent actionEvent) throws Exception {
-        ALRobotPosture rp = new ALRobotPosture(session);
-        Boolean success = rp.goToPosture("SitRelax", 1f);
+        Boolean success = posture.goToPosture("SitRelax", 1f);
     }
 
     //Sitzen (Stuhl)
     public void sitOnChair(ActionEvent actionEvent) throws Exception {
-        ALRobotPosture rp = new ALRobotPosture(session);
-        Boolean success = rp.goToPosture("SitOnChair", 1f);
+        Boolean success = posture.goToPosture("SitOnChair", 1f);
     }
 
     //Stehen
     public void stand(ActionEvent actionEvent) throws Exception {
-        ALRobotPosture rp = new ALRobotPosture(session);
-        Boolean success = rp.goToPosture("Stand", 1f);
-    }
-
-    //Auf den Rücken legen
-    public void lyingBack(ActionEvent actionEvent) throws Exception {
-        ALRobotPosture rp = new ALRobotPosture(session);
-        Boolean success = rp.goToPosture("LyingBack", 1f);
+        Boolean success = posture.goToPosture("Stand", 1f);
     }
 
     // Stand Init
     public void StandInit(ActionEvent actionEvent) throws Exception {
-        ALRobotPosture rp = new ALRobotPosture(session);
-        Boolean success = rp.goToPosture("StandInit", 1f);
+        Boolean success = posture.goToPosture("StandInit", 1f);
     }
 
+    //Stand Zero
     public void StandZero(ActionEvent actionEvent) throws Exception {
-        ALRobotPosture rp = new ALRobotPosture(session);
-        Boolean success = rp.goToPosture("StandZero", 1f);
+        Boolean success = posture.goToPosture("StandZero", 1f);
     }
 
-    public void TaiChi(ActionEvent actionEvent) throws Exception {
-        ALRobotPosture rp = new ALRobotPosture(session);
-        Boolean success = rp.goToPosture("TaiChi", 1f);
+    //Auf den Rücken legen
+    public void lyingBack(ActionEvent actionEvent) throws Exception {
+        Boolean success = posture.goToPosture("LyingBack", 1f);
     }
 
     //Auf den Bauch legen
     public void lyingBelly(ActionEvent actionEvent) throws Exception {
-        ALRobotPosture rp = new ALRobotPosture(session);
-        Boolean success = rp.goToPosture("LyingBelly", 1f);
+        Boolean success = posture.goToPosture("LyingBelly", 1f);
     }
 
-    //Crouch
+
+    public void TaiChi(ActionEvent actionEvent) throws Exception {
+        Boolean success = posture.goToPosture("TaiChi", 1f);
+    }
+
+    //Hocken
     public void crouch(ActionEvent actionEvent) throws Exception {
-        ALRobotPosture rp = new ALRobotPosture(session);
-        Boolean success = rp.goToPosture("Crouch", 1f);
+        Boolean success = posture.goToPosture("Crouch", 1f);
     }
 }

@@ -50,7 +50,7 @@
       </Label>
       <Button fx:id="btnConnect" layoutX="242.0" layoutY="208.0" mnemonicParsing="false" onAction="#startConnection" prefHeight="26.0" prefWidth="94.0" text="Verbinden" />
       <ComboBox fx:id="comboBoxEyesLEDColour" layoutX="1151.0" layoutY="113.0" prefHeight="25.0" prefWidth="194.0" promptText="Augen LED Farbe auswählen" />
-      <Button fx:id="btnLEDOn" layoutX="935.0" layoutY="165.0" mnemonicParsing="false" onAction="#leds" prefHeight="43.0" prefWidth="127.0" text="On" />
+      <Button fx:id="btnLEDOn" layoutX="935.0" layoutY="165.0" mnemonicParsing="false" onAction="#ledsOn" prefHeight="43.0" prefWidth="127.0" text="On" />
       <Button fx:id="btnLEDOff" layoutX="1152.0" layoutY="165.0" mnemonicParsing="false" onAction="#ledsOff" prefHeight="43.0" prefWidth="127.0" text="Off" />
       <Label layoutX="935.0" layoutY="60.0" prefHeight="17.0" prefWidth="278.0" text="LED">
          <font>
@@ -106,7 +106,7 @@
       <Label fx:id="labelPitch" layoutX="900.0" layoutY="723.0" prefHeight="17.0" prefWidth="196.0" text="Tonhöhe" />
       <Slider fx:id="sliderVolume" layoutX="900.0" layoutY="753.0" max="1.0" prefHeight="14.0" prefWidth="299.0" showTickLabels="true" showTickMarks="true" value="1.0" />
       <Label layoutX="900.0" layoutY="785.0" prefHeight="17.0" prefWidth="196.0" text="Lautstärke" />
-      <Button fx:id="btnPlay" layoutX="900.0" layoutY="583.0" mnemonicParsing="false" onAction="#sayBubble" prefHeight="47.0" prefWidth="194.0" text="Wiedergabe starten">
+      <Button fx:id="btnPlay" layoutX="900.0" layoutY="583.0" mnemonicParsing="false" onAction="#sayText" prefHeight="47.0" prefWidth="194.0" text="Wiedergabe starten">
          <font>
             <Font size="15.0" />
          </font>
@@ -151,7 +151,7 @@
       <ListView layoutX="1214.0" layoutY="608.0" prefHeight="189.0" prefWidth="200.0" />
       <Label layoutX="1214.0" layoutY="584.0" text="Sounddateien:" />
       <Button fx:id="btnCloseConnection" disable="true" layoutX="160.0" layoutY="208.0" mnemonicParsing="false" onAction="#stopConnection" text="Trennen" />
-      <Button fx:id="btnResetHead" layoutX="225.0" layoutY="324.0" mnemonicParsing="false" onAction="#lookreset" prefHeight="40.0" prefWidth="60.0" text="Reset" />
+      <Button fx:id="btnResetHead" layoutX="225.0" layoutY="324.0" mnemonicParsing="false" onAction="#lookReset" prefHeight="40.0" prefWidth="60.0" text="Reset" />
       <Circle fx:id="circleConnectionState" fill="#ff1f1f" layoutX="299.0" layoutY="77.0" radius="20.0" stroke="#08b13d" strokeType="INSIDE" />
       <ComboBox fx:id="comboBoxSelectEyes" layoutX="935.0" layoutY="113.0" prefHeight="25.0" prefWidth="196.0" promptText="Augen auswählen" />
    </children>
