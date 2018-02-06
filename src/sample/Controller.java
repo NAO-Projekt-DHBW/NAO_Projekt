@@ -11,7 +11,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -32,7 +31,6 @@ public class Controller implements Initializable {
     public Label labelPitch;
     public ImageView imgNAO;
     public ImageView imgBubble;
-    public ComboBox comboBoxEyesLEDColour;
     public Button btnLyingBack;
     public ComboBox comboBoxSelectNAO;
     public Button btnConnect;
@@ -67,16 +65,17 @@ public class Controller implements Initializable {
     public Button btnCloseConnection;
     public Slider sliderVolume;
     public Circle circleConnectionState;
-    public ComboBox comboBoxSelectEyes;
-    public Button btnLEDOn;
-    public Button btnLEDOff;
-
+    public ComboBox comboBoxLedGroup;
+    public Button btnLedOn;
+    public Button btnLedOff;
+    public ComboBox comboBoxLedColor;
     private ActionEvent actionEvent;
     private KeyEvent keyEvent;
 
     private static String[][] arrayNAO = new String[5][3];
     private static String defaultPort = "9559";
     private static String fileLastConnection = "connection.txt";
+
     private static Session session = new Session();
     private static ALMotion motion;
     private static ALTextToSpeech tts;
@@ -84,30 +83,30 @@ public class Controller implements Initializable {
     private static ALBattery battery;
     private static ALBodyTemperature temperature;
     private static ALRobotPosture posture;
+
+    private static Map<String, List<String>> ledMap = new HashMap<String, List<String>>();
+    private static Map<String, String> ledColorMap = new HashMap<String, String>();
+    private static String ledGroupName = "ledGroup";
+    private static List<String> ledList = new ArrayList<String>();
+
     private static Float speechPitch = 0f;
-    public static float walkingDistance = 0.3f;
-    public static float lookSpeed = 0.3f;
+    private static float lookSpeed = 0.3f;
 
     //Alles was unter dieser Methode steht, wird direkt beim Starten des Programms ausgeführt.
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         arrayNAO[0][0] = "192.168.1.136";
         arrayNAO[0][1] = "Blau";
         arrayNAO[0][2] = defaultPort;
-
         arrayNAO[1][0] = "192.168.1.138";
         arrayNAO[1][1] = "Blau Zwei";
         arrayNAO[1][2] = defaultPort;
-
         arrayNAO[2][0] = "192.168.1.148";
         arrayNAO[2][1] = "Rot";
         arrayNAO[2][2] = defaultPort;
-
         arrayNAO[3][0] = "192.168.1.3";
         arrayNAO[3][1] = "Grün";
         arrayNAO[3][2] = defaultPort;
-
         try {
             String temp = getLastConnectionFromFile();
             String[] split = temp.split(";");
@@ -116,7 +115,6 @@ public class Controller implements Initializable {
             arrayNAO[3][2] = split[1];
         } catch (Exception e) {
         }
-
         List<String> listNAO = new ArrayList<String>();
         for (int i = 0; i < arrayNAO.length; i++){
             if(arrayNAO[i][0] != null) {
@@ -127,17 +125,31 @@ public class Controller implements Initializable {
         comboBoxLanguage.setItems(FXCollections.observableArrayList("Deutsch", "Englisch"));
         comboBoxLanguage.getSelectionModel().selectFirst();
 
-        List<String> listLED = new ArrayList<String>();
-        listLED.add("Rechts");
-        listLED.add("Links");
-        listLED.add("Links und Rechts");
-        comboBoxSelectEyes.setItems(FXCollections.observableArrayList(listLED));
+        List<String> ledListEyes = new ArrayList<String>();
+        ledListEyes.add("FaceLeds");
+        ledMap.put("Augen",ledListEyes);
+        List<String> ledListEyesLeft = new ArrayList<String>();
+        ledListEyesLeft.add("FaceLedsLeftBottom");
+        ledListEyesLeft.add("FaceLedsLeftExternal");
+        ledListEyesLeft.add("FaceLedsLeftInternal");
+        ledListEyesLeft.add("FaceLedsLeftTop");
+        ledMap.put("Linkes Auge",ledListEyesLeft);
+        List<String> ledListEyesRight = new ArrayList<String>();
+        ledListEyesRight.add("FaceLedsRightBottom");
+        ledListEyesRight.add("FaceLedsRightExternal");
+        ledListEyesRight.add("FaceLedsRightInternal");
+        ledListEyesRight.add("FaceLedsRightTop");
+        ledMap.put("Rechtes Auge",ledListEyesRight);
+        comboBoxLedGroup.setItems(FXCollections.observableArrayList(ledMap.keySet()));
 
-        List<String> listLEDColour = new ArrayList<String>();
-        listLEDColour.add("Blau");
-        listLEDColour.add("Grün");
-        listLEDColour.add("Rot");
-        comboBoxEyesLEDColour.setItems(FXCollections.observableArrayList(listLEDColour));
+        ledColorMap.put("Weiß", "white");
+        ledColorMap.put("Rot", "red");
+        ledColorMap.put("Grün", "green");
+        ledColorMap.put("Blau", "blue");
+        ledColorMap.put("Gelb", "yellow");
+        ledColorMap.put("Magenta", "magenta");
+        ledColorMap.put("Cyan", "cyan");
+        comboBoxLedColor.setItems(FXCollections.observableArrayList(ledColorMap.keySet()));
     }
 
     public void setConnectionData(ActionEvent actionEvent) {
@@ -238,17 +250,19 @@ public class Controller implements Initializable {
         return result;
     }
 
+    //NAO aufwecken
     public void wakeUp(ActionEvent actionEvent) throws Exception {
         motion.wakeUp();
     }
 
+    //NAO auf Standby setzen
     public void rest(ActionEvent actionEvent) throws Exception {
         motion.rest();
     }
 
-
+    //
     public void lookRight(ActionEvent actionEvent) throws Exception {
-        motion.angleInterpolationWithSpeed("HeadYaw", -0.5f, lookSpeed);
+        motion.angleInterpolationWithSpeed("HeadYaw", -2.5f, lookSpeed);
     }
 
     public void lookLeft(ActionEvent actionEvent) throws Exception {
@@ -266,65 +280,6 @@ public class Controller implements Initializable {
     public void lookReset(ActionEvent actionEvent) throws Exception {
         motion.angleInterpolationWithSpeed("HeadPitch", 0f, lookSpeed);
         motion.angleInterpolationWithSpeed("HeadYaw", 0f, lookSpeed);
-    }
-
-    public void getKeyPressed(javafx.scene.input.KeyEvent keyEvent) throws Exception {
-        switch(keyEvent.getCode())
-        {
-            /*
-            case UP:
-                motion.angleInterpolationWithSpeed("HeadPitch", -0.5f, lookSpeed);
-            case DOWN:
-                motion.angleInterpolationWithSpeed("HeadPitch", -0.5f, lookSpeed);
-            case LEFT:
-                motion.angleInterpolationWithSpeed("HeadPitch", -0.5f, lookSpeed);
-            case RIGHT:
-                motion.angleInterpolationWithSpeed("HeadPitch", -0.5f, lookSpeed);
-                */
-            case W:
-                motion.move(3.0f, 0f, 0f);
-                break;
-            case A:
-                motion.move(0f, 1.0f, 0f);
-                break;
-            case S:
-                motion.move(-1.0f, 0f, 0f);
-                break;
-            case D:
-                motion.move(0f, -1.0f, 0f);
-                break;
-            case Q:
-                motion.move(0f, 0f, 1.0f);
-                break;
-            case E:
-                motion.move(0f, 0f, 1.0f);
-                break;
-        }
-    }
-
-
-    public void getKeyReleased(javafx.scene.input.KeyEvent keyEvent) throws Exception {
-        switch(keyEvent.getCode())
-        {
-            case W:
-                motion.stopMove();
-                break;
-            case A:
-                motion.stopMove();
-                break;
-            case S:
-                motion.stopMove();
-                break;
-            case D:
-                motion.stopMove();
-                break;
-            case Q:
-                motion.stopMove();
-                break;
-            case E:
-                motion.stopMove();
-                break;
-        }
     }
 
     //NAO solange bewegen lassen, bis die Maus losgelassen wird:
@@ -362,8 +317,90 @@ public class Controller implements Initializable {
         }
     }
 
+    //NAO durch Tastatur steuern:
+    //Methode "getKeyPressed" ist mit "On Key Pressed" im Scene Builder verknüpft.
+    //Wird eine entsprechende Taste erkannt wird der NAO entsprechend bewegt.
+    public void getKeyPressed(javafx.scene.input.KeyEvent keyEvent) throws Exception {
+        float angle;
+        switch(keyEvent.getCode())
+        {
+            case I:
+                angle = motion.getAngles("HeadPitch", true).get(0);
+                if(angle > -0.478025){
+                    angle = angle - 0.1f;
+                    motion.angleInterpolationWithSpeed("HeadPitch", angle, lookSpeed);
+                }
+                break;
+            case K:
+                angle = motion.getAngles("HeadPitch", true).get(0);
+                if(angle < 0.478025){
+                    angle = angle + 0.1f;
+                    motion.angleInterpolationWithSpeed("HeadPitch", angle, lookSpeed);
+                }
+                break;
+            case J:
+                angle = motion.getAngles("HeadYaw", true).get(0);
+                if(angle < 2.0856686f){
+                    angle = angle + 0.1f;
+                    motion.angleInterpolationWithSpeed("HeadYaw", angle, lookSpeed);
+                }
+                break;
+            case L:
+                angle = motion.getAngles("HeadYaw", true).get(0);
+                if(angle > -2.0856686f){
+                    angle = angle - 0.1f;
+                    motion.angleInterpolationWithSpeed("HeadYaw", angle, lookSpeed);
+                }
+                break;
+            case W:
+                motion.move(3.0f, 0f, 0f);
+                break;
+            case A:
+                motion.move(0f, 1.0f, 0f);
+                break;
+            case S:
+                motion.move(-1.0f, 0f, 0f);
+                break;
+            case D:
+                motion.move(0f, -1.0f, 0f);
+                break;
+            case Q:
+                motion.move(0f, 0f, 1.0f);
+                break;
+            case E:
+                motion.move(0f, 0f, 1.0f);
+                break;
+        }
+    }
 
-    //Sagen, was in die Sprechblase geschrieben wurde.
+    //Methode "getKeyReleased" ist mit "On Key Released" im Scene Builder verknüpft.
+    //Wenn eine der Tasten WASDQE losgelassen wird, wird die Bewegung des NAOs gestoppt.
+    //Ansonsten würde der NAO unendlich lange laufen, auch wenn die Taste losgelassen wird.
+    public void getKeyReleased(javafx.scene.input.KeyEvent keyEvent) throws Exception {
+        switch(keyEvent.getCode())
+        {
+            case W:
+                motion.stopMove();
+                break;
+            case A:
+                motion.stopMove();
+                break;
+            case S:
+                motion.stopMove();
+                break;
+            case D:
+                motion.stopMove();
+                break;
+            case Q:
+                motion.stopMove();
+                break;
+            case E:
+                motion.stopMove();
+                break;
+        }
+    }
+
+    //NAO sagt, was in die Sprechblase geschrieben wurde. Die Methode wird durch den Play-Button gestartet.
     public void sayText(ActionEvent actionEvent) throws Exception {
         if(fieldSound.getText() != null) {
             if (comboBoxLanguage.getValue().toString() == "Deutsch") {
@@ -371,95 +408,96 @@ public class Controller implements Initializable {
             } else {
                 tts.setLanguage("English");
             }
+            //Der Lautstärke-Wert wird direkt dem Slider aus der GUI entnommen. Der Wertebreich ist entsprechend der API-Dokumentation angepasst.
             tts.setVolume((float) sliderVolume.getValue());
 
+            //Anpassen der Tonhöhe entsprechend dem Slider in der GUI.
+            //Der Wertebereich liegt zwischen 0-4
+            //Da zwischen 0 und 1 keine Änderungen in der Tonhöhe geschehen, wird das mit einer IF-Abfrage abgefangen.
+            float pitch = 0f;
             if (sliderPitch.getValue() >= 1f) {
-                speechPitch = (float) sliderPitch.getValue();
+                pitch = (float) sliderPitch.getValue();
             }
-            tts.setParameter("pitchShift", speechPitch);
+            tts.setParameter("pitchShift", pitch);
+
+            //Eigentlicher Befehl zum Starten der Wiedergabe
             tts.say(fieldSound.getText());
         }
     }
 
-    public void selectLED(ActionEvent actionEvent) throws Exception {
-        String selectedLED = comboBoxSelectEyes.getValue().toString();
-        List<String> temp = new ArrayList<String>();
-        if(selectedLED == "Links"){
-            temp.add("FaceLedsLeftBottom");
-            temp.add("FaceLedsLeftExternal");
-            temp.add("FaceLedsLeftInternal");
-            temp.add("FaceLedsLeftTop");
+    public void selectLed(ActionEvent actionEvent) throws Exception {
+        ledList.clear();
+        String selectedItem = comboBoxLedGroup.getValue().toString();
+        for (int i=0; i < ledMap.get(selectedItem).size(); i++){
+            ledList.add(ledMap.get(selectedItem).get(i));
         }
-        else if (selectedLED == "Rechts"){
-            temp.add("FaceLedsRightBottom");
-            temp.add("FaceLedsRightExternal");
-            temp.add("FaceLedsRightInternal");
-            temp.add("FaceLedsRightTop");
+        if(!ledList.isEmpty()) {
+            alLeds.createGroup(ledGroupName, ledList);
+            System.out.println(ledList);
         }
-        else if (selectedLED == "Links und Rechts"){
-            temp.add("FaceLeds");
-        }
-        if(!temp.isEmpty()) {
-            alLeds.createGroup("leds", temp);
-            alLeds.on("leds");
-        }
+    }
+
+    public void selectLedColor(ActionEvent actionEvent) throws Exception{
+        alLeds.fadeRGB(ledGroupName, ledColorMap.get(comboBoxLedColor.getValue()).toString(), 0f);
     }
 
     public void ledsOn(ActionEvent actionEvent) throws Exception {
-
+        alLeds.on(ledGroupName);
     }
 
     public void ledsOff(ActionEvent actionEvent) throws Exception {
-
+        alLeds.off(ledGroupName);
     }
 
+    //Alle Möglichen Positionen, die der NAO einnehmen kann.
+    //Der zweite Wert (float) gibt die Geschwindigkeit an.
     //Sitzen (normal)
     public void sit(ActionEvent actionEvent) throws Exception {
-        Boolean success = posture.goToPosture("Sit", 1f);
+        posture.goToPosture("Sit", 1f);
     }
 
     //Sitzen (relaxed)
     public void sitRelax(ActionEvent actionEvent) throws Exception {
-        Boolean success = posture.goToPosture("SitRelax", 1f);
+        posture.goToPosture("SitRelax", 1f);
     }
 
     //Sitzen (Stuhl)
     public void sitOnChair(ActionEvent actionEvent) throws Exception {
-        Boolean success = posture.goToPosture("SitOnChair", 1f);
+        posture.goToPosture("SitOnChair", 1f);
     }
 
     //Stehen
     public void stand(ActionEvent actionEvent) throws Exception {
-        Boolean success = posture.goToPosture("Stand", 1f);
+        posture.goToPosture("Stand", 1f);
     }
 
     // Stand Init
     public void StandInit(ActionEvent actionEvent) throws Exception {
-        Boolean success = posture.goToPosture("StandInit", 1f);
+        posture.goToPosture("StandInit", 1f);
     }
 
     //Stand Zero
     public void StandZero(ActionEvent actionEvent) throws Exception {
-        Boolean success = posture.goToPosture("StandZero", 1f);
+        posture.goToPosture("StandZero", 1f);
     }
 
     //Auf den Rücken legen
     public void lyingBack(ActionEvent actionEvent) throws Exception {
-        Boolean success = posture.goToPosture("LyingBack", 1f);
+        posture.goToPosture("LyingBack", 1f);
     }
 
     //Auf den Bauch legen
     public void lyingBelly(ActionEvent actionEvent) throws Exception {
-        Boolean success = posture.goToPosture("LyingBelly", 1f);
+        posture.goToPosture("LyingBelly", 1f);
     }
 
 
     public void TaiChi(ActionEvent actionEvent) throws Exception {
-        Boolean success = posture.goToPosture("TaiChi", 1f);
+        posture.goToPosture("TaiChi", 1f);
     }
 
     //Hocken
     public void crouch(ActionEvent actionEvent) throws Exception {
-        Boolean success = posture.goToPosture("Crouch", 1f);
+        posture.goToPosture("Crouch", 1f);
     }
 }

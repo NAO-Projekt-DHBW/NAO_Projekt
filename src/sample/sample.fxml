@@ -49,9 +49,9 @@
          </font>
       </Label>
       <Button fx:id="btnConnect" layoutX="242.0" layoutY="208.0" mnemonicParsing="false" onAction="#startConnection" prefHeight="26.0" prefWidth="94.0" text="Verbinden" />
-      <ComboBox fx:id="comboBoxEyesLEDColour" layoutX="1151.0" layoutY="113.0" prefHeight="25.0" prefWidth="194.0" promptText="Augen LED Farbe auswählen" />
-      <Button fx:id="btnLEDOn" layoutX="935.0" layoutY="165.0" mnemonicParsing="false" onAction="#ledsOn" prefHeight="43.0" prefWidth="127.0" text="On" />
-      <Button fx:id="btnLEDOff" layoutX="1152.0" layoutY="165.0" mnemonicParsing="false" onAction="#ledsOff" prefHeight="43.0" prefWidth="127.0" text="Off" />
+      <ComboBox fx:id="comboBoxLedColor" layoutX="1151.0" layoutY="113.0" onAction="#selectLedColor" prefHeight="25.0" prefWidth="194.0" promptText="Augen LED Farbe auswählen" />
+      <Button fx:id="btnLedOn" layoutX="935.0" layoutY="165.0" mnemonicParsing="false" onAction="#ledsOn" prefHeight="43.0" prefWidth="127.0" text="On" />
+      <Button fx:id="btnLedOff" layoutX="1152.0" layoutY="165.0" mnemonicParsing="false" onAction="#ledsOff" prefHeight="43.0" prefWidth="127.0" text="Off" />
       <Label layoutX="935.0" layoutY="60.0" prefHeight="17.0" prefWidth="278.0" text="LED">
          <font>
             <Font size="29.0" />
@@ -153,6 +153,6 @@
       <Button fx:id="btnCloseConnection" disable="true" layoutX="160.0" layoutY="208.0" mnemonicParsing="false" onAction="#stopConnection" text="Trennen" />
       <Button fx:id="btnResetHead" layoutX="225.0" layoutY="324.0" mnemonicParsing="false" onAction="#lookReset" prefHeight="40.0" prefWidth="60.0" text="Reset" />
       <Circle fx:id="circleConnectionState" fill="#ff1f1f" layoutX="299.0" layoutY="77.0" radius="20.0" stroke="#08b13d" strokeType="INSIDE" />
-      <ComboBox fx:id="comboBoxSelectEyes" layoutX="935.0" layoutY="113.0" prefHeight="25.0" prefWidth="196.0" promptText="Augen auswählen" />
+      <ComboBox fx:id="comboBoxLedGroup" layoutX="935.0" layoutY="113.0" onAction="#selectLed" prefHeight="25.0" prefWidth="196.0" promptText="Augen auswählen" />
    </children>
 </Pane>
