@@ -148,7 +148,7 @@
       <Button fx:id="btnA" layoutX="201.0" layoutY="480.0" mnemonicParsing="false" onAction="#moveLeft" prefHeight="30.0" prefWidth="30.0" text="A" />
       <Button fx:id="btnTaiChi" layoutX="123.0" layoutY="782.0" mnemonicParsing="false" onAction="#TaiChi" prefHeight="47.0" prefWidth="100.0" text="Tai Chi" />
       <Button fx:id="btnWinken" layoutX="287.0" layoutY="782.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="100.0" text="?" />
-      <ListView layoutX="1214.0" layoutY="608.0" prefHeight="189.0" prefWidth="200.0" />
+      <ListView fx:id="listSoundFiles" layoutX="1214.0" layoutY="608.0" onMouseClicked="#playSoundFile" prefHeight="189.0" prefWidth="200.0" />
       <Label layoutX="1214.0" layoutY="584.0" text="Sounddateien:" />
       <Button fx:id="btnCloseConnection" disable="true" layoutX="160.0" layoutY="208.0" mnemonicParsing="false" onAction="#stopConnection" text="Trennen" />
       <Button fx:id="btnResetHead" layoutX="225.0" layoutY="324.0" mnemonicParsing="false" onAction="#lookReset" prefHeight="40.0" prefWidth="60.0" text="Reset" />

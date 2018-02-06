@@ -69,6 +69,7 @@ public class Controller implements Initializable {
     public Button btnLedOn;
     public Button btnLedOff;
     public ComboBox comboBoxLedColor;
+    public ListView listSoundFiles;
     private ActionEvent actionEvent;
     private KeyEvent keyEvent;
 
@@ -83,6 +84,8 @@ public class Controller implements Initializable {
     private static ALBattery battery;
     private static ALBodyTemperature temperature;
     private static ALRobotPosture posture;
+    private static ALAudioPlayer audio;
+    private static ALTouch touch;
 
     private static Map<String, List<String>> ledMap = new HashMap<String, List<String>>();
     private static Map<String, String> ledColorMap = new HashMap<String, String>();
@@ -174,6 +177,8 @@ public class Controller implements Initializable {
                 battery = new ALBattery(session);
                 temperature = new ALBodyTemperature(session);
                 posture = new ALRobotPosture(session);
+                audio = new ALAudioPlayer(session);
+                touch = new ALTouch(session);
 
                 //Setzen des Verbindungsstatus-Kreises auf Grün
                 circleConnectionState.setFill(Color.GREEN);
@@ -189,6 +194,13 @@ public class Controller implements Initializable {
                 clearFieldsAfterConnecting();
                 fieldBattery.appendText(getBatteryState(actionEvent));
                 fieldTemperature.appendText(getTemperature(actionEvent));
+
+                //AudioFiles laden
+                if(audio.getInstalledSoundSetsList().contains("Aldebaran")) {
+                    listSoundFiles.setItems(FXCollections.observableArrayList(audio.getSoundSetFileNames("Aldebaran")));
+                }
+                System.out.println(touch.getSensorList());
+                System.out.println(touch.getStatus());
             }
         } catch (Exception ex) {
             //Leeren der Textfelder mit Hilfsmethode
@@ -353,13 +365,13 @@ public class Controller implements Initializable {
                 }
                 break;
             case W:
-                motion.move(3.0f, 0f, 0f);
+                motion.move(1.0f, 0f, 0f);
                 break;
             case A:
                 motion.move(0f, 1.0f, 0f);
                 break;
             case S:
-                motion.move(-1.0f, 0f, 0f);
+                motion.move(-0.1f, 0f, 0f);
                 break;
             case D:
                 motion.move(0f, -1.0f, 0f);
@@ -368,7 +380,7 @@ public class Controller implements Initializable {
                 motion.move(0f, 0f, 1.0f);
                 break;
             case E:
-                motion.move(0f, 0f, 1.0f);
+                motion.move(0f, 0f, -1.0f);
                 break;
         }
     }
@@ -425,6 +437,10 @@ public class Controller implements Initializable {
         }
     }
 
+    public void playSoundFile(MouseEvent mouseEvent) throws Exception{
+        audio.playSoundSetFile(listSoundFiles.getSelectionModel().getSelectedItem().toString(), 0f, (float) sliderVolume.getValue(), 0f, false);
+    }
+
     public void selectLed(ActionEvent actionEvent) throws Exception {
         ledList.clear();
         String selectedItem = comboBoxLedGroup.getValue().toString();
@@ -443,6 +459,9 @@ public class Controller implements Initializable {
 
     public void ledsOn(ActionEvent actionEvent) throws Exception {
         alLeds.on(ledGroupName);
+        if(comboBoxLedColor.getValue() != null) {
+            alLeds.fadeRGB(ledGroupName, ledColorMap.get(comboBoxLedColor.getValue()).toString(), 0f);
+        }
     }
 
     public void ledsOff(ActionEvent actionEvent) throws Exception {
