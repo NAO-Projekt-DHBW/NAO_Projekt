@@ -104,8 +104,8 @@
       <ComboBox fx:id="comboBoxLanguage" layoutX="900.0" layoutY="647.0" prefHeight="25.0" prefWidth="299.0" promptText="Sprache auswählen (Standard &quot;Deutsch&quot;)" />
       <Slider fx:id="sliderPitch" layoutX="900.0" layoutY="689.0" max="4.0" prefHeight="14.0" prefWidth="299.0" showTickLabels="true" showTickMarks="true" />
       <Label fx:id="labelPitch" layoutX="900.0" layoutY="723.0" prefHeight="17.0" prefWidth="196.0" text="Tonhöhe" />
-      <Slider fx:id="sliderVolume" layoutX="900.0" layoutY="753.0" max="1.0" prefHeight="14.0" prefWidth="299.0" showTickLabels="true" showTickMarks="true" value="1.0" />
-      <Label layoutX="900.0" layoutY="785.0" prefHeight="17.0" prefWidth="196.0" text="Lautstärke" />
+      <Slider fx:id="sliderVolume" layoutX="900.0" layoutY="805.0" max="1.0" prefHeight="14.0" prefWidth="299.0" showTickLabels="true" showTickMarks="true" value="1.0" />
+      <Label layoutX="900.0" layoutY="837.0" prefHeight="17.0" prefWidth="196.0" text="Lautstärke" />
       <Button fx:id="btnPlay" layoutX="900.0" layoutY="583.0" mnemonicParsing="false" onAction="#sayText" prefHeight="47.0" prefWidth="194.0" text="Wiedergabe starten">
          <font>
             <Font size="15.0" />
@@ -133,7 +133,7 @@
          <image>
             <Image url="@../Smartphone-Akku-Dos.jpg" />
          </image></ImageView>
-      <Slider fx:id="sliderPace" layoutX="37.0" layoutY="540.0" prefHeight="15.0" prefWidth="338.0" />
+      <Slider fx:id="sliderPace" layoutX="37.0" layoutY="540.0" max="1.0" prefHeight="15.0" prefWidth="338.0" showTickLabels="true" showTickMarks="true" value="0.5" />
       <Label layoutX="37.0" layoutY="556.0" prefHeight="30.0" prefWidth="112.0" text="Geschwindigkeit" />
       <ToggleButton fx:id="toggleRest" layoutX="531.0" layoutY="108.0" mnemonicParsing="false" onAction="#rest" prefHeight="62.0" prefWidth="127.0" text="Standby" />
       <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="675.0" layoutY="665.0" pickOnBounds="true" preserveRatio="true">
@@ -154,5 +154,7 @@
       <Button fx:id="btnResetHead" layoutX="225.0" layoutY="324.0" mnemonicParsing="false" onAction="#lookReset" prefHeight="40.0" prefWidth="60.0" text="Reset" />
       <Circle fx:id="circleConnectionState" fill="#ff1f1f" layoutX="299.0" layoutY="77.0" radius="20.0" stroke="#08b13d" strokeType="INSIDE" />
       <ComboBox fx:id="comboBoxLedGroup" layoutX="935.0" layoutY="113.0" onAction="#selectLed" prefHeight="25.0" prefWidth="196.0" promptText="Augen auswählen" />
+      <Slider fx:id="sliderTalkingSpeed" layoutX="900.0" layoutY="750.0" max="400.0" min="50.0" prefHeight="14.0" prefWidth="299.0" showTickLabels="true" showTickMarks="true" value="100.0" />
+      <Label layoutX="900.0" layoutY="782.0" prefHeight="17.0" prefWidth="196.0" text="Geschwindigkeit" />
    </children>
 </Pane>

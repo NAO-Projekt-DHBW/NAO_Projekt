@@ -70,15 +70,15 @@ public class Controller implements Initializable {
     public Button btnLedOff;
     public ComboBox comboBoxLedColor;
     public ListView listSoundFiles;
+    public Slider sliderTalkingSpeed;
     private ActionEvent actionEvent;
     private KeyEvent keyEvent;
 
-    private static String[][] arrayNAO = new String[5][3];
-    private static String defaultPort = "9559";
+    private static int maxLastConnections = 10;
     private static String fileLastConnection = "connection.txt";
 
     private static Session session = new Session();
-    private static ALMotion motion;
+    //private static ALMotion motion;
     private static ALTextToSpeech tts;
     private static ALLeds alLeds;
     private static ALBattery battery;
@@ -86,125 +86,66 @@ public class Controller implements Initializable {
     private static ALRobotPosture posture;
     private static ALAudioPlayer audio;
     private static ALTouch touch;
+    private static ALMemory memory;
 
     private static Map<String, List<String>> ledMap = new HashMap<String, List<String>>();
     private static Map<String, String> ledColorMap = new HashMap<String, String>();
     private static String ledGroupName = "ledGroup";
     private static List<String> ledList = new ArrayList<String>();
-
-    private static Float speechPitch = 0f;
     private static float lookSpeed = 0.3f;
+
+    public class Subscribtion{
+        public void changed(){
+            System.out.println("changed");
+        }
+    }
 
     //Alles was unter dieser Methode steht, wird direkt beim Starten des Programms ausgeführt.
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        arrayNAO[0][0] = "192.168.1.136";
-        arrayNAO[0][1] = "Blau";
-        arrayNAO[0][2] = defaultPort;
-        arrayNAO[1][0] = "192.168.1.138";
-        arrayNAO[1][1] = "Blau Zwei";
-        arrayNAO[1][2] = defaultPort;
-        arrayNAO[2][0] = "192.168.1.148";
-        arrayNAO[2][1] = "Rot";
-        arrayNAO[2][2] = defaultPort;
-        arrayNAO[3][0] = "192.168.1.3";
-        arrayNAO[3][1] = "Grün";
-        arrayNAO[3][2] = defaultPort;
         try {
-            String temp = getLastConnectionFromFile();
-            String[] split = temp.split(";");
-            arrayNAO[3][0] = split[0];
-            arrayNAO[3][1] = "letzte Verbindung";
-            arrayNAO[3][2] = split[1];
-        } catch (Exception e) {
-        }
-        List<String> listNAO = new ArrayList<String>();
-        for (int i = 0; i < arrayNAO.length; i++){
-            if(arrayNAO[i][0] != null) {
-                listNAO.add(i, arrayNAO[i][0] + " (" + arrayNAO[i][1] + ")");
-            }
-        }
-        comboBoxSelectNAO.setItems(FXCollections.observableArrayList(listNAO));
-        comboBoxLanguage.setItems(FXCollections.observableArrayList("Deutsch", "Englisch"));
-        comboBoxLanguage.getSelectionModel().selectFirst();
+            //Befüllen der ComboBoxen/Dropdown-Menüs mit Elementen
+            //
+            comboBoxSelectNAO.setItems(FXCollections.observableArrayList(getLastConnectionsFromFile()));
+            comboBoxLanguage.setItems(FXCollections.observableArrayList("Deutsch", "Englisch"));
+            comboBoxLanguage.getSelectionModel().selectFirst();
 
-        List<String> ledListEyes = new ArrayList<String>();
-        ledListEyes.add("FaceLeds");
-        ledMap.put("Augen",ledListEyes);
-        List<String> ledListEyesLeft = new ArrayList<String>();
-        ledListEyesLeft.add("FaceLedsLeftBottom");
-        ledListEyesLeft.add("FaceLedsLeftExternal");
-        ledListEyesLeft.add("FaceLedsLeftInternal");
-        ledListEyesLeft.add("FaceLedsLeftTop");
-        ledMap.put("Linkes Auge",ledListEyesLeft);
-        List<String> ledListEyesRight = new ArrayList<String>();
-        ledListEyesRight.add("FaceLedsRightBottom");
-        ledListEyesRight.add("FaceLedsRightExternal");
-        ledListEyesRight.add("FaceLedsRightInternal");
-        ledListEyesRight.add("FaceLedsRightTop");
-        ledMap.put("Rechtes Auge",ledListEyesRight);
-        comboBoxLedGroup.setItems(FXCollections.observableArrayList(ledMap.keySet()));
+            ledMap.put("Augen", FXCollections.observableArrayList("FaceLeds"));
+            ledMap.put("Linkes Auge", FXCollections.observableArrayList("FaceLedsLeftBottom", "FaceLedsLeftExternal", "FaceLedsLeftInternal", "FaceLedsLeftTop"));
+            ledMap.put("Rechtes Auge", FXCollections.observableArrayList("FaceLedsRightBottom", "FaceLedsRightExternal", "FaceLedsRightInternal", "FaceLedsRightTop"));
+            comboBoxLedGroup.setItems(FXCollections.observableArrayList(ledMap.keySet()));
 
-        ledColorMap.put("Weiß", "white");
-        ledColorMap.put("Rot", "red");
-        ledColorMap.put("Grün", "green");
-        ledColorMap.put("Blau", "blue");
-        ledColorMap.put("Gelb", "yellow");
-        ledColorMap.put("Magenta", "magenta");
-        ledColorMap.put("Cyan", "cyan");
-        comboBoxLedColor.setItems(FXCollections.observableArrayList(ledColorMap.keySet()));
+            ledColorMap.put("Weiß", "white");
+            ledColorMap.put("Rot", "red");
+            ledColorMap.put("Grün", "green");
+            ledColorMap.put("Blau", "blue");
+            ledColorMap.put("Gelb", "yellow");
+            ledColorMap.put("Magenta", "magenta");
+            ledColorMap.put("Cyan", "cyan");
+            comboBoxLedColor.setItems(FXCollections.observableArrayList(ledColorMap.keySet()));
+        } catch(Exception ex) {
+        }
     }
 
+    /*
+    Methoden zum Verwalten der Verbindung mit dem NAO
+     */
+    //Wenn NAO-Verbindungsdaten aus dem Dropdown-Menü gewählt wird, wird die IP-Adresse und der Port in die beiden entsprechenden Textfelder eingetragen.
     public void setConnectionData(ActionEvent actionEvent) {
+        String temp = comboBoxSelectNAO.getValue().toString();
         fieldIPAdress.clear();
         fieldPort.clear();
-        int selected = comboBoxSelectNAO.getSelectionModel().getSelectedIndex();
-        fieldIPAdress.appendText(arrayNAO[selected][0]);
-        fieldPort.appendText(arrayNAO[selected][2]);
+        fieldIPAdress.appendText(temp.substring( 0, temp.indexOf(":")));
+        fieldPort.appendText(temp.substring(temp.indexOf(":") + 1));
     }
 
     //Verbindung zum NAO aufbauen
     public void startConnection(ActionEvent actionEvent) throws Exception {
-        //String robotUrl = "tcp://127.0.0.1:39513";
         String robotUrl = "tcp://" + fieldIPAdress.getText().toString() + ":" + fieldPort.getText().toString();
         try {
             session.connect(robotUrl).get();
-            if (session.isConnected()) {
-                //Zuweisen der NAO-Klassen
-                motion = new ALMotion(session);
-                tts = new ALTextToSpeech(session);
-                alLeds = new ALLeds(session);
-                battery = new ALBattery(session);
-                temperature = new ALBodyTemperature(session);
-                posture = new ALRobotPosture(session);
-                audio = new ALAudioPlayer(session);
-                touch = new ALTouch(session);
-
-                //Setzen des Verbindungsstatus-Kreises auf Grün
-                circleConnectionState.setFill(Color.GREEN);
-
-                //Schreiben der momentan genutzen Verbindung in eine Datei "connection.txt"
-                writeConnectionToFile(fieldIPAdress.getText().toString(), fieldPort.getText().toString());
-
-                //Deaktivieren des "Verbinden"-Buttons und Aktivieren des "Trennen"-Buttons
-                btnConnect.setDisable(true);
-                btnCloseConnection.setDisable(false);
-
-                //Mit "clearFieldsAfterConnecting" werden alle dort eingetragenen Textfelder geleert.
-                clearFieldsAfterConnecting();
-                fieldBattery.appendText(getBatteryState(actionEvent));
-                fieldTemperature.appendText(getTemperature(actionEvent));
-
-                //AudioFiles laden
-                if(audio.getInstalledSoundSetsList().contains("Aldebaran")) {
-                    listSoundFiles.setItems(FXCollections.observableArrayList(audio.getSoundSetFileNames("Aldebaran")));
-                }
-                System.out.println(touch.getSensorList());
-                System.out.println(touch.getStatus());
-            }
+            checkConnection();
         } catch (Exception ex) {
-            //Leeren der Textfelder mit Hilfsmethode
-            clearFieldsAfterConnecting();
             //Anzeigen der Fehlermeldung in einem kleinen Popup-Fenster
             JOptionPane.showMessageDialog(null, ex.toString(), "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -214,43 +155,126 @@ public class Controller implements Initializable {
         if(session.isConnected()) {
             session.close();
         }
-        if(!session.isConnected()){
-            circleConnectionState.setFill(Color.RED);
-            clearFieldsAfterConnecting();
-            btnCloseConnection.setDisable(true);
-            btnConnect.setDisable(false);
+        checkConnection();
+    }
+
+    public Boolean checkConnection() throws Exception{
+        if(session.isConnected()){
+            //Zuweisen der NAO-Klassen
+            //motion = new ALMotion(session);
+            tts = new ALTextToSpeech(session);
+            alLeds = new ALLeds(session);
+            battery = new ALBattery(session);
+            temperature = new ALBodyTemperature(session);
+            posture = new ALRobotPosture(session);
+            audio = new ALAudioPlayer(session);
+            touch = new ALTouch(session);
+            memory = new ALMemory(session);
+
+            System.out.println(memory.getEventList());
+            System.out.println(touch.getSensorList());
+            Subscribtion sub = new Subscribtion();
+            memory.subscribeToEvent("PostureChanged", "sub", "changed");
+
+
+            //Setzen des Verbindungsstatus-Kreises auf Grün
+            if(circleConnectionState.getFill() != Color.GREEN) {
+                circleConnectionState.setFill(Color.GREEN);
+            }
+
+            //Schreiben der momentan genutzen Verbindung in eine Datei "connection.txt"
+            writeConnectionToFile(fieldIPAdress.getText().toString(), fieldPort.getText().toString());
+            //Außerdem wird direkt die Nao-Auswahlliste neu aus der Datei "connection.txt" eingelesen, um den neusten Eintrag hinzuzufügen.
+            //comboBoxSelectNAO.setItems(FXCollections.observableArrayList(getLastConnectionsFromFile()));
+            //comboBoxSelectNAO.getSelectionModel().selectLast();
+
+            //Deaktivieren des "Verbinden"-Buttons und Aktivieren des "Trennen"-Buttons
+            if(!btnConnect.isDisabled() && btnCloseConnection.isDisabled()) {
+                btnConnect.setDisable(true);
+                btnCloseConnection.setDisable(false);
+            }
+
+            fieldTemperature.clear();
+            fieldBattery.clear();
+            listSoundFiles.setItems(FXCollections.observableArrayList(""));
+            fieldBattery.appendText(getBatteryState());
+            fieldTemperature.appendText(getTemperature());
+
+            //AudioFiles laden
+            Boolean noAudioFiles = true;
+            if(audio.getMethodList().contains("getSoundSetFileNames")) {
+                if(audio.getInstalledSoundSetsList().contains("Aldebaran")) {
+                    listSoundFiles.setItems(FXCollections.observableArrayList(audio.getSoundSetFileNames("Aldebaran")));
+                    noAudioFiles = false;
+                }
+            }
+            listSoundFiles.setDisable(noAudioFiles);
+            return true;
+        } else {
+            if(circleConnectionState.getFill() != Color.RED) {
+                circleConnectionState.setFill(Color.RED);
+            }
+            if(btnConnect.isDisabled() && !btnCloseConnection.isDisabled()) {
+                btnCloseConnection.setDisable(true);
+                btnConnect.setDisable(false);
+            }
+            fieldTemperature.clear();
+            fieldBattery.clear();
+            listSoundFiles.setItems(FXCollections.observableArrayList(""));
+            return false;
         }
     }
 
-    public String getLastConnectionFromFile() throws Exception{
-        String line = null;
-        File tempFile = new File(fileLastConnection);
-        if (tempFile.exists()) {
-            BufferedReader in = new BufferedReader(new FileReader(fileLastConnection));
-            line = in.readLine();
-            in.close();
+    public List<String> getLastConnectionsFromFile() throws Exception{
+        List<String> list = new ArrayList<>();
+        File file = new File(fileLastConnection);
+        if (file.exists()) {
+                BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fileLastConnection), "UTF-8"));
+                String line = br.readLine();
+                if (line != null) {
+                    list = Arrays.asList(line.split("\\s*,\\s*"));
+                }
         }
-        return line;
+        return list;
     }
+
 
     public void writeConnectionToFile(String ip, String port) throws Exception {
-        PrintWriter writer = new PrintWriter(fileLastConnection, "UTF-8");
-        writer.println(fieldIPAdress.getText().toString() + ";" + fieldPort.getText().toString());
-        writer.close();
+        String listString = "";
+        List<String> oldList = getLastConnectionsFromFile();
+        System.out.println(oldList);
+        List<String> newList = new ArrayList<>();
+        int size = oldList.size();
+        if(size > maxLastConnections - 1 || size == maxLastConnections - 1){
+            for (int i=0; i < size-1; i++){
+                newList.add(i, oldList.get(i+1));
+            }
+            newList.add(maxLastConnections -1 , ip + ":" + port);
+        } else {
+            for (String s : oldList)
+            {
+                newList.add(s);
+            }
+            System.out.println(newList);
+            newList.add(ip + ":" + port);
+            System.out.println(newList);
+        }
+        System.out.println(newList);
+        for (String s : newList)
+        {
+            listString += s + ",";
+        }
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileLastConnection), "UTF-8"));
+        bw.write(listString);
+        bw.close();
     }
 
-    //diese Methode leert alle Textfelder, die beim Neuverbinden direkt wieder mit Text befüllt werden. Die Methode wird beim Aufbauen einer Verbindunge aufgerufen.
-    public void clearFieldsAfterConnecting() throws Exception{
-        fieldTemperature.clear();
-        fieldBattery.clear();
-    }
-
-    public String getBatteryState(ActionEvent actionEvent) throws Exception {
+    public String getBatteryState() throws Exception {
         int state = battery.getBatteryCharge();
         return String.valueOf(state);
     }
 
-    public String getTemperature(ActionEvent actionEvent) throws Exception {
+    public String getTemperature() throws Exception {
         String result;
         Object temp = temperature.getTemperatureDiagnosis();
         if (temp instanceof ArrayList) {
@@ -264,32 +288,38 @@ public class Controller implements Initializable {
 
     //NAO aufwecken
     public void wakeUp(ActionEvent actionEvent) throws Exception {
+        ALMotion motion = new ALMotion(session);
         motion.wakeUp();
     }
 
     //NAO auf Standby setzen
     public void rest(ActionEvent actionEvent) throws Exception {
+        ALMotion motion = new ALMotion(session);
         motion.rest();
     }
 
-    //
     public void lookRight(ActionEvent actionEvent) throws Exception {
+        ALMotion motion = new ALMotion(session);
         motion.angleInterpolationWithSpeed("HeadYaw", -2.5f, lookSpeed);
     }
 
     public void lookLeft(ActionEvent actionEvent) throws Exception {
+        ALMotion motion = new ALMotion(session);
         motion.angleInterpolationWithSpeed("HeadYaw", 0.5f, lookSpeed);
     }
 
     public void lookUp(ActionEvent actionEvent) throws Exception {
+        ALMotion motion = new ALMotion(session);
         motion.angleInterpolationWithSpeed("HeadPitch", -0.5f, lookSpeed);
     }
 
     public void lookDown(ActionEvent actionEvent) throws Exception {
+        ALMotion motion = new ALMotion(session);
         motion.angleInterpolationWithSpeed("HeadPitch", 0.5f, lookSpeed);
     }
 
     public void lookReset(ActionEvent actionEvent) throws Exception {
+        ALMotion motion = new ALMotion(session);
         motion.angleInterpolationWithSpeed("HeadPitch", 0f, lookSpeed);
         motion.angleInterpolationWithSpeed("HeadYaw", 0f, lookSpeed);
     }
@@ -299,30 +329,37 @@ public class Controller implements Initializable {
     //Alle Buttons haben zusätzlich die Methode "stopMove" (unter "Mouse" > "On Mouse Released" verknüpft.
     //Den Methoden muss das MouseEvent (und nicht ActionEvent) übergeben werden, sonst wird sie in der Laufzeit mit einem Fehler abgebrochen.
     public void moveForward(MouseEvent mouseEvent) throws Exception {
-        motion.move(1.0f, 0f ,0f);
+        ALMotion motion = new ALMotion(session);
+        motion.move(0.1f, 0f ,0f);
     }
 
     public void moveBackwards(MouseEvent mouseEvent) throws Exception {
+        ALMotion motion = new ALMotion(session);
         motion.move(-1.0f, 0f ,0f);
     }
 
     public void moveLeft(MouseEvent mouseEvent) throws Exception {
+        ALMotion motion = new ALMotion(session);
         motion.move(0f, 1.0f, 0f);
     }
 
     public void moveRight(MouseEvent mouseEvent) throws Exception {
+        ALMotion motion = new ALMotion(session);
         motion.move(0f, -1.0f, 0f);
     }
 
     public void turnRight(MouseEvent mouseEvent) throws Exception {
+        ALMotion motion = new ALMotion(session);
         motion.move(0f, 0f, -1.0f);
     }
 
     public void turnLeft(MouseEvent mouseEvent) throws Exception {
+        ALMotion motion = new ALMotion(session);
         motion.move(0f, 0f, 1.0f);
     }
 
     public void stopMove(MouseEvent mouseEvent) throws Exception {
+        ALMotion motion = new ALMotion(session);
         if(motion.moveIsActive())
         {
             motion.stopMove();
@@ -333,9 +370,11 @@ public class Controller implements Initializable {
     //Methode "getKeyPressed" ist mit "On Key Pressed" im Scene Builder verknüpft.
     //Wird eine entsprechende Taste erkannt wird der NAO entsprechend bewegt.
     public void getKeyPressed(javafx.scene.input.KeyEvent keyEvent) throws Exception {
+        ALMotion motion = new ALMotion(session);
         float angle;
         switch(keyEvent.getCode())
         {
+            /*
             case I:
                 angle = motion.getAngles("HeadPitch", true).get(0);
                 if(angle > -0.478025){
@@ -364,8 +403,10 @@ public class Controller implements Initializable {
                     motion.angleInterpolationWithSpeed("HeadYaw", angle, lookSpeed);
                 }
                 break;
+                */
             case W:
-                motion.move(1.0f, 0f, 0f);
+                //motion.move((float)sliderPace.getValue(), 0f, 0f);
+                motion.move(1f, 0f, 0f);
                 break;
             case A:
                 motion.move(0f, 1.0f, 0f);
@@ -389,6 +430,7 @@ public class Controller implements Initializable {
     //Wenn eine der Tasten WASDQE losgelassen wird, wird die Bewegung des NAOs gestoppt.
     //Ansonsten würde der NAO unendlich lange laufen, auch wenn die Taste losgelassen wird.
     public void getKeyReleased(javafx.scene.input.KeyEvent keyEvent) throws Exception {
+        ALMotion motion = new ALMotion(session);
         switch(keyEvent.getCode())
         {
             case W:
@@ -431,6 +473,12 @@ public class Controller implements Initializable {
                 pitch = (float) sliderPitch.getValue();
             }
             tts.setParameter("pitchShift", pitch);
+            tts.setParameter("speed", (float) sliderTalkingSpeed.getValue());
+
+            //Ausgabe der Parameter zum Troubleshooting
+            //System.out.println("Tonhöhe: " + pitch);
+            //System.out.println("Speed: " + (float) sliderTalkingSpeed.getValue());
+            //System.out.println("Volume: " + (float) sliderVolume.getValue());
 
             //Eigentlicher Befehl zum Starten der Wiedergabe
             tts.say(fieldSound.getText());
@@ -477,7 +525,7 @@ public class Controller implements Initializable {
 
     //Sitzen (relaxed)
     public void sitRelax(ActionEvent actionEvent) throws Exception {
-        posture.goToPosture("SitRelax", 1f);
+        posture.goToPosture("SitRelax", 5f);
     }
 
     //Sitzen (Stuhl)
