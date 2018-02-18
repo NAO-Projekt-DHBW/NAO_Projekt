@@ -1,6 +1,8 @@
 package sample;
 
+import com.aldebaran.qi.CallError;
 import com.aldebaran.qi.Session;
+import com.aldebaran.qi.helper.EventCallback;
 import com.aldebaran.qi.helper.proxies.*;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -87,6 +89,7 @@ public class Controller implements Initializable {
     private static ALAudioPlayer audio;
     private static ALTouch touch;
     private static ALMemory memory;
+    private static ReactToEvents reactor;
 
     private static Map<String, List<String>> ledMap = new HashMap<String, List<String>>();
     private static Map<String, String> ledColorMap = new HashMap<String, String>();
@@ -94,10 +97,155 @@ public class Controller implements Initializable {
     private static List<String> ledList = new ArrayList<String>();
     private static float lookSpeed = 0.3f;
 
-    public class Subscribtion{
-        public void changed(){
-            System.out.println("changed");
+    //Klasse um Events vom Nao zu erhalten.
+    public class ReactToEvents {
+
+        //Variablen, um ID der Abonnements abzuspeichern. Diese ist nötig, um die Abonnements wieder zu beenden (bspw. bei manueller Trennung vom NAO).
+        long frontTactilSubscriptionId;
+        long rearTactilSubscriptionId;
+        long middleTactilSubscriptionId;
+        long postureSubscriptionId;
+        long batteryChargeSubscriptionId;
+        long batteryPluggedSubscriptionId;
+        long temperatureChangedSubscriptionId;
+        long temperatureStatusSubscriptionId;
+        long temperatureDiagnosisSubscriptionId;
+
+        public void run(Session session) throws Exception {
+            frontTactilSubscriptionId = 0;
+            rearTactilSubscriptionId = 0;
+            middleTactilSubscriptionId = 0;
+            postureSubscriptionId = 0;
+            batteryChargeSubscriptionId = 0;
+            batteryPluggedSubscriptionId = 0;
+            temperatureChangedSubscriptionId = 0;
+            temperatureStatusSubscriptionId = 0;
+            temperatureDiagnosisSubscriptionId = 0;
+
+            //Anmelden am Event "FrontTactilTouched" (vorderer Touch-Sensor am Kopf des NAO),
+            // erstellen eines EventCallback, welches Daten vom Event erwartet (je nach Event ist das bspw. ein Float oder ein String).
+            frontTactilSubscriptionId = memory.subscribeToEvent(
+                    "FrontTactilTouched", new EventCallback<Float>() {
+                        @Override
+                        public void onEvent(Float arg0)
+                                throws InterruptedException, CallError {
+                            // Der Sensor wurde berührt.
+                            if (arg0 > 0) {
+                                tts.say("Ouch!");
+                            }
+                        }
+                    });
+
+            //Weitere Abonnements für die anderen touch-Sensoren am Kopf nach dem gleichen Schema
+            rearTactilSubscriptionId = memory.subscribeToEvent("RearTactilTouched",
+                    new EventCallback<Float>() {
+                        @Override
+                        public void onEvent(Float arg0)
+                                throws InterruptedException, CallError {
+                            if (arg0 > 0) {
+                                tts.say("Ouch!");
+                            }
+                        }
+                    });
+
+            middleTactilSubscriptionId = memory.subscribeToEvent("MiddleTactilTouched",
+                    new EventCallback<Float>() {
+                        @Override
+                        public void onEvent(Float arg0)
+                                throws InterruptedException, CallError {
+                            if (arg0 > 0) {
+                                tts.say("Ouch!");
+                            }
+                        }
+                    });
+
+            //Änderung des Status der Batterie
+            batteryChargeSubscriptionId = memory.subscribeToEvent("BatteryChargeChanged",
+                    new EventCallback<Float>() {
+                        @Override
+                        public void onEvent(Float arg0)
+                                throws InterruptedException, CallError {
+                            if (arg0 > 0) {
+                                System.out.println(arg0);
+                            }
+                        }
+                    });
+
+            //Änderung des Ladestatus der Batterie
+            batteryPluggedSubscriptionId = memory.subscribeToEvent("BatteryPowerPluggedChanged",
+                    new EventCallback<Float>() {
+                        @Override
+                        public void onEvent(Float arg0)
+                                throws InterruptedException, CallError {
+                            if (arg0 > 0) {
+                                System.out.println(arg0);
+                            }
+                        }
+                    });
+
+            //Änderung des Temperaturstatus
+            temperatureStatusSubscriptionId = memory.subscribeToEvent("TemperatureStatusChanged",
+                    new EventCallback<Float>() {
+                        @Override
+                        public void onEvent(Float arg0)
+                                throws InterruptedException, CallError {
+                            if (arg0 > 0) {
+                                System.out.println(arg0);
+                            }
+                        }
+                    });
+
+            //Temperaturstatus
+            temperatureStatusSubscriptionId = memory.subscribeToEvent("TemperatureStatus",
+                    new EventCallback<Float>() {
+                        @Override
+                        public void onEvent(Float arg0)
+                                throws InterruptedException, CallError {
+                            if (arg0 > 0) {
+                                System.out.println(arg0);
+                            }
+                        }
+                    });
+
+            //TemperatureDiagnosisErrorChanged
+            temperatureDiagnosisSubscriptionId = memory.subscribeToEvent("TemperatureDiagnosisErrorChanged",
+                    new EventCallback<Float>() {
+                        @Override
+                        public void onEvent(Float arg0)
+                                throws InterruptedException, CallError {
+                            if (arg0 > 0) {
+                                System.out.println(arg0);
+                            }
+                        }
+                    });
+
+            //Änderung der Haltung (als Test-Szenario)
+            postureSubscriptionId = memory.subscribeToEvent(
+                    "PostureChanged", new EventCallback<String>() {
+                        @Override
+                        public void onEvent(String arg0)
+                                throws InterruptedException, CallError {
+                            // 1 means the sensor has been pressed
+                            if (arg0 != null) {
+                                System.out.println(arg0);
+                            }
+                        }
+                    });
+
         }
+
+        public void unsubscribe(Session session) throws Exception {
+            if(frontTactilSubscriptionId > 0) memory.unsubscribeToEvent(frontTactilSubscriptionId);
+            if(rearTactilSubscriptionId > 0) memory.unsubscribeToEvent(rearTactilSubscriptionId);
+            if(middleTactilSubscriptionId > 0) memory.unsubscribeToEvent(middleTactilSubscriptionId);
+            if(batteryChargeSubscriptionId > 0) memory.unsubscribeToEvent(batteryChargeSubscriptionId);
+            if(batteryPluggedSubscriptionId > 0) memory.unsubscribeToEvent(batteryPluggedSubscriptionId);
+            if(temperatureStatusSubscriptionId > 0) memory.unsubscribeToEvent(temperatureStatusSubscriptionId);
+            if(temperatureDiagnosisSubscriptionId > 0) memory.unsubscribeToEvent(temperatureDiagnosisSubscriptionId);
+            if(temperatureChangedSubscriptionId > 0) memory.unsubscribeToEvent(temperatureChangedSubscriptionId);
+            if(postureSubscriptionId > 0) memory.unsubscribeToEvent(postureSubscriptionId);
+        }
+
     }
 
     //Alles was unter dieser Methode steht, wird direkt beim Starten des Programms ausgeführt.
@@ -153,6 +301,7 @@ public class Controller implements Initializable {
 
     public void stopConnection(ActionEvent actionEvent) throws Exception{
         if(session.isConnected()) {
+            reactor.unsubscribe(session);
             session.close();
         }
         checkConnection();
@@ -170,12 +319,6 @@ public class Controller implements Initializable {
             audio = new ALAudioPlayer(session);
             touch = new ALTouch(session);
             memory = new ALMemory(session);
-
-            System.out.println(memory.getEventList());
-            System.out.println(touch.getSensorList());
-            Subscribtion sub = new Subscribtion();
-            memory.subscribeToEvent("PostureChanged", "sub", "changed");
-
 
             //Setzen des Verbindungsstatus-Kreises auf Grün
             if(circleConnectionState.getFill() != Color.GREEN) {
@@ -209,6 +352,10 @@ public class Controller implements Initializable {
                 }
             }
             listSoundFiles.setDisable(noAudioFiles);
+
+            reactor = new ReactToEvents();
+            reactor.run(session);
+
             return true;
         } else {
             if(circleConnectionState.getFill() != Color.RED) {
@@ -237,7 +384,6 @@ public class Controller implements Initializable {
         }
         return list;
     }
-
 
     public void writeConnectionToFile(String ip, String port) throws Exception {
         String listString = "";
