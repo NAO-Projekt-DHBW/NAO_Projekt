@@ -1,11 +1,27 @@
-.transparent{
-    -fx-background-color: black;
-    }
-
-.error{
-    color: red;
+.battery {
+    -fx-background-color: #fff;
+    -fx-border-color: #000;
+    -fx-margin-left: auto;
+    -fx-margin-right: auto;
+    -fx-position: relative;
 }
 
-.success{
-    color: green;
+.battery-level {
+    *-fx-background-color: #666;
+    -fx-background-color: #fff;
+}
+
+.battery-level.high {
+    -fx-background-color: #66CD00;
+}
+.battery-level.medium {
+    -fx-background-color: #FCD116;
+}
+.battery-level.low {
+    -fx-background-color: #FF3333;
+}
+
+.battery-text {
+    -fx-border: none;
+    -fx-background: transparent;
 }
