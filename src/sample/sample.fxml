@@ -22,7 +22,7 @@
       <Label fx:id="labelNAOSelection" layoutX="39.0" layoutY="111.0" prefHeight="30.0" prefWidth="160.0" text="NAO auswählen:" />
       <Label fx:id="labelIPAdress" layoutX="39.0" layoutY="141.0" prefHeight="30.0" prefWidth="160.0" text="IP-Adresse:" />
       <Label fx:id="labelPort" layoutX="39.0" layoutY="171.0" prefHeight="30.0" prefWidth="160.0" text="Port:" />
-      <TextField fx:id="fieldIPAdress" layoutX="160.0" layoutY="143.0" prefHeight="25.0" prefWidth="177.0" />
+      <TextField fx:id="fieldIPAdress" layoutX="160.0" layoutY="143.0" onInputMethodTextChanged="#validateIP" onKeyTyped="#validateIP" prefHeight="25.0" prefWidth="177.0" />
       <TextField fx:id="fieldPort" layoutX="160.0" layoutY="173.0" prefHeight="25.0" prefWidth="177.0" />
       <MenuBar layoutY="2.0" onKeyPressed="#getKeyPressed" onKeyReleased="#getKeyReleased" prefHeight="29.0" prefWidth="1441.0">
         <menus>
@@ -143,11 +143,11 @@
       <ComboBox fx:id="comboBoxLedGroup" layoutX="935.0" layoutY="113.0" onAction="#selectLed" prefHeight="25.0" prefWidth="196.0" promptText="Augen auswählen" />
       <Slider fx:id="sliderTalkingSpeed" layoutX="900.0" layoutY="750.0" max="400.0" min="50.0" prefHeight="14.0" prefWidth="299.0" showTickLabels="true" showTickMarks="true" value="100.0" />
       <Label layoutX="900.0" layoutY="782.0" prefHeight="17.0" prefWidth="196.0" text="Geschwindigkeit" />
-      <AnchorPane id="battery" fx:id="aPaneBattery" layoutX="610.0" layoutY="655.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="42.0" prefWidth="102.0" styleClass="battery" stylesheets="@style.css">
+      <AnchorPane id="battery" fx:id="aPaneBattery" layoutX="606.0" layoutY="655.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="42.0" prefWidth="106.0" styleClass="battery" stylesheets="@style.css">
          <children>
-            <AnchorPane fx:id="aPaneBatteryBar" layoutX="1.0" layoutY="1.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="100.0" styleClass="battery-level" stylesheets="@style.css">
+            <AnchorPane fx:id="aPaneBatteryBar" layoutX="3.0" layoutY="3.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="36.0" prefWidth="100.0" styleClass="battery-level" stylesheets="@style.css">
                <children>
-                  <TextField fx:id="fieldBattery" alignment="CENTER" editable="false" layoutX="30.0" layoutY="5.0" prefHeight="30.0" prefWidth="40.0" styleClass="battery-text" stylesheets="@style.css">
+                  <TextField fx:id="fieldBattery" alignment="CENTER" editable="false" layoutX="20.0" prefHeight="36.0" prefWidth="60.0" styleClass="battery-text" stylesheets="@style.css">
                      <font>
                         <Font size="12.0" />
                      </font>
@@ -160,7 +160,8 @@
          </image>
       </ImageView>
       <Button fx:id="btnResetAudioSettings" layoutX="1214.0" layoutY="807.0" mnemonicParsing="false" onAction="#resetAudioSettings" prefHeight="26.0" prefWidth="196.0" text="Standard wiederherstellen" />
-      <Slider fx:id="sliderHeadUpDown" blockIncrement="0.01" layoutX="213.0" layoutY="275.0" max="0.45" min="-0.45" onMouseDragged="#lookUpOrDown" orientation="VERTICAL" />
-      <Slider fx:id="sliderHeadLeftRight" blockIncrement="0.01" layoutX="246.0" layoutY="337.0" max="2.1" min="-2.1" onMouseDragged="#lookLeftOrRight" />
+      <Slider fx:id="sliderHeadUpDown" blockIncrement="0.01" layoutX="213.0" layoutY="275.0" max="0.45" min="-0.45" onMouseClicked="#lookLeftOrRight" onMouseDragged="#lookUpOrDown" orientation="VERTICAL" />
+      <Slider fx:id="sliderHeadLeftRight" blockIncrement="0.01" layoutX="246.0" layoutY="337.0" max="2.1" min="-2.1" onMouseClicked="#lookLeftOrRight" onMouseDragged="#lookLeftOrRight" />
+      <Button fx:id="btnTemperature" layoutX="630.0" layoutY="769.0" mnemonicParsing="false" onAction="#getTemperature" text="Button" />
    </children>
 </Pane>

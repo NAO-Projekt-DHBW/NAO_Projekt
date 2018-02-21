@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -22,6 +23,9 @@ import javax.swing.*;
 import java.io.*;
 import java.net.URL;
 import java.util.*;
+import java.util.Timer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Controller implements Initializable {
 
@@ -75,6 +79,7 @@ public class Controller implements Initializable {
     public TextField fieldBattery;
 
     private static int maxLastConnections = 10;
+    private static int timerInSeconds = 10;
     private static String fileLastConnection = "connection.txt";
     private static Map<String, List<String>> ledMap = new HashMap<String, List<String>>();
     private static Map<String, String> ledColorMap = new HashMap<String, String>();
@@ -91,6 +96,9 @@ public class Controller implements Initializable {
     private static ALTouch touch;
     private static ALMemory memory;
     private static ReactToEvents reactor;
+    private static Timer timer;
+    public Button btnTemperature;
+
     //Klasse um Events vom Nao zu erhalten.
     public class ReactToEvents {
 
@@ -177,6 +185,7 @@ public class Controller implements Initializable {
                         }
                     });
 
+            /*
             //Änderung des Temperaturstatus
             temperatureStatusSubscriptionId = memory.subscribeToEvent("TemperatureStatusChanged",
                     new EventCallback<Float>() {
@@ -212,7 +221,7 @@ public class Controller implements Initializable {
                             }
                         }
                     });
-
+            */
             //Änderung der Haltung (als Test-Szenario)
             postureSubscriptionId = memory.subscribeToEvent(
                     "PostureChanged", new EventCallback<String>() {
@@ -240,7 +249,17 @@ public class Controller implements Initializable {
         }
     }
 
-        //Alles was unter dieser Methode steht, wird direkt beim Starten des Programms ausgeführt.
+    class RunPeriodically extends TimerTask {
+        public void run() {
+            try {
+                System.out.println(checkConnection());
+                writeBatteryStateToTextField(getBatteryState());
+                getTemperature();
+            }catch(Exception ex){}
+        }
+    }
+
+    //Alles was unter dieser Methode steht, wird direkt beim Starten des Programms ausgeführt.
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
@@ -268,6 +287,19 @@ public class Controller implements Initializable {
     /*
     Methoden zum Verwalten der Verbindung mit dem NAO
      */
+
+    public void validateIP(javafx.scene.input.KeyEvent keyEvent) throws Exception {
+        Pattern pattern;
+        Matcher matcher;
+        String IPADDRESS_PATTERN
+                = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
+                + "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
+                + "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
+                + "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
+        pattern = Pattern.compile(IPADDRESS_PATTERN);
+        matcher = pattern.matcher(fieldIPAdress.getText().toString());
+    }
+
     //Wenn NAO-Verbindungsdaten aus dem Dropdown-Menü gewählt wird, wird die IP-Adresse und der Port in die beiden entsprechenden Textfelder eingetragen.
     public void setConnectionData(ActionEvent actionEvent) {
         String temp = comboBoxSelectNAO.getValue().toString();
@@ -281,7 +313,11 @@ public class Controller implements Initializable {
     public void startConnection(ActionEvent actionEvent) throws Exception {
         String robotUrl = "tcp://" + fieldIPAdress.getText().toString() + ":" + fieldPort.getText().toString();
         try {
-            session.connect(robotUrl).get();
+            long startTime = System.currentTimeMillis();
+            while((System.currentTimeMillis()-startTime)<10000)
+            {
+                session.connect(robotUrl).get();
+            }
             if(checkConnection()){
                 //Zuweisen der NAO-Klassen
                 motion = new ALMotion(session);
@@ -295,17 +331,17 @@ public class Controller implements Initializable {
                 memory = new ALMemory(session);
                 reactor = new ReactToEvents();
                 reactor.run(session);
+                timer = new Timer();
+                timer.schedule(new RunPeriodically(), 0, timerInSeconds * 1000);
 
-                //Schreiben der momentan genutzen Verbindung in eine Datei "connection.txt"
-                writeConnectionToFile(fieldIPAdress.getText().toString(), fieldPort.getText().toString());
-                //Außerdem wird direkt die Nao-Auswahlliste neu aus der Datei "connection.txt" eingelesen, um den neusten Eintrag hinzuzufügen.
-                //comboBoxSelectNAO.setItems(FXCollections.observableArrayList(getLastConnectionsFromFile()));
-                //comboBoxSelectNAO.getSelectionModel().selectLast();
-
-                fieldTemperature.clear();
-                writeBatteryStateToTextField(getBatteryState());
-                listSoundFiles.setItems(FXCollections.observableArrayList(""));
-                fieldTemperature.appendText(getTemperature());
+                //Audio-Parameter auslesen und setzen
+                if(tts.getLanguage().toString().contains("German")){
+                    comboBoxLanguage.getSelectionModel().select("Deutsch");
+                    tts.say("Du bist verbunden!");
+                } else if (tts.getLanguage().toString().contains("English")){
+                    comboBoxLanguage.getSelectionModel().select("Englisch");
+                    tts.say("You are connected!");
+                }
 
                 //AudioFiles laden
                 Boolean noAudioFiles = true;
@@ -317,14 +353,11 @@ public class Controller implements Initializable {
                 }
                 listSoundFiles.setDisable(noAudioFiles);
 
-                //Audio-Parameter auslesen und setzen
-                if(tts.getLanguage().toString().contains("German")){
-                    comboBoxLanguage.getSelectionModel().select("Deutsch");
-                    tts.say("Du bist verbunden!");
-                } else if (tts.getLanguage().toString().contains("English")){
-                    comboBoxLanguage.getSelectionModel().select("Englisch");
-                    tts.say("You are connected!");
-                }
+                //Schreiben der momentan genutzen Verbindung in eine Datei "connection.txt"
+                writeConnectionToFile(fieldIPAdress.getText().toString(), fieldPort.getText().toString());
+                //Außerdem wird direkt die Nao-Auswahlliste neu aus der Datei "connection.txt" eingelesen, um den neusten Eintrag hinzuzufügen.
+                //comboBoxSelectNAO.setItems(FXCollections.observableArrayList(getLastConnectionsFromFile()));
+                //comboBoxSelectNAO.getSelectionModel().selectLast();
             }
         } catch (Exception ex) {
             //Anzeigen der Fehlermeldung in einem kleinen Popup-Fenster
@@ -335,6 +368,7 @@ public class Controller implements Initializable {
     public void stopConnection(ActionEvent actionEvent) throws Exception{
         if(session.isConnected()) {
             reactor.unsubscribe(session);
+            timer.cancel();
             tts.say("Ciao!");
             session.close();
         }
@@ -407,17 +441,8 @@ public class Controller implements Initializable {
         return state;
     }
 
-    public void clearBatteryStateField() throws Exception{
-        fieldBattery.clear();
-        aPaneBatteryBar.getStyleClass().remove("high");
-        aPaneBatteryBar.getStyleClass().remove("medium");
-        aPaneBatteryBar.getStyleClass().remove("low");
-        aPaneBatteryBar.setStyle("-fx-pref-width:100px;");
-    }
-
     public void writeBatteryStateToTextField(int state) throws Exception {
         clearBatteryStateField();
-        state = 90;
         fieldBattery.appendText(String.valueOf(state + "%"));
         if (state >= 50) {
             aPaneBatteryBar.getStyleClass().add("high");
@@ -429,16 +454,30 @@ public class Controller implements Initializable {
         aPaneBatteryBar.setStyle("-fx-pref-width:" + state + "px;");
     }
 
+    public void clearBatteryStateField() throws Exception{
+        fieldBattery.clear();
+        aPaneBatteryBar.getStyleClass().remove("high");
+        aPaneBatteryBar.getStyleClass().remove("medium");
+        aPaneBatteryBar.getStyleClass().remove("low");
+        aPaneBatteryBar.setStyle("-fx-pref-width:100px;");
+    }
+
     public String getTemperature() throws Exception {
         String result;
         Object temp = temperature.getTemperatureDiagnosis();
+        System.out.println("Object temp:" + temp);
         if (temp instanceof ArrayList) {
             ArrayList tempList = (ArrayList) temp;
+            System.out.println("ArrayList: " + tempList);
             result = tempList.get(0).toString();
         } else {
             result = "N/A";
         }
         return result;
+    }
+
+    public void getTemperature(ActionEvent actionEvent) throws Exception{
+        getTemperature();
     }
 
     //NAO aufwecken
@@ -472,9 +511,9 @@ public class Controller implements Initializable {
         if(checkConnection()) {
             motion.angleInterpolationWithSpeed("HeadPitch", 0f, (float) sliderPace.getValue());
             motion.angleInterpolationWithSpeed("HeadYaw", 0f, (float) sliderPace.getValue());
-            sliderHeadLeftRight.setValue(0);
-            sliderHeadUpDown.setValue(0);
         }
+        sliderHeadLeftRight.setValue(0);
+        sliderHeadUpDown.setValue(0);
     }
 
     //NAO solange bewegen lassen, bis die Maus losgelassen wird:
@@ -483,37 +522,37 @@ public class Controller implements Initializable {
     //Den Methoden muss das MouseEvent (und nicht ActionEvent) übergeben werden, sonst wird sie in der Laufzeit mit einem Fehler abgebrochen.
     public void moveForward(MouseEvent mouseEvent) throws Exception {
         if(checkConnection()) {
-            motion.move((float) sliderPace.getValue(), 0f, 0f);
+            motion.moveToward((float) sliderPace.getValue(), 0f, 0f);
         }
     }
 
     public void moveBackwards(MouseEvent mouseEvent) throws Exception {
         if(checkConnection()){
-            motion.move(-(float) sliderPace.getValue(), 0f ,0f);
+            motion.moveToward(-(float) sliderPace.getValue(), 0f ,0f);
         }
     }
 
     public void moveLeft(MouseEvent mouseEvent) throws Exception {
         if(checkConnection()){
-            motion.move(0f, (float) sliderPace.getValue(), 0f);
+            motion.moveToward(0f, (float) sliderPace.getValue(), 0f);
         }
     }
 
     public void moveRight(MouseEvent mouseEvent) throws Exception {
         if(checkConnection()){
-            motion.move(0f, -(float) sliderPace.getValue(), 0f);
+            motion.moveToward(0f, -(float) sliderPace.getValue(), 0f);
         }
     }
 
     public void turnRight(MouseEvent mouseEvent) throws Exception {
         if(checkConnection()){
-            motion.move(0f, 0f, -(float) sliderPace.getValue());
+            motion.moveToward(0f, 0f, -(float) sliderPace.getValue());
         }
     }
 
     public void turnLeft(MouseEvent mouseEvent) throws Exception {
         if(checkConnection()){
-            motion.move(0f, 0f, (float) sliderPace.getValue());
+            motion.moveToward(0f, 0f, (float) sliderPace.getValue());
         }
     }
 
@@ -530,22 +569,22 @@ public class Controller implements Initializable {
         if(checkConnection()) {
             switch (keyEvent.getCode()) {
                 case W:
-                    motion.move((float) sliderPace.getValue(), 0f, 0f);
+                    motion.moveToward((float) sliderPace.getValue(), 0f, 0f);
                     break;
                 case A:
-                    motion.move(0f, (float) sliderPace.getValue(), 0f);
+                    motion.moveToward(0f, (float) sliderPace.getValue(), 0f);
                     break;
                 case S:
-                    motion.move(-(float) sliderPace.getValue(), 0f, 0f);
+                    motion.moveToward(-(float) sliderPace.getValue(), 0f, 0f);
                     break;
                 case D:
-                    motion.move(0f, -(float) sliderPace.getValue(), 0f);
+                    motion.moveToward(0f, -(float) sliderPace.getValue(), 0f);
                     break;
                 case Q:
-                    motion.move(0f, 0f, (float) sliderPace.getValue());
+                    motion.moveToward(0f, 0f, (float) sliderPace.getValue());
                     break;
                 case E:
-                    motion.move(0f, 0f, -(float) sliderPace.getValue());
+                    motion.moveToward(0f, 0f, -(float) sliderPace.getValue());
                     break;
             }
         }
@@ -588,12 +627,6 @@ public class Controller implements Initializable {
         }
     }
 
-    public void resetAudioSettings(ActionEvent actionEvent) throws Exception{
-        sliderTalkingSpeed.setValue(100);
-        sliderPitch.setValue(100);
-        sliderVolume.setValue(80);
-    }
-
     //NAO sagt, was in die Sprechblase geschrieben wurde. Die Methode wird durch den Play-Button gestartet.
     public void sayText(ActionEvent actionEvent) throws Exception {
         if(checkConnection() && fieldSound.getText() != null && comboBoxLanguage.getValue().toString() != null) {
@@ -605,6 +638,12 @@ public class Controller implements Initializable {
         if(checkConnection()) {
             audio.playSoundSetFile(listSoundFiles.getSelectionModel().getSelectedItem().toString(), 0f, (float) sliderVolume.getValue(), 0f, false);
         }
+    }
+
+    public void resetAudioSettings(ActionEvent actionEvent) throws Exception{
+        sliderTalkingSpeed.setValue(100);
+        sliderPitch.setValue(100);
+        sliderVolume.setValue(80);
     }
 
     public void selectLed(ActionEvent actionEvent) throws Exception {
@@ -696,7 +735,6 @@ public class Controller implements Initializable {
             posture.goToPosture("LyingBelly", (float) sliderPace.getValue());
         }
     }
-
 
     //Hocken
     public void crouch(ActionEvent actionEvent) throws Exception {

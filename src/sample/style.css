@@ -4,11 +4,14 @@
     -fx-margin-left: auto;
     -fx-margin-right: auto;
     -fx-position: relative;
+    -fx-border-radius: 5 5 5 5;
+    -fx-background-radius: 5 5 5 5;
 }
 
 .battery-level {
-    *-fx-background-color: #666;
-    -fx-background-color: #fff;
+    -fx-background-color: #666;
+    -fx-border-radius: 5 5 5 5;
+    -fx-background-radius: 5 5 5 5;
 }
 
 .battery-level.high {
@@ -22,6 +25,6 @@
 }
 
 .battery-text {
-    -fx-border: none;
-    -fx-background: transparent;
+    -fx-border: transparent;
+    -fx-background-color: transparent;
 }
