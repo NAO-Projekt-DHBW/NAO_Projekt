@@ -1,17 +1,25 @@
+.background{
+    -fx-background-color: #fff;
+}
+
+.root{
+
+}
+
 .battery {
     -fx-background-color: #fff;
     -fx-border-color: #000;
     -fx-margin-left: auto;
     -fx-margin-right: auto;
     -fx-position: relative;
-    -fx-border-radius: 5 5 5 5;
-    -fx-background-radius: 5 5 5 5;
+    -fx-border-radius: 10 10 10 10;
+    -fx-background-radius: 10 10 10 10;
 }
 
 .battery-level {
     -fx-background-color: #666;
-    -fx-border-radius: 5 5 5 5;
-    -fx-background-radius: 5 5 5 5;
+    -fx-border-radius: 10 10 10 10;
+    -fx-background-radius: 10 10 10 10;
 }
 
 .battery-level.high {
@@ -27,4 +35,8 @@
 .battery-text {
     -fx-border: transparent;
     -fx-background-color: transparent;
+}
+
+.disable-buttons {
+    -fx-opacity: 1.0;
 }
