@@ -1,23 +1,11 @@
 package sample;
 
-import javafx.animation.FillTransition;
-import javafx.animation.ParallelTransition;
-import javafx.animation.TranslateTransition;
 import javafx.application.Application;
-import javafx.beans.property.ReadOnlyBooleanProperty;
-import javafx.beans.property.ReadOnlyBooleanWrapper;
-import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-
-import java.awt.*;
+import javafx.scene.image.Image ;
 
 public class Main extends Application {
 
@@ -25,8 +13,13 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("NAO Dashboard");
-        primaryStage.setScene(new Scene(root, 800, 800));
-        primaryStage.setFullScreen(false);
+        primaryStage.setScene(new Scene(root, 1420, 850));
+        //setMaximized nutzt die volle Breite und Höhe des Bildschirm im Fenstermodus (bei setFullScreen gibt es kein Fenster).
+        primaryStage.setMaximized(true);
+        //Laden eines Icons, damit in der "Taskleiste" kein Bild von einem Fragezeichen ist.
+        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("nao_icon.jpg")));
+        //CSS-Datei verknüpfen
+        primaryStage.getScene().getStylesheets().add("sample/style.css");
         primaryStage.show();
     }
 

@@ -1,10 +1,16 @@
 package sample;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.application.Application;
+import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -15,6 +21,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.*;
@@ -25,13 +32,11 @@ import java.util.regex.Pattern;
 public class Controller implements Initializable {
 
     public Button btnPlay;
-    public Label labelSound;
     public TextField fieldSound;
     public ComboBox comboBoxLanguage;
     public Slider sliderPitch;
     public Label labelPitch;
     public ImageView imgNAO;
-    public ImageView imgBubble;
     public Button btnLyingBack;
     public ComboBox comboBoxSelectNAO;
     public Button btnConnect;
@@ -47,8 +52,6 @@ public class Controller implements Initializable {
     public Button btnCrouch;
     public Button btnSitChair;
     public Button btnSitRelax;
-    public Label labelWalk;
-    public ToggleButton toggleRest;
     public ToggleButton toggleWakeUp;
     public Button btnStandInit;
     public Button btnStandZero;
@@ -60,13 +63,11 @@ public class Controller implements Initializable {
     public Circle circleConnectionState;
     public ComboBox comboBoxLedGroup;
     public Button btnLedOn;
-    public Button btnLedOff;
     public ComboBox comboBoxLedColor;
     public ListView listSoundFiles;
     public Slider sliderTalkingSpeed;
     public AnchorPane aPaneBattery;
     public AnchorPane aPaneBatteryBar;
-    public ImageView imgBatteryCharching;
     public Button btnResetAudioSettings;
     public Slider sliderHeadUpDown;
     public Slider sliderHeadLeftRight;
@@ -75,6 +76,9 @@ public class Controller implements Initializable {
     public Circle circleTemperatureRL;
     public Circle circleTemperatureLL;
     public Circle circleTemperatureLA;
+    public Button btnResetHead;
+    public Button btnLedOff;
+    public ToggleButton toggleRest;
 
     private Connection connection;
     private Audio audio;
@@ -87,6 +91,7 @@ public class Controller implements Initializable {
     private static int timerInSeconds = 15;
     private static Color defaultColor = Color.valueOf("#666666");
     private Boolean allowConnection = false;
+    private static Glow glow;
 
     public class RunPeriodically extends TimerTask {
         public void run() {
@@ -94,16 +99,17 @@ public class Controller implements Initializable {
                 changeControlls(connection.checkConnection());
                 showBatteryState(battery.getBatteryState());
                 showTemperatureState(temperature.getTemperature());
+                showBatteryCharging(true);
             }catch(Exception ex){}
         }
     }
-
     //Alles was unter dieser Methode steht, wird direkt beim Starten des Programms ausgeführt.
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-            changeControlls(false);
-            //btnConnect.disableProperty().bind(bb);
+            btnConnect.disableProperty().bind(Bindings.createBooleanBinding(
+                    () ->!validateIp(fieldIp.getText()) || !validatePort(fieldPort.getText()) || fieldPort.getText().isEmpty(),
+                    fieldIp.textProperty(), fieldPort.textProperty()));
             connection = new Connection();
             //Befüllen der ComboBoxen/Dropdown-Menüs mit Elementen
             comboBoxSelectNAO.setItems(FXCollections.observableArrayList(connection.getLastConnectionsFromFile()));
@@ -111,13 +117,9 @@ public class Controller implements Initializable {
         } catch(Exception ex){}
     }
 
-    BooleanBinding bb = new BooleanBinding() {
-        @Override
-        protected boolean computeValue() {
-            return (fieldIp.getText().isEmpty() && fieldPort.getText().isEmpty());
-        }
-    };
+    public void BooleanBinding(){
 
+    }
 
     public Boolean validateIp(String ip){
         Pattern pattern;
@@ -178,6 +180,7 @@ public class Controller implements Initializable {
                 noAudioFiles = false;
             }
             listSoundFiles.setDisable(noAudioFiles);
+            changeControlls(connection.checkConnection());
         }
     }
 
@@ -196,7 +199,6 @@ public class Controller implements Initializable {
         btnA.setDisable(!connected);
         btnD.setDisable(!connected);
         btnCrouch.setDisable(!connected);
-        btnLedOff.setDisable(!connected);
         btnLedOn.setDisable(!connected);
         btnLyingBack.setDisable(!connected);
         btnLyingBelly.setDisable(!connected);
@@ -204,13 +206,27 @@ public class Controller implements Initializable {
         comboBoxLedColor.setDisable(!connected);
         comboBoxLedGroup.setDisable(!connected);
         comboBoxLanguage.setDisable(!connected);
-        toggleRest.setDisable(!connected);
+        sliderPace.setDisable(!connected);
+        sliderVolume.setDisable(!connected);
+        sliderHeadUpDown.setDisable(!connected);
+        sliderHeadLeftRight.setDisable(!connected);
+        sliderTalkingSpeed.setDisable(!connected);
+        sliderPitch.setDisable(!connected);
+        btnResetAudioSettings.setDisable(!connected);
+        fieldSound.setDisable(!connected);
         toggleWakeUp.setDisable(!connected);
+        toggleRest.setDisable(!connected);
         btnCloseConnection.setDisable(!connected);
-        btnConnect.setDisable(connected);
+        btnResetHead.setDisable(!connected);
+        btnLedOff.setDisable(!connected);
         if(connected){
             circleConnectionState.setFill(Color.GREEN);
+            btnConnect.disableProperty().unbind();
+            btnConnect.setDisable(connected);
         }else{
+            btnConnect.disableProperty().bind(Bindings.createBooleanBinding(
+                    () ->!validateIp(fieldIp.getText()) || !validatePort(fieldPort.getText()) || fieldPort.getText().isEmpty(),
+                    fieldIp.textProperty(), fieldPort.textProperty()));
             circleConnectionState.setFill(Color.RED);
             fieldBattery.clear();
             aPaneBatteryBar.getStyleClass().remove("high");
@@ -248,6 +264,14 @@ public class Controller implements Initializable {
         System.out.println("Batterie: " + state);
     }
 
+    public void showBatteryCharging(Boolean charging){
+        if(charging){
+            aPaneBattery.getStyleClass().add("charging");
+            aPaneBattery.setStyle(" -fx-background-size: 20px 20px;");
+        } else {
+            aPaneBattery.getStyleClass().remove("charging");
+        }
+    }
 
     public void showTemperatureState(String state){
         Color color = defaultColor;
@@ -387,8 +411,8 @@ public class Controller implements Initializable {
         move.changePosture("Crouch", (float) sliderPace.getValue());
     }
 
-    public void showPosture(String posture){
-
+    public void showPostureGui(String posture){
+        System.out.println(posture);
     }
 
     public void setLanguage(ActionEvent actionEvent) throws Exception{
@@ -427,8 +451,11 @@ public class Controller implements Initializable {
             led.turnLedsOn(comboBoxLedColor.getValue().toString());
         }
     }
+
     public void ledsOff(ActionEvent actionEvent) throws Exception{
-        led.turnLedsOff();
+        if(comboBoxLedColor.getValue() != null) {
+            led.turnLedsOff();
+        }
     }
 
     /*

@@ -1,7 +1,3 @@
-.background{
-    -fx-background-color: #fff;
-}
-
 .root{
 
 }
@@ -14,6 +10,10 @@
     -fx-position: relative;
     -fx-border-radius: 10 10 10 10;
     -fx-background-radius: 10 10 10 10;
+}
+
+.battery.charging{
+    -fx-background-image: url("../BatteryCharging.jpg");
 }
 
 .battery-level {

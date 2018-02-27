@@ -1,18 +1,27 @@
 package sample;
 
+import javafx.fxml.FXMLLoader;
 import com.aldebaran.qi.CallError;
 import com.aldebaran.qi.helper.EventCallback;
 import com.aldebaran.qi.helper.proxies.ALMemory;
+import javafx.scene.Parent;
+import javafx.scene.layout.Pane;
 
 public class Reactor {
 
     private Connection connection;
     private ALMemory alMemory;
     private Audio audio;
+    private Controller controller;
 
+    //Eigener Konstruktor:
     public Reactor(Connection connection, Audio audio) throws Exception{
         this.connection = connection;
         alMemory = new ALMemory(this.connection.getSession());
+        this.audio = audio;
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("sample.fxml"));
+        Parent root = loader.load();
+        controller = loader.getController();
     }
 
     //Variablen, um ID der Abonnements abzuspeichern. Diese ist nötig, um die Abonnements wieder zu beenden (bspw. bei manueller Trennung vom NAO).
@@ -40,8 +49,8 @@ public class Reactor {
                         // Der Sensor wurde berührt.
                         if (arg0 > 0) {
                             try {
-                                audio.saySomething("Nein!");
                                 System.out.println("FrontTactilTouched: " + arg0);
+                                audio.saySomething("Nein!");
                             } catch(Exception ex){}
                         }
                     }
@@ -55,8 +64,8 @@ public class Reactor {
                             throws InterruptedException, CallError {
                         if (arg0 > 0) {
                             try {
-                                audio.saySomething("Aua!");
                                 System.out.println("RearTactilTouched: " + arg0);
+                                audio.saySomething("Aua!");
                             } catch(Exception ex){}
                         }
                     }
@@ -69,8 +78,8 @@ public class Reactor {
                             throws InterruptedException, CallError {
                         if (arg0 > 0) {
                             try {
-                                audio.saySomething("Ouch!");
                                 System.out.println("MiddleTactilTouched: " + arg0);
+                                audio.saySomething("Ouch!");
                             } catch(Exception ex){}
                         }
                     }
@@ -84,9 +93,7 @@ public class Reactor {
                             throws InterruptedException, CallError {
                         if (arg0 >= 0) {
                             System.out.println("BatteryChargeChanged: " + arg0);
-                            try {
-                                //showBatteryState(arg0);
-                            }catch(Exception ex){}
+                            controller.showBatteryState(arg0);
                         }
                     }
                 });
@@ -97,9 +104,10 @@ public class Reactor {
                     @Override
                     public void onEvent(Boolean arg0)
                             throws InterruptedException, CallError {
-                        System.out.println("BatteryPowerPlugged: " + arg0);
-                        //imgBatteryCharching.setVisible(arg0);
-
+                        if(arg0.booleanValue()) {
+                            System.out.println("BatteryPowerPlugged: " + arg0);
+                            controller.showBatteryCharging(arg0);
+                        }
                     }
                 });
 
@@ -148,8 +156,11 @@ public class Reactor {
                             throws InterruptedException, CallError {
                         if (arg0 != null) {
                             try {
+                                //System.out.println(arg0);
                                 audio.saySomething(arg0);
-                                System.out.println(arg0);
+                                if(arg0 != "Unkown") {
+                                    controller.showPostureGui(arg0);
+                                }
                             } catch(Exception ex){}
                         }
                     }
