@@ -5,7 +5,6 @@ import com.aldebaran.qi.CallError;
 import com.aldebaran.qi.helper.EventCallback;
 import com.aldebaran.qi.helper.proxies.ALMemory;
 import javafx.scene.Parent;
-import javafx.scene.layout.Pane;
 
 public class Reactor {
 
@@ -14,17 +13,17 @@ public class Reactor {
     private Audio audio;
     private Controller controller;
 
-    //Eigener Konstruktor:
+    //Eiegener Konstruktor; übernehmen des Connection-Objekts und Instanzieren der NAO-Klasse
+    //Zusätzlich wird das Objekt der Hilfsklasse "Audio" vom Controller übermittelt und der Controller wird nochmals geladen (notwendig für Aktionen bei bestimmen Events
     public Reactor(Connection connection, Audio audio) throws Exception{
         this.connection = connection;
         alMemory = new ALMemory(this.connection.getSession());
         this.audio = audio;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("sample.fxml"));
-        Parent root = loader.load();
         controller = loader.getController();
     }
 
-    //Variablen, um ID der Abonnements abzuspeichern. Diese ist nötig, um die Abonnements wieder zu beenden (bspw. bei manueller Trennung vom NAO).
+    //Variablen zum Abspeichern der ID's beim Subscriben von Events
     private long frontTactilSubscriptionId, rearTactilSubscriptionId, middleTactilSubscriptionId, postureSubscriptionId, batteryChargeSubscriptionId, batteryPluggedSubscriptionId,
             temperatureChangedSubscriptionId, temperatureStatusSubscriptionId, temperatureDiagnosisSubscriptionId;
 
@@ -49,14 +48,14 @@ public class Reactor {
                         // Der Sensor wurde berührt.
                         if (arg0 > 0) {
                             try {
-                                System.out.println("FrontTactilTouched: " + arg0);
+                                //System.out.println("FrontTactilTouched: " + arg0);
                                 audio.saySomething("Nein!");
                             } catch(Exception ex){}
                         }
                     }
                 });
 
-        //Weitere Abonnements für die anderen touch-Sensoren am Kopf nach dem gleichen Schema
+        //Weitere Subscriptions für die anderen touch-Sensoren am Kopf nach dem gleichen Schema
         rearTactilSubscriptionId = alMemory.subscribeToEvent("RearTactilTouched",
                 new EventCallback<Float>() {
                     @Override
@@ -64,7 +63,7 @@ public class Reactor {
                             throws InterruptedException, CallError {
                         if (arg0 > 0) {
                             try {
-                                System.out.println("RearTactilTouched: " + arg0);
+                                //System.out.println("RearTactilTouched: " + arg0);
                                 audio.saySomething("Aua!");
                             } catch(Exception ex){}
                         }
@@ -78,38 +77,47 @@ public class Reactor {
                             throws InterruptedException, CallError {
                         if (arg0 > 0) {
                             try {
-                                System.out.println("MiddleTactilTouched: " + arg0);
+                                //System.out.println("MiddleTactilTouched: " + arg0);
                                 audio.saySomething("Ouch!");
                             } catch(Exception ex){}
                         }
                     }
                 });
 
-        //Änderung des Status der Batterie
+        //Änderung des Akkuladestands
         batteryChargeSubscriptionId = alMemory.subscribeToEvent("BatteryChargeChanged",
                 new EventCallback<Integer>() {
                     @Override
                     public void onEvent(Integer arg0)
                             throws InterruptedException, CallError {
                         if (arg0 >= 0) {
-                            System.out.println("BatteryChargeChanged: " + arg0);
+                            //Aufruf einer Methode aus dem Controller
                             controller.showBatteryState(arg0);
+                            //System.out.println("BatteryChargeChanged: " + arg0);
                         }
                     }
                 });
 
         //Änderung des Ladestatus der Batterie
+        //Das Event wird geworfen, wenn der NAO geladen wird
         batteryPluggedSubscriptionId = alMemory.subscribeToEvent("BatteryPowerPluggedChanged",
                 new EventCallback<Boolean>() {
                     @Override
                     public void onEvent(Boolean arg0)
                             throws InterruptedException, CallError {
                         if(arg0.booleanValue()) {
-                            System.out.println("BatteryPowerPlugged: " + arg0);
+                            if(arg0.booleanValue()){
+                                try {
+                                    audio.saySomething("Charging!");
+                                } catch(Exception ex) {}
+                            }
+                            //Aufrufen einer Methode aus dem Controller
                             controller.showBatteryCharging(arg0);
+                            //System.out.println("BatteryPowerPlugged: " + arg0);
                         }
                     }
                 });
+
 
             /*
             //Änderung des Temperaturstatus
@@ -148,25 +156,22 @@ public class Reactor {
                         }
                     });
             */
-        //Änderung der Haltung
+
+        //Änderung der Haltung (wird nur für Tests verwendet)
         postureSubscriptionId = alMemory.subscribeToEvent (
                 "PostureChanged", new EventCallback<String>() {
                     @Override
                     public void onEvent(String arg0)
                             throws InterruptedException, CallError {
                         if (arg0 != null) {
-                            try {
-                                //System.out.println(arg0);
-                                audio.saySomething(arg0);
-                                if(arg0 != "Unkown") {
-                                    controller.showPostureGui(arg0);
-                                }
-                            } catch(Exception ex){}
+                                System.out.println(arg0);
                         }
                     }
                 });
     }
 
+    //"Unsubscriben" aller Events; Für das jeweilige Event wird die ID verwendet, die beim Subscriben zurückgegeben wird.
+    //Unsubsriben ist notwendig, da der NAO nach ca. 8 maligen erneutem Subscriben (ohne Unsubscriben) ansonsten neugestartet werden muss.
     public void unsubscribe() throws Exception {
         if(frontTactilSubscriptionId > 0) alMemory.unsubscribeToEvent(frontTactilSubscriptionId);
         if(rearTactilSubscriptionId > 0) alMemory.unsubscribeToEvent(rearTactilSubscriptionId);

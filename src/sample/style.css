@@ -1,42 +1,99 @@
-.root{
+.root {
+-fx-base: rgb(50, 50, 50);
+-fx-background: rgb(50, 50, 50);
+-fx-control-inner-background:  rgb(50, 50, 50);
+}
 
+.background {
+    -fx-background-color: #1d1d1d;
+}
+
+.titled-pane {
+    -fx-text-fill: white;
+}
+
+.titled-pane > .title {
+        -fx-font-size: 13pt;
+        -fx-font-family: "Segoe UI Light";
+        -fx-opacity: 0.9;
+        -fx-background-color: linear-gradient(to bottom, derive(-fx-base,+50%), derive(-fx-base,-40%), derive(-fx-base,-20%));
+}
+
+.titled-pane > *.content
+{
+    -fx-border-color: transparent;
+    -fx-background-color: inherit;
+ }
+
+.label {
+    -fx-font-size: 11pt;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-text-fill: white;
+    -fx-opacity: 0.8;
+}
+
+.label-bright {
+    -fx-font-size: 11pt;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-text-fill: white;
+    -fx-opacity: 1;
+}
+
+.label-header {
+    -fx-font-size: 32pt;
+    -fx-font-family: "Segoe UI Light";
+    -fx-text-fill: white;
+    -fx-opacity: 1;
+}
+
+.text-field {
+    -fx-prompt-text-fill: white;
+    -fx-opacity: 1;
 }
 
 .battery {
-    -fx-background-color: #fff;
-    -fx-border-color: #000;
-    -fx-margin-left: auto;
-    -fx-margin-right: auto;
-    -fx-position: relative;
-    -fx-border-radius: 10 10 10 10;
-    -fx-background-radius: 10 10 10 10;
-}
-
-.battery.charging{
-    -fx-background-image: url("../BatteryCharging.jpg");
+    -fx-border-color: white;
+    -fx-border-width: 2px;
+    -fx-opacity: 0.7;
+    -fx-border-radius: 5px 5px 5px 5px;
+    -fx-background-radius: 5px 5px 5px 5px;
 }
 
 .battery-level {
+    -fx-margin: 10px;
     -fx-background-color: #666;
-    -fx-border-radius: 10 10 10 10;
-    -fx-background-radius: 10 10 10 10;
+
 }
 
-.battery-level.high {
-    -fx-background-color: #66CD00;
+.green-bar  {
+    -fx-accent: green;
 }
-.battery-level.medium {
-    -fx-background-color: #FCD116;
+.yellow-bar {
+    -fx-accent: yellow;
+    }
+.orange-bar {
+    -fx-accent: orange;
 }
-.battery-level.low {
-    -fx-background-color: #FF3333;
+.red-bar    {
+    -fx-accent: red;
 }
 
 .battery-text {
     -fx-border: transparent;
     -fx-background-color: transparent;
+    -fx-font-size: 13pt;
+    -fx-font-family: "Segoe UI Light";
+    -fx-text-fill: white;
 }
 
-.disable-buttons {
-    -fx-opacity: 1.0;
+.slider {
+
+}
+
+.slider .track {
+    -fx-control-inner-background: #0074D9;
+}
+
+.slider .thumb{
+    -fx-background-image :url("../audio_slider.jpg");
 }

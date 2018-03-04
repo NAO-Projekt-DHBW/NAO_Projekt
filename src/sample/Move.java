@@ -11,11 +11,13 @@ public class Move {
     private ALMotion alMotion;
     private ALRobotPosture alRobotPosture;
 
+    //Eiegener Konstruktor; übernehmen des Connection-Objekts und Instanzieren der NAO-Klassen
     public Move(Connection connection) throws Exception{
         this.connection = connection;
         alMotion = new ALMotion(this.connection.getSession());
         alRobotPosture = new ALRobotPosture(this.connection.getSession());
     }
+
     //NAO aufwecken
     public void wakeUp() throws Exception {
         if(connection.checkConnection()){
@@ -30,6 +32,7 @@ public class Move {
         }
     }
 
+
     public void lookUpOrDown(double dUpDown, double dPace) throws Exception{
         if(connection.checkConnection()){
             alMotion.angleInterpolationWithSpeed("HeadPitch", -(float) dUpDown, (float) dPace);
@@ -40,6 +43,15 @@ public class Move {
         if(connection.checkConnection()){
             alMotion.angleInterpolationWithSpeed("HeadYaw", -(float) dLeftRight, (float) dpace);
         }
+    }
+
+    public void look(String direction, double dpace) throws Exception{
+        String naoDirection = "HeadYaw";
+        float angle = 1.0f;
+        float pace = (float) dpace;
+        if(direction.equals("up") || direction.equals("down")) naoDirection = "HeadPitch";
+        if(direction.equals("up") || direction.equals("right")) angle = -angle;
+        if(connection.checkConnection()) alMotion.angleInterpolationWithSpeed(naoDirection, angle, pace);
     }
 
     public void resetHead(double dpace) throws Exception{
@@ -86,103 +98,7 @@ public class Move {
             }
         }
     }
-    /*
-    //Kopf des NAO drehen und neigen
-    public void lookUpOrDown(Connection connection) throws Exception{
-        if(connection.checkConnection()){
-            alMotion.angleInterpolationWithSpeed("HeadPitch", -(float) sliderHeadUpDown.getValue(), (float) sliderPace.getValue());
-        }
-    }
 
-    public void lookLeftOrRight(Connection connection) throws Exception{
-        if(connection.checkConnection()){
-            alMotion.angleInterpolationWithSpeed("HeadYaw", -(float) sliderHeadLeftRight.getValue(), (float) sliderPace.getValue());
-        }
-    }
-
-    public void lookReset(Connection connection) throws Exception {
-        if(connection.checkConnection()) {
-            alMotion.angleInterpolationWithSpeed("HeadPitch", 0f, (float) sliderPace.getValue());
-            alMotion.angleInterpolationWithSpeed("HeadYaw", 0f, (float) sliderPace.getValue());
-        }
-        sliderHeadLeftRight.setValue(0);
-        sliderHeadUpDown.setValue(0);
-    }
-
-    //NAO solange bewegen lassen, bis die Maus losgelassen wird:
-    //Jede Bewegung ist an den entsprechenden Button im Scene Builder verknüpft (unter "Mouse" > "On Mouse Pressed".
-    //Alle Buttons haben zusätzlich die Methode "stopMove" (unter "Mouse" > "On Mouse Released" verknüpft.
-    //Den Methoden muss das MouseEvent (und nicht ActionEvent) übergeben werden, sonst wird sie in der Laufzeit mit einem Fehler abgebrochen.
-    public void moveForward(Connection connection) throws Exception {
-        if(connection.checkConnection()) {
-            alMotion.moveToward((float) sliderPace.getValue(), 0f, 0f);
-        }
-    }
-
-    public void moveBackwards(Connection connection) throws Exception {
-        if(connection.checkConnection()){
-            alMotion.moveToward(-(float) sliderPace.getValue(), 0f ,0f);
-        }
-    }
-
-    public void moveLeft(Connection connection) throws Exception {
-        if(connection.checkConnection()){
-            alMotion.moveToward(0f, (float) sliderPace.getValue(), 0f);
-        }
-    }
-
-    public void moveRight(Connection connection) throws Exception {
-        if(connection.checkConnection()){
-            alMotion.moveToward(0f, -(float) sliderPace.getValue(), 0f);
-        }
-    }
-
-    public void turnRight(Connection connection) throws Exception {
-        if(connection.checkConnection()){
-            alMotion.moveToward(0f, 0f, -(float) sliderPace.getValue());
-        }
-    }
-
-    public void turnLeft(Connection connection) throws Exception {
-        if(connection.checkConnection()){
-            alMotion.moveToward(0f, 0f, (float) sliderPace.getValue());
-        }
-    }
-
-    public void stopMove(Connection connection) throws Exception {
-        if(connection.checkConnection() && alMotion.moveIsActive()) {
-            alMotion.stopMove();
-        }
-    }
-
-    //NAO durch Tastatur steuern:
-    //Methode "getKeyPressed" ist mit "On Key Pressed" im Scene Builder verknüpft.
-    //Wird eine entsprechende Taste erkannt wird der NAO entsprechend bewegt.
-    public void getKeyPressed(Connection connection, javafx.scene.input.KeyEvent keyEvent, float pace) throws Exception {
-        if(connection.checkConnection()) {
-            switch (keyEvent.getCode()) {
-                case W:
-                    alMotion.moveToward(pace, 0f, 0f);
-                    break;
-                case A:
-                    alMotion.moveToward(0f, pace, 0f);
-                    break;
-                case S:
-                    alMotion.moveToward(-pace, 0f, 0f);
-                    break;
-                case D:
-                    alMotion.moveToward(0f, -pace, 0f);
-                    break;
-                case Q:
-                    alMotion.moveToward(0f, 0f, pace);
-                    break;
-                case E:
-                    alMotion.moveToward(0f, 0f, -pace);
-                    break;
-            }
-        }
-    }
-  */
     public void moveOnKeyPressed(String keyEvent, double dPace) throws Exception{
         float pace = (float) dPace;
         if(connection.checkConnection()) {
@@ -208,35 +124,8 @@ public class Move {
             }
         }
     }
-/*
-    //Methode "getKeyReleased" ist mit "On Key Released" im Scene Builder verknüpft.
-    //Wenn eine der Tasten WASDQE losgelassen wird, wird die Bewegung des NAOs gestoppt.
-    //Ansonsten würde der NAO unendlich lange laufen, auch wenn die Taste losgelassen wird.
-    public void getKeyReleased(Connection connection, javafx.scene.input.KeyEvent keyEvent) throws Exception {
-        if(connection.checkConnection()) {
-            switch (keyEvent.getCode()) {
-                case W:
-                    alMotion.stopMove();
-                    break;
-                case A:
-                    alMotion.stopMove();
-                    break;
-                case S:
-                    alMotion.stopMove();
-                    break;
-                case D:
-                    alMotion.stopMove();
-                    break;
-                case Q:
-                    alMotion.stopMove();
-                    break;
-                case E:
-                    alMotion.stopMove();
-                    break;
-            }
-        }
-    }
-*/
+
+    //Stoppen der Bewegung bei Loslassen der Tasten, mit denen der NAO gesteuert werden kann
     public void stopOnKeyReleased(KeyEvent keyEvent) throws Exception{
         if(connection.checkConnection()) {
             switch (keyEvent.getCode()) {
@@ -263,11 +152,11 @@ public class Move {
     }
 
     //Alle Möglichen Positionen, die der NAO einnehmen kann.
-    //Der zweite Wert (float) gibt die Geschwindigkeit an.
-    //Sitzen (normal)
-    public void changePosture(String postureName, float pace) throws Exception{
+    //Der Float-Wert für die Geschwindigkeit wurde auf 1 fixiert, da der NAO bei niedrigeren Werten oft hinfältt!
+    //Der Nao-spezifische Name der Position wird schon vom Controller als Parameter übermittelt, sodass er hier direkt weitergegeben werden kann.
+    public void changePosture(String postureName) throws Exception{
         if(connection.checkConnection()){
-            alRobotPosture.goToPosture(postureName, pace);
+            alRobotPosture.goToPosture(postureName, 1f);
         }
     }
 }
