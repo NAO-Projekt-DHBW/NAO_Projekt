@@ -54,9 +54,12 @@ public class Connection {
         List<String> list = new ArrayList<>();
         File file = new File(fileLastConnection);
         if (file.exists()) {
+            //Zeile einlsen
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fileLastConnection), "UTF-8"));
             String line = br.readLine();
             if (line != null) {
+                //Jede Zeichenkette vor einem Komma wird als Element der List übergeben
+                // Regulärer Ausdruck: alle Zeichen vor dem Komma
                 list = Arrays.asList(line.split("\\s*,\\s*"));
             }
         }
@@ -69,9 +72,10 @@ public class Connection {
         List<String> oldList = getLastConnectionsFromFile();
         List<String> newList = new ArrayList<>();
         int size = oldList.size();
-        //Wenn Limit erreicht: jedes Element der alten Liste AUßer dem ersten/ältesten Element (deswegen oldList.get(i+1))
+        //Wenn Limit erreicht: jedes Element der alten Liste außer dem ersten/ältesten Element wird hinzugefügt
         if(size >= maxLastConnections){
             for (int i=0; i < size-1; i++){
+                //i+1 damit das erste Element ausgelassen wird und somit wiedr ein Platz frei ist
                 newList.add(i, oldList.get(i+1));
             }
             //Hinzufügen des Elements an letzter Stelle
@@ -84,7 +88,7 @@ public class Connection {
             }
             newList.add(robotUrl);
         }
-        //Jeder String in der neuen Liste wird mit Komma hintenangestellt in einen neuen String gespeichert.
+        //Alle Strings in der neuen Liste wird mit Komma hintenangestellt zu einem einzigen String "gewandelt"
         for (String s : newList)
         {
             listString += s + ",";

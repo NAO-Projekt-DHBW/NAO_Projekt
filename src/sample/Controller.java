@@ -103,9 +103,13 @@ public class Controller implements Initializable {
     public class RunPeriodically extends TimerTask {
         public void run() {
             try {
+                //Alle Steuerelemente und Status-Symbole/Ampeln werden entsprechend dem Verbindungsstatus angezeigt
+                //Ist also keine Verbindung mehr vorhanden, werden alle Steuerelemente wieder zurückgesetzt (wie bei Programmneustart)
                 changeControlls(connection.checkConnection());
-                showBatteryState(battery.getBatteryState());
-                showTemperatureState(temperature.getTemperature());
+                if(connection.checkConnection()) {
+                    showBatteryState(battery.getBatteryState());
+                    showTemperatureState(temperature.getTemperature());
+                }
             }catch(Exception ex){}
         }
     }

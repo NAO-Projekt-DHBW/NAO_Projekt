@@ -77,6 +77,7 @@ public class Led {
     public void turnLedsOn(String selectedColor) throws Exception {
         if(connection.checkConnection() && !ledList.isEmpty()) {
             alLeds.on(ledGroupName);
+            //System.out.println(alLeds.listGroup(ledGroupName));
             if (selectedColor != null) {
                 alLeds.fadeRGB(ledGroupName, ledColorMap.get(selectedColor), 0f);
             }
