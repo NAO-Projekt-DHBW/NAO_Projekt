@@ -45,11 +45,16 @@ public class Move {
         }
     }
 
+    //Wird durch Benutzung der Buttons zur Kopfbewegung aufgerufen
     public void look(String direction, double dpace) throws Exception{
         String naoDirection = "HeadYaw";
         float angle = 1.0f;
         float pace = (float) dpace;
+
+        //Je nachdem was der Controller lieftert wird der entsprechende Motor ausgewählt.
         if(direction.equals("up") || direction.equals("down")) naoDirection = "HeadPitch";
+
+        //Wenn erforderlich wird der Wert negiert
         if(direction.equals("up") || direction.equals("right")) angle = -angle;
         if(connection.checkConnection()) alMotion.angleInterpolationWithSpeed(naoDirection, angle, pace);
     }

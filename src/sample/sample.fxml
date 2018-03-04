@@ -289,7 +289,7 @@
                               <AnchorPane id="battery" fx:id="aPaneBattery" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="42.0" prefWidth="106.0" styleClass="battery" stylesheets="@style.css" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                                  <children>
                                     <ProgressBar fx:id="progressBarBattery" layoutX="2.0" layoutY="2.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="44.0" prefWidth="106.0" progress="0.0" styleClass="battery-level" stylesheets="@style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                    <ImageView fx:id="imgCharging" fitHeight="32.0" fitWidth="89.0" layoutX="37.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                                    <ImageView fx:id="imgCharging" fitHeight="32.0" fitWidth="89.0" layoutX="37.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true" styleClass="battery-charging" visible="false">
                                        <image>
                                           <Image url="@../charging.png" />
                                        </image>

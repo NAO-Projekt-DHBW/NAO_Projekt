@@ -12,10 +12,12 @@ import java.util.List;
 
 public class Connection {
 
+    //Anzahl der gespeicherten Verbindungen
     private static int maxLastConnections = 10;
-    private static String fileLastConnection = "connection.txt";
+    private static String fileLastConnection = System.getProperty("user.dir") + "/connection.txt";
     private Session session = new Session();
 
+    //Eiegener Konstruktor; übernehmen des Connection-Objekts und Instanzieren der NAO-Klasse
     public Session startConnection(String robotUrl) throws Exception {
         try {
             session.connect(robotUrl).get();
@@ -26,6 +28,7 @@ public class Connection {
         return session;
     }
 
+    //Getter-Methode für die Session
     public Session getSession(){
             return session;
     }
@@ -46,6 +49,7 @@ public class Connection {
         return connected;
     }
 
+    //Laden der Datei und speichern jedes Strings vor einem Komma als Element einer Liste (diese wird zurückgegeben)
     public List<String> getLastConnectionsFromFile() throws Exception{
         List<String> list = new ArrayList<>();
         File file = new File(fileLastConnection);
@@ -61,27 +65,34 @@ public class Connection {
 
     public void writeConnectionToFile(String robotUrl) throws Exception {
         String listString = "";
+        //Speichern der vorhandenen Verbindungen mit obriger Methode in eine temporäre Liste
         List<String> oldList = getLastConnectionsFromFile();
         List<String> newList = new ArrayList<>();
         int size = oldList.size();
-        if(size >= maxLastConnections - 1){
+        //Wenn Limit erreicht: jedes Element der alten Liste AUßer dem ersten/ältesten Element (deswegen oldList.get(i+1))
+        if(size >= maxLastConnections){
             for (int i=0; i < size-1; i++){
                 newList.add(i, oldList.get(i+1));
             }
+            //Hinzufügen des Elements an letzter Stelle
             newList.add(maxLastConnections-1 , robotUrl);
         } else {
+            //Wenn noch Platz ist: Alle Elemente der alten Liste in die neue Schreiben und das neue Element hinzufügen
             for (String s : oldList)
             {
                 newList.add(s);
             }
             newList.add(robotUrl);
         }
+        //Jeder String in der neuen Liste wird mit Komma hintenangestellt in einen neuen String gespeichert.
         for (String s : newList)
         {
             listString += s + ",";
         }
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileLastConnection), "UTF-8"));
+        //Schreiben des Strings in die Datei (die alte Datei wird überschrieben, da kein "append"-Mode aktiviert wurde)
         bw.write(listString);
+        //Schließen des Writers, damit die Datei auch danach noch zugänglich ist.
         bw.close();
     }
 }

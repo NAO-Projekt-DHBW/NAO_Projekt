@@ -21,23 +21,22 @@ public class Temperature {
         Object temp = alBodyTemperature.getTemperatureDiagnosis();
         //Prüfen üb zurückgeliefertes Objekt eine ArrayList ist (NAO liefert nicht immer dasselbe zurück)
         if (temp instanceof ArrayList) {
-        ArrayList tempList = (ArrayList) temp;
+            ArrayList tempList = (ArrayList) temp;
 
-        /*
-        //ArrayList tempList = new ArrayList();
-        //ArrayList test = new ArrayList();
-        //test.add("LArm");
-        //test.add("LLeg");
-        //test.add("RArm");
-        //test.add("RLeg");
-        //tempList.add(0, 0);
-        //tempList.add(0, test);
+            /* Code zum Testen
+            ArrayList tempList = new ArrayList();
+            ArrayList test = new ArrayList();
+            test.add("LArm");
+            test.add("LLeg");
+            test.add("RLeg");
+            tempList.add(0, 2);
+            tempList.add(1, test);
             */
         
-        //Wert an Stelle 0 liefert Integer von 0-2 zurück
-        //Wert an STelle 1 liefert eine weitere ArrayList mit den Strings der betroffenen Körperteile zurück
-        //Beide werden kombiniert und zurückgegeben
-        result = tempList.get(0).toString() + tempList.get(1).toString();
+            //Wert an Stelle 0 liefert Integer von 0-2 zurück
+            //Wert an STelle 1 liefert eine weitere ArrayList mit den Strings der betroffenen Körperteile zurück
+            //Beide werden kombiniert und zurückgegeben
+            result = tempList.get(0).toString() + tempList.get(1).toString();
         } else {
             result = "";
         }

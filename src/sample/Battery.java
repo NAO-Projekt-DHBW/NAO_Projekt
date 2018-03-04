@@ -20,7 +20,6 @@ public class Battery {
             state = alBattery.getBatteryCharge();
             //System.out.println("Batteriestatus: " + state);
         }
-        state = 90;
         return state;
     }
 }

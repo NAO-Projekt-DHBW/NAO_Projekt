@@ -164,7 +164,7 @@ public class Reactor {
                     public void onEvent(String arg0)
                             throws InterruptedException, CallError {
                         if (arg0 != null) {
-                                System.out.println(arg0);
+                                //System.out.println(arg0);
                         }
                     }
                 });

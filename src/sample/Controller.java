@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -282,6 +283,8 @@ public class Controller implements Initializable {
     //Wird automatisch in der Klasse Reactor aufgerufen, wenn das entsprechende Evenet vom NAO geworfen wird
     public void showBatteryCharging(Boolean charging){
             imgCharging.setVisible(charging);
+            //Setzen eines weißen Schattens für bessere Sichtbarkeit
+            imgCharging.setEffect(new DropShadow( 5, Color.WHITE ));
     }
 
     //Zeigen des Tempereaturstatus; wird periodisch aufgerufen
@@ -299,7 +302,6 @@ public class Controller implements Initializable {
         if(state.contains("LLeg")) circleTemperatureLL.setFill(color);
         if(state.contains("RArm")) circleTemperatureRA.setFill(color);
         if(state.contains("RLeg")) circleTemperatureRL.setFill(color);
-        //System.out.println("Tempereatur: " + state);
     }
 
     //NAO aufwecken
@@ -312,18 +314,18 @@ public class Controller implements Initializable {
         move.rest();
     }
 
-    //Kopf des NAO drehen und neigen
-    //Mit Slider neigen
+    //Kopfsteuerung: Mit Slider und mit Buttons
+    //Kopf Slider neigen
     public void lookUpOrDown(MouseEvent mouseEvent) throws Exception{
         move.lookUpOrDown(sliderHeadUpDown.getValue(), sliderPace.getValue());
     }
 
-    //Mit Slider drehen
+    //Kopf mit Slider drehen
     public void lookLeftOrRight(MouseEvent mouseEvent) throws Exception{
         move.lookLeftOrRight(sliderHeadLeftRight.getValue(), sliderPace.getValue());
     }
 
-    //Mit Buttons auf Dashboard steuern
+    //Kopf mit Buttons auf Dashboard steuern
     public void lookUp(ActionEvent actionEvent) throws Exception {
         move.look("up", sliderPace.getValue());
     }
